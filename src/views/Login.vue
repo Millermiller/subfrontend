@@ -42,10 +42,10 @@ export default class Login extends Vue {
 
     rules: {} = {
       login: [
-        { required: true, message: 'Введите логин или email', trigger: 'sumbit' },
+        { required: true, message: 'Введите логин или email', trigger: 'submit' },
       ],
       password: [
-        { required: true, message: 'Введите пароль', trigger: 'sumbit' },
+        { required: true, message: 'Введите пароль', trigger: 'submit' },
       ],
     }
 

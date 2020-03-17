@@ -1,17 +1,12 @@
-<template>
-  <el-col :lg="{span: 12, offset: 2}" :xs="{span: 24, offset: 0}">
-    <el-card v-loading.body="loading" id="slider-intro">
-      <swiper :options="swiperOption" ref="mySwiperA">
-
-        <swiper-slide v-for="(card, index) in cards" :key="index">
-          <slide :item="card"/>
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </swiper>
-    </el-card>
-  </el-col>
+<template lang="pug">
+  el-col(:lg='{span: 12, offset: 2}', :xs='{span: 24, offset: 0}')
+    el-card#slider-intro(v-loading.body='loading')
+      swiper(:options='swiperOption', ref='mySwiperA')
+        swiper-slide(v-for='(card, index) in cards', :key='index')
+          slide(:item='card').
+        .swiper-pagination(slot='pagination')
+        .swiper-button-prev(slot='button-prev')
+        .swiper-button-next(slot='button-next')
 </template>
 
 <script lang="ts">

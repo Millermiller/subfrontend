@@ -1,53 +1,32 @@
-<template>
-  <div class="slide">
-    <p class="word">{{item.word.word}}</p>
+<template lang="pug">
+  .slide
+    p.word {{item.word.word}}
+    template(v-if="!item.nocontrols")
+      .translate-area.pointer(@click="showTranslate")
+        template(v-if="show && item.translate")
+          p.slide-value {{item.translate.value}}
+          .example-area
+            template(v-for="(example, index) in item.examples")
+              p.example-text(:html="example.text", :key="index")
+              p.example-value(v-html="example.value", :key="index")
+          el-row.danger.text-right.small.creator(v-if="item.word.creator")
 
-    <template v-if="!item.nocontrols">
+            el-popover(placement="top-start", width="250", trigger="hover")
+              el-row
+                el-col(:span="6")
+                  .avatar-wrapper-small.pull-left
+                    .avatar
+                      img.avatar-small(:src="item.word.user.avatar")
+                el-col(:span="18")
+                  p.text-danger {{item.word.user.login}}
+                  p Создано карточек: {{item.word.user.cardsCreated}}
+              span.no-margin.danger.pull-right.small(slot="reference") Добавлено: {{item.word.user.login}}
 
-      <div :class="['translate-area', 'pointer']" @click="showTranslate">
-        <template v-if="show && item.translate">
-          <p class="slide-value">{{item.translate.value}}</p>
-          <div class="example-area">
-            <template v-for="(example, index) in item.examples">
-              <p :html="example.text" :key="index" :class="example-text"/>
-              <p v-html="example.value" :key="index" class="example-value"/>
-            </template>
-          </div>
-          <el-row v-if="item.word.creator" :class="['danger', 'text-right', 'small', 'creator']">
-            <el-popover
-              placement="top-start"
-              width="250"
-              trigger="hover">
-              <el-row>
-                <el-col :span="6">
-                  <div class="avatar-wrapper-small pull-left">
-                    <div class="avatar">
-                      <img :class="['avatar-small']" :src="item.word.user.avatar" alt="">
-                    </div>
-                  </div>
-                </el-col>
-                <el-col :span="18">
-                  <p :class="['text-danger']">{{item.word.user.login}}</p>
-                  <p>Создано карточек: {{item.word.user.cardsCreated}}</p>
-                </el-col>
-              </el-row>
-              <span slot="reference" :class="['no-margin', 'danger', 'pull-right', 'small']">
-                Добавлено: {{item.word.user.login}}
-              </span>
-            </el-popover>
-          </el-row>
-        </template>
-        <i v-else class="ion-help"/>
-      </div>
+        i.ion-help(v-else)
+      audio(:src="item.word.audio", preload="none", ref="player")
 
-      <audio :src="item.word.audio" preload="none" ref="player"/>
-
-      <i :class="['ion favourite-button pointer', item.favourite ? activeClass : defaultClass]"
-         @click="favourite"/>
-
-      <i :class="['ion-ios-volume-high', 'ion', 'pointer']" @click="play"/>
-    </template>
-  </div>
+      i(:class="['ion favourite-button pointer', favouriteButtonClass()]", @click="favourite")
+      i.ion-ios-volume-high.ion.pointer(@click="play")
 </template>
 
 <script lang="ts">
@@ -69,6 +48,10 @@ export default class extends Vue {
     defaultClass: string = 'ion-ios-star-outline'
 
     show: boolean = false
+
+    get favouriteButtonClass(): string {
+      return this.item.favourite ? this.activeClass : this.defaultClass
+    }
 
     @Watch('$route', { immediate: true, deep: true })
     onUrlChange(newVal: any) {

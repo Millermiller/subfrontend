@@ -1,28 +1,18 @@
-<template>
-  <el-row id="footer">
-    <el-row :gutter="20" class="footer-inner">
-      <el-col :span="12">
-        <span class="copyright">scandinaver.org © 2018</span>
-      </el-col>
-      <el-col :md="{span:4, offset:8}" :xs="{span:12}">
-        <el-button type="text" @click="showIntro()">Помощь</el-button>
-        <el-button type="text" @click="dialogFormVisible = true">Обратная связь</el-button>
-      </el-col>
-    </el-row>
-
-    <el-dialog title="Ваше сообщение:" :visible.sync="dialogFormVisible">
-      <el-form :model="form" :rules="rules" ref="messageform">
-        <el-form-item prop="message">
-          <el-input type="textarea" v-model="form.message" placeholder="Сообщение"
-                    id="feedback_message"/>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">Отмена</el-button>
-                    <el-button type="primary" @click="submit">Отправить</el-button>
-                </span>
-    </el-dialog>
-  </el-row>
+<template lang="pug">
+  el-row#footer
+    el-row.footer-inner(:gutter='20')
+      el-col(:span='12')
+        span.copyright {{copy}}
+      el-col(:md='{span:4, offset:8}', :xs='{span:12}')
+        el-button(type='text', @click='showIntro()') Помощь
+        el-button(type='text', @click='dialogFormVisible = true') Обратная связь
+    el-dialog(title='Ваше сообщение:', :visible.sync='dialogFormVisible')
+      el-form(:model='form', :rules='rules', ref='messageform')
+        el-form-item(prop='message')
+          el-input#feedback_message(type='textarea', v-model='form.message', placeholder='Сообщение').
+      span.dialog-footer(slot='footer')
+        el-button(@click='dialogFormVisible = false') Отмена
+        el-button(type='primary', @click='submit') Отправить
 </template>
 
 <script lang="ts">
@@ -34,7 +24,7 @@ import IFeedbackForm, { FeedbackForm } from '@/api/IFeedbackForm';
   @Component
 export default class Footer extends Vue {
     dialogFormVisible: boolean = false
-
+    copy: string = 'scandinaver.org © 2018'
     introVisible: boolean = false
 
     form: IFeedbackForm = new FeedbackForm()

@@ -1,13 +1,10 @@
-<template>
-  <el-container>
-    <el-main>
-      <el-row :gutter="20">
-        <assets/>
-        <cards v-if="show" :cards="cards" :name="name" :loading="loading"/>
-        <dictionary v-if="show"/>
-      </el-row>
-    </el-main>
-  </el-container>
+<template lang="pug">
+  el-container
+    el-main
+      el-row(:gutter='20')
+        assets
+          cards(v-if='show' :cards='cards' :name='name' :loading='loading')
+            dictionary(v-if='show')
 </template>
 
 <script lang="ts">

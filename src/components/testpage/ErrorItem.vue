@@ -1,21 +1,14 @@
-<template>
-  <transition name="splash">
-    <el-row class="errorcard">
-      <el-col :span="20">
-        <el-row type="flex" align="middle">
-          <h4 class="no-margin">{{item.word.word}}</h4>
-        </el-row>
-        <el-row type="flex" align="bottom" class="error-translate">
-          <p>{{item.translate.value}}</p>
-        </el-row>
-      </el-col>
-      <el-col :span="4">
-        <i :class="['ion', 'ion-ios-close-empty', 'pointer']" @click="remove(index)"/>
-        <i :class="['ion pointer', item.favourite ? activeClass : defaultClass]"
-           @click="favourite"/>
-      </el-col>
-    </el-row>
-  </transition>
+<template lang="pug">
+  transition(name="splash")
+    el-row.errorcard
+      el-col(:span="20")
+        el-row(type="flex", align="middle")
+          h4.no-margin {{item.word.word}}
+        el-row.error-translate(type="flex" align="bottom")
+          p {{item.translate.value}}
+      el-col(:span="4")
+        i.ion.ion-ios-close-empty.pointer(@click="remove(index)")
+        i(:class="['ion pointer', item.favourite ? activeClass : defaultClass]" @click="favourite")
 </template>
 
 <script lang="ts">
