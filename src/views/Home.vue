@@ -1,43 +1,32 @@
-<template>
-  <el-container>
-    <el-main>
-      <el-row :gutter="20">
+<template lang="pug">
+  el-container
+    el-main
+      el-row(:gutter="20")
 
         <!--  <wordsblock v-on:modal="modal"></wordsblock>
           <sentencesblock v-on:modal="modal"></sentencesblock>
           <personalblock></personalblock> -->
 
-        <account/>
+        account
 
-        <el-col :md="18" :xs="24" :sm="16">
-          <el-row :gutter="20" :id="['widgetblock']">
-            <wordwidget/>
-            <sentencewidget/>
-            <textwidget/>
-            <personalwidget/>
-            <puzzlewidget/>
-          </el-row>
-        </el-col>
-      </el-row>
-      <el-dialog title="Это закрытая часть сайта" :visible.sync="dialogVisible">
-        <span>
-          <a href="" target="_blank">Оплатите подписку</a> чтобы получить полный доступ
-        </span>
-        <span slot="footer" class="dialog-footer">
-           <el-button @click="dialogVisible = false">Закрыть</el-button>
-        </span>
-      </el-dialog>
+        el-col(:md="18", :xs="24", :sm="16")
+          el-row#widgetblock(:gutter="20")
+            Wordwidget
+            Sentencewidget
+            Textwidget
+            Personalwidget
+            Puzzlewidget
 
-      <el-dialog title="Привет!" :visible.sync="greetingVisible">
-                    <span>
-                        Добро пожаловать, {{username}}!
-                    </span>
-        <span slot="footer" class="dialog-footer">
-                        <el-button @click="greetingVisible = false">Закрыть</el-button>
-                    </span>
-      </el-dialog>
-    </el-main>
-  </el-container>
+      el-dialog(title="Это закрытая часть сайта", :visible.sync="dialogVisible")
+        span
+          a Оплатите подписку</a> чтобы получить полный доступ
+        span.dialog-footer(slot="footer")
+           el-button(@click="dialogVisible = false") Закрыть
+
+      el-dialog(title="Привет!", :visible.sync="greetingVisible")
+        span Добро пожаловать, {{username}}!
+        span.dialog-footer(slot="footer")
+          el-button(@click="greetingVisible = false") Закрыть
 </template>
 
 <script lang="ts">

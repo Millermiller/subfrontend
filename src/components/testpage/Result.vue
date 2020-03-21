@@ -1,32 +1,25 @@
-<template>
-  <el-col :span="8" :class="['hidden-sm-and-down']">
-    <el-card :class="['box-card', 'result-card']">
-      <div slot="header" class="clearfix" id="infoblock">
-        <el-row :gutter="20">
-          <el-col :span="8" class="diagram">
-            <el-progress type="circle" :percentage="percent" :width="100"/>
-          </el-col>
-          <el-col :span="16" class="asset-info">
-            <template v-if="title">
-              <p v-if="level > 0">{{level}} уровень</p>
-              <p> вопросов: {{quantity}}</p>
-              <p>Лучший результат: {{result}}%</p>
-            </template>
-          </el-col>
-        </el-row>
-      </div>
-      <section data-scrollbar style="height: 55vh;overflow: hidden" id="errorsblock">
-        <transition-group name="splash" tag="div">
-          <ErrorItem
-            v-for="(error, index) in errors"
+<template lang="pug">
+  el-col.hidden-sm-and-down(:span="8")
+    el-card.box-card.result-card
+
+      .clearfix#infoblock(slot="header")
+        el-row(:gutter="20")
+          el-col.diagram(:span="8")
+            el-progress(type="circle", :percentage="percent", :width="100")
+          el-col.asset-info(:span="16")
+            template(v-if="title")
+              p(v-if="level > 0") {{level}} уровень
+              p вопросов: {{quantity}}
+              p Лучший результат: {{result}}%
+
+      section#errorsblock(data-scrollbar, style="height: 55vh;overflow: hidden")
+        transition-group(name="splash", tag="div")
+          ErrorItem(
+          v-for="(error, index) in errors",
             :item="error"
             :index="index"
             :key="index"
-            class="splash-item"/>
-        </transition-group>
-      </section>
-    </el-card>
-  </el-col>
+            class="splash-item")
 </template>
 
 <script lang="ts">
@@ -35,20 +28,19 @@ import Component from 'vue-class-component'
 import Scrollbar from 'smooth-scrollbar'
 import ErrorItem from '@/components/testpage/ErrorItem.vue'
 
-  @Component
-  @Component({
-    name: 'Result',
-    components: {
-      ErrorItem,
-    },
-    mounted() {
-      Scrollbar.initAll({
-        alwaysShowTracks: true,
-        //  overscrollEffect: 'bounce',
-      })
-    },
-  })
-export default class extends Vue {
+@Component({
+  name: 'Result',
+  components: {
+    ErrorItem,
+  },
+  mounted() {
+    Scrollbar.initAll({
+      alwaysShowTracks: true,
+      //  overscrollEffect: 'bounce',
+    })
+  },
+})
+export default class Result extends Vue {
   created() {
     this.$eventHub.$on('removeErrorItem', this.removeErrorItem)
   }

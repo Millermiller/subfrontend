@@ -1,15 +1,22 @@
 <template lang="pug">
   el-row#footer
     el-row.footer-inner(:gutter='20')
+
       el-col(:span='12')
         span.copyright {{copy}}
+
       el-col(:md='{span:4, offset:8}', :xs='{span:12}')
         el-button(type='text', @click='showIntro()') Помощь
         el-button(type='text', @click='dialogFormVisible = true') Обратная связь
+
     el-dialog(title='Ваше сообщение:', :visible.sync='dialogFormVisible')
       el-form(:model='form', :rules='rules', ref='messageform')
         el-form-item(prop='message')
-          el-input#feedback_message(type='textarea', v-model='form.message', placeholder='Сообщение').
+          el-input#feedback_message(
+            type='textarea',
+            v-model='form.message',
+            placeholder='Сообщение')
+
       span.dialog-footer(slot='footer')
         el-button(@click='dialogFormVisible = false') Отмена
         el-button(type='primary', @click='submit') Отправить
@@ -21,7 +28,7 @@ import Component from 'vue-class-component';
 import feedbackAPI from '@/api/feedbackAPI';
 import IFeedbackForm, { FeedbackForm } from '@/api/IFeedbackForm';
 
-  @Component
+  @Component({})
 export default class Footer extends Vue {
     dialogFormVisible: boolean = false
     copy: string = 'scandinaver.org © 2018'

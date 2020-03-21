@@ -1,11 +1,13 @@
 <template lang="pug">
   transition(name="splash")
     el-row.errorcard
+
       el-col(:span="20")
         el-row(type="flex", align="middle")
           h4.no-margin {{item.word.word}}
         el-row.error-translate(type="flex" align="bottom")
           p {{item.translate.value}}
+
       el-col(:span="4")
         i.ion.ion-ios-close-empty.pointer(@click="remove(index)")
         i(:class="['ion pointer', item.favourite ? activeClass : defaultClass]" @click="favourite")
@@ -20,7 +22,7 @@ import cardAPI from '@/api/cardAPI'
   @Component({
     name: 'ErrorItem',
   })
-export default class extends Vue {
+export default class ErrorItem extends Vue {
     @Prop({ required: true })
     public item: any
 

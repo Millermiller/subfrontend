@@ -1,48 +1,32 @@
-<template>
-  <el-container>
-    <el-main>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-card style="position: relative" id="origtext">
-            <vue-progress-bar/>
-            <p class="origtext" v-html="output"/>
-          </el-card>
-          <el-collapse id="helpblock">
-            <el-collapse-item title="Помощь">
-              <template v-for="(extra, index) in text.extra">
-                <el-col :span="12" :key="index">
-                  <p class="pointer"
-                     v-on:mouseover="showExtra(extra)"
-                     v-on:mouseout="clearExtra">
-                    <span>{{extra.orig}}</span> - {{extra.extra}}
-                  </p>
-                </el-col>
-              </template>
-            </el-collapse-item>
-          </el-collapse>
-        </el-col>
-        <el-col :span="12" id="textarea">
-                    <textarea
-                      style="height: 280px"
-                      class="panel"
-                      id="transarea"
-                      placeholder="Поле для перевода"
-                      v-model="input"
-                      v-on:input="separate"
-                    />
+<template lang="pug">
+  el-container
+    el-main
+      el-row(:gutter="20")
 
-          <el-row>
-            <el-col :span="24">
-              <el-button :plain="true" @click="clear" class="pull-right">Очистить</el-button>
-              <el-button v-if="nextTextId" type="success" @click="gotonext()" class="pull-right">
-                Следующий текст
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
-    </el-main>
-  </el-container>
+        el-col(:span="12")
+          el-card#origtext(style="position: relative")
+            vue-progress-bar
+            p.origtext(v-html="output")
+          el-collapse#helpblock
+            el-collapse-item(title="Помощь")
+              template(v-for="(extra, index) in text.extra")
+                el-col(:span="12", :key="index")
+                  p.pointer(
+                    v-on:mouseover="showExtra(extra)"
+                     v-on:mouseout="clearExtra")
+                    span {{extra.orig}}
+                    - {{extra.extra}}
+
+        el-col#textarea(:span="12")
+          textarea.panel#transarea(
+            style="height: 280px",
+            placeholder="Поле для перевода",
+            v-model="input",
+            v-on:input="separate")
+          el-row
+            el-col(:span="24")
+              el-button.pull-right(:plain="true", @click="clear") Очистить
+              el-button.pull-right(v-if="nextTextId", type="success", @click="gotonext()") Следующий текст
 </template>
 
 <script lang="ts">
@@ -55,7 +39,7 @@ import textAPI from '@/api/textAPI'
   @Component({
     name: 'TextItem',
   })
-export default class extends Vue {
+export default class TextItem extends Vue {
   metaInfo() {
     return {
       title: `Перевод | ${this.text.title}`,

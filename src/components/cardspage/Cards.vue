@@ -1,22 +1,16 @@
-<template>
-  <el-col :span="8" :xs="24" id="cardsblock" v-loading.body="loading">
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span class="h3" style="line-height: 38px">Карточки в словаре</span>
-        <el-tag v-if="name" type="info">{{name}}</el-tag>
-      </div>
-      <section data-scrollbar style="height: 65vh" v-loading.body="loadingbody">
-        <transition-group name="cards" tag="div">
-          <card
-            v-for="(card, index) in cards"
-            :card="card"
-            :index="index"
-            :key="card.id">
-          </card>
-        </transition-group>
-      </section>
-    </el-card>
-  </el-col>
+<template lang="pug">
+  el-col#cardsblock(:span="8", :xs="24", v-loading.body="loading")
+    el-card.box-card
+      .clearfix(slot="header")
+        span.h3(style="line-height: 38px") Карточки в словаре
+        el-tag(v-if="name" type="info") {{name}}
+
+      section(data-scrollbar, style="height: 65vh", v-loading.body="loadingbody")
+        transition-group(name="cards", tag="div")
+          card(v-for="(card, index) in cards",
+            :card="card",
+            :index="index",
+            :key="card.id")
 </template>
 
 <script lang="ts">
@@ -33,7 +27,7 @@ import { ICard } from '@/models/Card'
       card: Card,
     },
   })
-export default class extends Vue {
+export default class Cards extends Vue {
     @Prop({ required: true })
     private name!: string
 
@@ -43,7 +37,7 @@ export default class extends Vue {
     @Prop({ required: true })
     private loading!: boolean
 
-    loadingbody: boolean = false
+    private loadingbody: boolean = false
 
     removeCard(data: any) {
       this.loadingbody = true

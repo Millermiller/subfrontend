@@ -1,26 +1,22 @@
-<template>
-  <el-col :lg="6" :sm="12" :xs="24" id="textblock">
-    <el-card :class="['text', {'open': text.active, 'not-available': !text.available}]"
-             :body-style="{ padding: '0px' }">
+<template lang="pug">
+  el-col#textblock(:lg="6", :sm="12", :xs="24")
+    el-card(
+      :class="['text', {'open': text.active, 'not-available': !text.available}]",
+      :body-style="{ padding: '0px' }")
+      .image(:style="{ 'background-image': 'url(' + text.image + ')' }")
+      el-container
+        el-main
 
-      <div class="image" v-bind:style="{ 'background-image': 'url(' + text.image + ')' }"></div>
+          el-row
+            el-col(:span="24")
+              p.text-title {{text.title}}
 
-      <el-container>
-        <el-main>
-          <el-row>
-            <el-col :span="24">
-              <p class="text-title">{{text.title}}</p>
-            </el-col>
-          </el-row>
-          <el-row type="flex" justify="end">
-            <el-button :type="buttontype" plain @click="gototext()" :disabled="!text.available">
-              {{ buttontext }}
-            </el-button>
-          </el-row>
-        </el-main>
-      </el-container>
-    </el-card>
-  </el-col>
+          el-row(type="flex", justify="end")
+            el-button(
+              :type="buttontype",
+              plain,
+              @click="gototext()",
+              :disabled="!text.available") {{ buttontext }}
 </template>
 
 <script lang="ts">
@@ -31,7 +27,7 @@ import { Prop } from 'vue-property-decorator'
   @Component({
     name: 'TextCard',
   })
-export default class extends Vue {
+export default class TextCard extends Vue {
     @Prop({ required: true })
     private text!: any
 

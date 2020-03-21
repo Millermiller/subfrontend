@@ -3,8 +3,10 @@
     p.word {{item.word.word}}
     template(v-if="!item.nocontrols")
       .translate-area.pointer(@click="showTranslate")
+
         template(v-if="show && item.translate")
           p.slide-value {{item.translate.value}}
+
           .example-area
             template(v-for="(example, index) in item.examples")
               p.example-text(:html="example.text", :key="index")
@@ -39,7 +41,7 @@ import { ICard } from '@/models/Card'
   @Component({
     name: 'Slide',
   })
-export default class extends Vue {
+export default class Slide extends Vue {
     @Prop({ required: true })
     private item!: ICard
 

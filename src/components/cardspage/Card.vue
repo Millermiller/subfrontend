@@ -1,43 +1,31 @@
-<template>
-  <div :class="['list-item', 'list-item-card', 'el-row']">
-    <el-col :span="21">
-      <p>{{card.word.word}}</p>
-    </el-col>
-    <el-col :span="2">
-      <el-button
-        type="default"
-        icon="el-icon-delete"
-        size="mini"
-        @click.stop="removeCard"
-        plain/>
-    </el-col>
-    <el-col :span="24">
-      <p :class="['no-margin', 'card-value']">{{card.translate.value}}</p>
-    </el-col>
-    <el-col :span="24" v-if="card.word.creator">
-      <el-popover
-        placement="top-start"
-        width="250"
-        trigger="hover">
-        <el-row>
-          <el-col :span="6">
-            <div class="avatar-wrapper-small pull-left">
-              <div class="avatar">
-                <img :class="['avatar-small']" :src="card.word.user.avatar" alt="">
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="18">
-            <p :class="['text-danger']">{{card.word.user.login}}</p>
-            <p>Создано карточек: {{card.word.user.cardsCreated}}</p>
-          </el-col>
-        </el-row>
-        <span slot="reference" :class="['no-margin', 'danger', 'pull-right', 'small']">
+<template lang="pug">
+  .list-item.list-item-card.el-row
+    el-col(:span="21")
+      p {{card.word.word}}
+    el-col(:span="2")
+      el-button(
+        type="default",
+        icon="el-icon-delete",
+        size="mini",
+        @click.stop="removeCard",
+        plain)
+
+    el-col(:span="24")
+      p.no-margin.card-value {{card.translate.value}}
+
+    el-col(:span="24", v-if="card.word.creator")
+      el-popover(placement="top-start", width="250", trigger="hover")
+        el-row
+          el-col(:span="6")
+            .avatar-wrapper-small.pull-left
+              .avatar
+                img.avatar-small(:src="card.word.user.avatar")
+          el-col(:span="18")
+            p.text-danger {{card.word.user.login}}
+            p Создано карточек: {{card.word.user.cardsCreated}}
+
+        span.no-margin.danger.pull-right.small(slot="reference").
           Добавлено: {{card.word.user.login}}
-        </span>
-      </el-popover>
-    </el-col>
-  </div>
 </template>
 
 <script lang="ts">

@@ -1,11 +1,8 @@
-<template>
-  <el-container>
-    <el-main>
-      <el-row :gutter="20">
-        <textcard v-for="text in texts" :text="text" :key="text.id"/>
-      </el-row>
-    </el-main>
-  </el-container>
+<template lang="pug">
+  el-container
+    el-main
+      el-row(:gutter="20")
+        Textcard(v-for="text in texts", :text="text", :key="text.id")
 </template>
 
 <script lang="ts">

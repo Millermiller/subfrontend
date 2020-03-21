@@ -1,54 +1,35 @@
-<template>
-  <el-row :class="['list-item', 'pointer', 'open', {'selected': item.selected}]">
+<template lang="pug">
+  el-row(:class="['list-item', 'pointer', 'open', {'selected': item.selected}]")
 
-    <el-col :span="24">
-      <p class="asset-title" style="height: 57px">{{item.title}}</p>
-    </el-col>
+    el-col(:span="24")
+      p.asset-title(style="height: 57px") {{item.title}}
 
-    <el-row>
-      <el-col :span="9" :md="8">
-                <span :class="['small', 'text-muted']">
-                     <i :class="['ion', 'ion-speedometer', 'ion-small']"/>
-                </span>
-        <span
-          :class="[
-                    'small',
-                    {
-                      success: item.result > 80,
-                      warning: (item.result > 50 && item.result < 80),
-                      danger: item.result < 50
-                    }
-                ]">
-                    {{item.result}}%
-                </span>
-        <span :class="['small', 'text-muted']" style="padding-left: 15px">
-                     <i :class="['ion', 'ion-ios-browsers-outline', 'ion-small']"/>
-                    {{item.count}}
-                </span>
-      </el-col>
-      <el-col :span="15" :md="16" class="text-right">
-        <template>
-                    <span :class="[isActive ? 'text-primary' : 'text-muted', 'pointer', 'small']"
-                          @click="cardspage()">
-                        <i :class="['ion', 'ion-edit', 'ion-small']"/>
-                        изменить
-                    </span>
-          <span :class="['text-primary', 'small']">|</span>
-          <span :class="['text-primary', 'pointer', 'small', {'muted': item.count < 1}]"
-                @click="loadTest()">
-                        <i :class="['ion', 'ion-ios-redo', 'ion-small']"/>
-                        учить
-                    </span>
-          <span :class="['text-primary', 'small']">|</span>
-          <span :class="['text-primary', 'pointer', 'small', {'muted': item.count < 1}]"
-                @click="test()">
-                         <i :class="['ion', 'ion-ios-checkmark-outline', 'ion-small']"/>
-                        тест
-                    </span>
-        </template>
-      </el-col>
-    </el-row>
-  </el-row>
+    el-row
+      el-col(:span="9", :md="8")
+        span.small.text-muted
+          i.ion.ion-speedometer.ion-small
+
+        span( :class="['small', {success: item.result > 80,warning: (item.result > 50 && item.result < 80), danger: item.result < 50}]").
+          {{item.result}}%
+
+        span.small.text-muted(style="padding-left: 15px")
+          i.ion.ion-ios-browsers-outline.ion-small
+          span {{item.count}}
+
+      el-col.text-right(:span="15" :md="16")
+        template
+          span(:class="[isActive ? 'text-primary' : 'text-muted', 'pointer', 'small']", @click="cardspage()")
+            i.ion.ion-edit.ion-small изменить
+
+          span.text-primary.small |
+          span(:class="['text-primary', 'pointer', 'small', {'muted': item.count < 1}]", @click="loadTest()")
+            i.ion.ion-ios-redo.ion-small
+              span учить
+
+          span.text-primary.small |
+          span(:class="['text-primary', 'pointer', 'small', {'muted': item.count < 1}]", @click="test()")
+            i.ion.ion-ios-checkmark-outline.ion-small
+              span тест
 </template>
 
 <script lang="ts">
@@ -62,7 +43,7 @@ import { IPersonal } from '@/models/Personal'
   @Component({
     name: 'TabItemPersonal',
   })
-export default class extends Vue {
+export default class TabItemPersonal extends Vue {
     @Prop({ required: true })
     private item!: any
 

@@ -1,32 +1,25 @@
-<template>
-  <el-container>
-    <a id="right-menu" @click="toggleRightMenu">
-      <button :class="['navbar-toggle', 'collapsed']">
-        <span class="icon-bar"/>
-        <span class="icon-bar"/>
-        <span class="icon-bar"/>
-      </button>
-    </a>
-    <el-main>
-      <el-row :gutter="20">
-        <result/>
-        <test/>
-        <transition name="custom-classes-transition"
-                    enter-active-class="animated slideInRight"
-                    leave-active-class="animated slideOutRight">
-          <tabs v-show="visible"/>
-        </transition>
-      </el-row>
-    </el-main>
-    <el-dialog title="Это закрытая часть сайта" :visible.sync="dialogVisible">
-                    <span>
-                        <a href="scandinaver.local" target="_blank">Оплатите подписку</a> чтобы получить полный доступ
-                    </span>
-      <span slot="footer" class="dialog-footer">
-                        <el-button @click="dialogVisible = false">Закрыть</el-button>
-                    </span>
-    </el-dialog>
-  </el-container>
+<template lang="pug">
+  el-container
+    a#right-menu(@click="toggleRightMenu")
+      button.navbar-toggle.collapsed
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+    el-main
+      el-row(:gutter="20")
+        Result
+        Test
+        transition(
+          name="custom-classes-transition"
+          enter-active-class="animated slideInRight"
+          leave-active-class="animated slideOutRight")
+          Tabs(v-show="visible")
+
+    el-dialog(title="Это закрытая часть сайта", :visible.sync="dialogVisible")
+      span
+        a Оплатите подписку</a> чтобы получить полный доступ
+      span.dialog-footer(slot="footer")
+        el-button(@click="dialogVisible = false") Закрыть
 </template>
 
 <script lang="ts">

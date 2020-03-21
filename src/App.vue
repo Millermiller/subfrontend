@@ -1,10 +1,9 @@
-<template>
-  <div id="app">
-    <Header v-if="auth"/>
-    <sidemenu v-if="auth"/>
-    <router-view/>
-    <Footer v-if="auth"/>
-  </div>
+<template lang="pug">
+  #app
+    Header(v-if="auth")
+    Sidemenu(v-if="auth")
+    router-view
+    Footer(v-if="auth")
 </template>
 
 <script lang="ts">

@@ -3,7 +3,7 @@
     el-card#slider-intro(v-loading.body='loading')
       swiper(:options='swiperOption', ref='mySwiperA')
         swiper-slide(v-for='(card, index) in cards', :key='index')
-          slide(:item='card').
+          slide(:item='card')
         .swiper-pagination(slot='pagination')
         .swiper-button-prev(slot='button-prev')
         .swiper-button-next(slot='button-next')
@@ -24,7 +24,7 @@ import { Word } from '@/models/Word'
     name: 'Slider',
     components: { slide: Slide },
   })
-export default class extends Vue {
+export default class Slider extends Vue {
     title: string = ''
 
     cards: ICard[] = []

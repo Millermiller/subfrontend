@@ -1,59 +1,45 @@
-<template>
-  <el-col :span="8" :xs="24" id="dictblock">
-    <el-card class="box-card" id="dictionary_block">
-      <div slot="header" class="clearfix">
-        <el-row>
-          <el-col :span="7">
-            <span class="h3">Поиск</span>
-          </el-col>
-          <el-col :span="11">
-            <el-checkbox v-model="sentence">В предложениях</el-checkbox>
-          </el-col>
-          <el-col :span="6">
-            <el-popover
-              placement="top-start"
-              width="200"
-              trigger="click"
-              :disabled="isActive"
-              popper-class="text-left"
-              content="Создание карточек недоступно базовым аккаунтам">
-              <el-button slot="reference" @click="openform">Добавить</el-button>
-            </el-popover>
-          </el-col>
-        </el-row>
-      </div>
-      <el-input placeholder="слово для поиска.." v-model="word">
-        <el-button slot="append" icon="el-icon-search" @click="search"/>
-      </el-input>
-      <p v-if="message" class="text-muted">{{message}}</p>
-      <section data-scrollbar style="height: 65vh" v-loading.body="loading">
-        <transition-group name="cards" tag="div">
-          <translate
-            v-for="(card, index) in cards"
-            :key="card.id"
-            :card="card"
-            :index="index"/>
-        </transition-group>
-      </section>
-    </el-card>
+<template lang="pug">
+  el-col#dictblock(:span="8" :xs="24")
+    el-card.box-card#dictionary_block
+      .clearfix(slot="header")
+        el-row
+          el-col(:span="7")
+            span.h3 Поиск
+          el-col(:span="11")
+            el-checkbox(v-model="sentence") В предложениях
+          el-col(:span="6")
+            el-popover(placement="top-start",
+              width="200",
+              trigger="click",
+              :disabled="isActive",
+              popper-class="text-left",
+              content="Создание карточек недоступно базовым аккаунтам")
+              el-button(slot="reference" @click="openform") Добавить
 
-    <el-dialog title="Новая карточка" :visible.sync="dialogFormVisible">
+      el-input(placeholder="слово для поиска.." :model="word")
+        el-button.el-icon-search(slot="append", @click="search")
 
-      <el-form :model="form">
-        <el-form-item>
-          <el-input v-model="form.orig" placeholder="Оригинал"/>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="form.translate" placeholder="Перевод"/>
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="form.is_public">Виден для всех</el-checkbox>
-        </el-form-item>
-      </el-form>
+      p.text-muted(v-if="message") {{message}}
+      section(data-scrollbar, style="height: 65vh", v-loading.body="loading")
+        transition-group(name="cards", tag="div")
+          translate(v-for="(card, index) in cards",
+            :key="card.id",
+            :card="card",
+            :index="index")
 
-      <el-collapse>
-        <el-collapse-item title="Что это?" name="1">
-          <p>
+    el-dialog(title="Новая карточка", :visible.sync="dialogFormVisible")
+
+      el-form(:model="form")
+        el-form-item
+          el-input(:model="form.orig", placeholder="Оригинал")
+        el-form-item
+          el-input(:model="form.translate" placeholder="Перевод")
+        el-form-item
+          el-checkbox(:model="form.is_public") Виден для всех
+
+      el-collapse
+        el-collapse-item(title="Что это?", name="1")
+          p.
             Вы можете добавить в наш словарь собственные карточки. При установленном <span
             class="danger">"виден для всех"</span> ваша карточка будет
             подписана вашим логином и видна всем пользователям.
@@ -61,16 +47,10 @@
             не соответствует тематике сайта или вы просто не хотите, чтобы вашу карточку
             видели другие пользователи.
             Для удаления/редактирования пользовательских карточек обратитесь к администрации сайта.
-          </p>
-        </el-collapse-item>
-      </el-collapse>
 
-      <span slot="footer" class="dialog-footer">
-                <el-button type="warning" @click="dialogFormVisible = false">Отмена</el-button>
-                <el-button type="success" @click="submit">Сохранить</el-button>
-            </span>
-    </el-dialog>
-  </el-col>
+      span.dialog-footer(slot="footer")
+        el-button(type="warning", @click="dialogFormVisible = false") Отмена
+        el-button(type="success", @click="submit") Сохранить
 </template>
 
 <script lang="ts">

@@ -1,31 +1,25 @@
-<template>
-  <el-col :span="8" :xs="24" id="assetsblock">
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <el-row type="flex" justify="space-between">
-          <span class="h3">Мои словари</span>
-          <el-popover
-            placement="top-start"
-            width="200"
-            trigger="click"
-            :disabled="isActive"
-            popper-class="text-left"
-            content="Создание словарей недоступно базовым аккаунтам">
-            <el-button slot="reference" @click="add">Создать</el-button>
-          </el-popover>
-        </el-row>
-      </div>
-      <section data-scrollbar style="height: 65vh;overflow: visible !important" v-loading.body="loading">
-        <transition-group name="splash" tag="div">
-          <asset
-            v-for="(asset, index) in assets"
-            :asset="asset"
-            :index="index"
-            :key="asset.id"/>
-        </transition-group>
-      </section>
-    </el-card>
-  </el-col>
+<template lang="pug">
+  el-col#assetsblock(:span="8", :xs="24")
+    el-card.box-card
+
+      clearfix(slot="header") class="clearfix">
+        el-row(type="flex" justify="space-between")
+          span.h3 Мои словари
+          el-popover(placement="top-start",
+            width="200",
+            trigger="click",
+            :disabled="isActive",
+            popper-class="text-left",
+            content="Создание словарей недоступно базовым аккаунтам")
+            el-button(slot="reference", @click="add") Создать
+
+      section(data-scrollbar, style="height: 65vh;overflow: visible !important", v-loading.body="loading")
+        transition-group(name="splash", tag="div")
+          asset(
+            v-for="(asset, index) in assets",
+            :asset="asset",
+            :index="index",
+            :key="asset.id")
 </template>
 
 <script lang="ts">

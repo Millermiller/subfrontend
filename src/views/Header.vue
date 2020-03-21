@@ -1,59 +1,39 @@
-<template>
-  <div :class="['navbar', 'navbar-static-top', 'navbar-fixed-left']" role="navigation" ref="menu">
-    <a id="left-menu" @click="showLeftMenu">
-      <button :class="['navbar-toggle', 'collapsed']">
-        <span class="icon-bar"/>
-        <span class="icon-bar"/>
-        <span class="icon-bar"/>
-      </button>
-    </a>
-    <el-menu :class="['el-menu-demo', 'main-menu', 'hidden-sm-and-down']" mode="horizontal">
-      <router-link tag="li" :class="['el-menu-item', 'home']" to="/" exact>
-        <i class="menu-icon icon ion-ios-home-outline"/>
-      </router-link>
-      <router-link tag="li" :class="['el-menu-item', 'learn']" to="/learn">
-        Словари
-      </router-link>
-      <router-link tag="li" :class="['el-menu-item', 'test']" to="/test">
-        Тесты
-      </router-link>
-      <router-link tag="li" :class="['el-menu-item', 'cards']" to="/cards">
-        Мои словари
-      </router-link>
-      <router-link tag="li" :class="['el-menu-item', 'translates']" to="/translates">
-        Тексты
-      </router-link>
+<template lang="pug">
+  div.navbar.navbar-static-topnavbar-fixed-left(role="navigation", ref="menu")
+    a#left-menu(@click="showLeftMenu")
+      button.navbar-toggle.collapsed
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
 
-      <router-link tag="li" :class="['el-menu-item', 'puzzle']" to="/puzzle">
-        Паззлы
-      </router-link>
+    el-menu.el-menu-demo.main-menu.hidden-sm-and-down(mode="horizontal")
+      router-link.el-menu-item.home(tag="li", to="/", exact)
+        i.menu-icon.icon.ion-ios-home-outline
+      router-link.el-menu-item.learn(tag="li", to="/learn") Словари
+      router-link.el-menu-item.test(tag="li", to="/test") Тесты
+      router-link.el-menu-item.cards(tag="li",  to="/cards") Мои словари
+      router-link.el-menu-item.translates(tag="li", to="/translates") Тексты
+      router-link.el-menu-item.puzzle(tag="li",  to="/puzzle") Паззлы
+      el-menu-item.logout(index="3")
+        a(@click="logout") выход
 
-      <el-menu-item class="logout" index="3">
-        <a @click="logout">выход</a>
-      </el-menu-item>
-      <li class="el-menu-item pull-right userblock">
-        <div class="avatar-wrapper-small pull-left">
-          <div class="avatar">
-            <img :class="['avatar-small']" :src="user.avatar" alt="">
-          </div>
-        </div>
-        <span>{{user.login}}</span>
-      </li>
-      <li class="el-menu-item pull-right">
-        <el-select v-model="url" @change="gotosite" size="small" :placeholder="(sites.length) ? sites[0].label : ''">
-          <el-option
-            v-for="item in sites"
-            :key="item.value"
-            :label="item.label"
-            :value="item">
-            <img style="float: left" :src="item.flag" alt="">
-            <span style="float: left">{{ item.label }}</span>
-          </el-option>
-        </el-select>
-      </li>
-      <hr :style="{ left: offset + 'px', width: width + 'px'  }">
-    </el-menu>
-  </div>
+      li.el-menu-item.pull-right.userblock
+        .avatar-wrapper-small.pull-left
+          .avatar
+            img.avatar-small(:src="user.avatar")
+        span {{user.login}}
+
+      li.el-menu-item.pull-right
+        el-select(:model="url", @change="gotosite", size="small", :placeholder="(sites.length) ? sites[0].label : ''")
+          el-option(
+            v-for="item in sites",
+            :key="item.value",
+            :label="item.label",
+            :value="item")
+            img(style="float: left" :src="item.flag")
+            span(style="float: left") {{ item.label }}
+
+      hr(:style="{ left: offset + 'px', width: width + 'px'  }")
 </template>
 
 <script lang="ts">
@@ -65,7 +45,7 @@ import { store } from '@/store';
   @Component({
     name: 'Header',
   })
-export default class extends Vue {
+export default class Header extends Vue {
     offset: number = 30
 
     width: number = 40

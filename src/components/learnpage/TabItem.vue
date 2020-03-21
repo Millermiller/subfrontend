@@ -1,64 +1,36 @@
-<template>
-  <el-row
-    :class="[
-                    'list-item', 'pointer',
-                    {
-                         'open': item.active,
-                         'tested': item.canopen,
-                         'not-available': !item.available,
-                         'selected': item.selected,
-                    }
-           ]"
-  >
+<template lang="pug">
+  el-row(:class="['list-item', 'pointer',{'open': item.active,'tested': item.canopen,'not-available': !item.available,'selected': item.selected,}]")
+    el-col(:span="24")
+      p.asset-title {{item.title}}
+      p.asset-description {{item.description}}
 
-    <el-col :span="24">
-      <p class="asset-title">{{item.title}}</p>
-      <p class="asset-description">{{item.description}}</p>
-    </el-col>
+    el-row
+      el-col(:span="6")
+        span.small.text-muted уровень: {{item.level}}
+      el-col(:span="9")
+        span.text-muted.small
+          i.ion-speedometer.ion-small
+        span(:class="['small',{success: item.result > 80,warning: (item.result > 50 && item.result < 80),danger: item.result < 50}]").
+          {{item.result}}%
 
-    <el-row>
-      <el-col :span="6">
-        <span :class="['small', 'text-muted']">уровень: {{item.level}}</span>
-      </el-col>
-      <el-col :span="9">
-                <span :class="['text-muted', 'small']">
-                     <i :class="['ion', 'ion-speedometer', 'ion-small']"/>
-                </span>
-        <span
-          :class="[
-                  'small',
-                    {
-                      success: item.result > 80,
-                      warning: (item.result > 50 && item.result < 80),
-                      danger: item.result < 50
-                    }
-                ]">
-                    {{item.result}}%
-                </span>
-        <span :class="['text-muted', 'small']" style="padding-left: 15px">
-                     <i :class="['ion', 'ion-ios-browsers-outline', 'ion-small']"/>
-                    {{item.count}}
-                </span>
-      </el-col>
-      <el-col :span="9">
-        <template v-if="item.active">
-                    <span :class="['text-primary', 'pointer', 'small']" @click="loadTest()">
-                        <i :class="['ion', 'ion-ios-redo', 'ion-small']"/>
-                        учить
-                    </span>
-          <span :class="['text-primary', 'small']">|</span>
-          <span :class="['text-primary', 'pointer', 'small']" @click="test()">
-                         <i :class="['ion', 'ion-ios-checkmark-outline', 'ion-small']"/>
-                        тест
-                    </span>
-        </template>
-        <template v-else>
-          <span :class="['small', 'text-muted']">закрыто</span>
-        </template>
-      </el-col>
-    </el-row>
-    <i @click="showModal" class="ion-locked" v-if="!item.available"/>
-  </el-row>
+        span.text-muted.small(style="padding-left: 15px")
+          i.ion.ion-ios-browsers-outline.ion-small
+          span {{item.count}}
+
+      el-col(:span="9")
+        template v-if="item.active"
+          span.text-primary.pointer.small(@click="loadTest()")
+            i.ion.on-ios-redo.ion-small
+              span учить
+
+          span.text-primary.small |
+          span.text-primary.pointer.small(@click="test()")
+            i.ion.ion-ios-checkmark-outline.ion-small
+              span тест
+
+        template(v-else)
+          span.small.text-muted закрыто
+    i.ion-locked(@click="showModal" v-if="!item.available")
 </template>
 
 <script lang="ts">
