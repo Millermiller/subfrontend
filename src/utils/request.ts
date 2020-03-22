@@ -1,7 +1,9 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+// eslint-disable-next-line import/no-cycle
+import { store } from '@/store'
 
 const service = axios.create({
+
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   timeout: 5000,
   // withCredentials: true // send cookies when cross-domain requests
@@ -10,14 +12,15 @@ const service = axios.create({
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    // @ts-ignore
-    axios.defaults.headers.common.Authorization = document.querySelector('meta[name="csrf-token"]').content
+    config.baseURL += `/${store.getters.language}`
+
+    config.headers.common.Authorization = `${window.localStorage.getItem('auth._token.local')}`;
+
     return config
   },
   (error) => {
     Promise.reject(error)
   },
 )
-
 
 export default service;

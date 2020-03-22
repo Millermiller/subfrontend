@@ -14,7 +14,9 @@ import commonAPI from '@/api/commonAPI'
 Vue.use(VueRouter)
 
 const requireAuth = (to: any, _from: any, next: any) => {
-  if (store.getters.auth === false) {
+  if (!window.localStorage.getItem('auth._token.local')) {
+    next({ name: 'login' })
+  } else if (store.getters.auth === false) {
     commonAPI.check().then((response) => {
       store.commit('setAuth', response.data.auth)
       if (response.data.auth === false) {

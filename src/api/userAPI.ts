@@ -5,7 +5,8 @@ import IState from '@/models/State'
 
 export interface ILoginData {
   state: IState
-  message: string
+  message: string,
+  access_token: string
 }
 
 export default {

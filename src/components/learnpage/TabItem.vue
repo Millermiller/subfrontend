@@ -18,7 +18,7 @@
           span {{item.count}}
 
       el-col(:span="9")
-        template v-if="item.active"
+        template(v-if="item.active")
           span.text-primary.pointer.small(@click="loadTest()")
             i.ion.on-ios-redo.ion-small
               span учить

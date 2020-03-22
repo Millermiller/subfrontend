@@ -3,6 +3,7 @@ import * as Vuex from 'vuex'
 import { createStore } from 'vuex-smart-module'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueProgressBar from 'vue-progressbar'
+import VueCookies from 'vue-cookies'
 //  import VueBus from 'vue-eventbus'
 //  Vue.use(VueBus)
 import Meta from 'vue-meta'
@@ -47,6 +48,8 @@ import 'element-ui/lib/theme-chalk/display.css'
 import 'swiper/css/swiper.css'
 import './libs'
 
+Vue.use(VueCookies)
+
 Vue.use(VueProgressBar, {
   color: '#20A0FF',
   failedColor: '#874b4b',
@@ -57,7 +60,7 @@ Vue.use(VueProgressBar, {
   },
   location: 'top',
 })
-Vue.use(Vuex)
+
 Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
 Vue.use(Loading.directive)

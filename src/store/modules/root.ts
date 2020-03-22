@@ -29,7 +29,7 @@ class State {
   rightMenuOpen = false
   showDictionary = true
   intro = []
-
+  language: string = ''
   introNeed = {
     login: false,
     main: false,
@@ -73,6 +73,10 @@ class CommonGetters extends Getters<State> {
   isShowIntro = (id: string) => {
     // return this.state.introNeed[id]
   }
+
+  get language(): string {
+    return this.state.language
+  }
 }
 
 // Mutations
@@ -110,6 +114,10 @@ class CommonMutations extends Mutations<State> {
 
   setDomain(domain: string) {
     this.state.domain = domain
+  }
+
+  setLanguage(language: string) {
+    this.state.language = language
   }
 }
 

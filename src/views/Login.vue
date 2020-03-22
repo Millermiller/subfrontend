@@ -3,14 +3,14 @@
     .form-wrapper
       el-card(v-loading.body="loading")
         .clearfix(slot="header")
-        el-form(ref="loginform", :model="form", :rules="rules")
+        el-form(ref="loginform", :model="form", :rules="rules", @submit.native.prevent="submit")
           small(v-if="error" style="color:#ff4949") {{error}}
           el-form-item(prop="login")
-            el-input(:model="form.login", placeholder="Login", auto-complete="on")
+            el-input(v-model="form.login", placeholder="Login")
           el-form-item(prop="password")
-            el-input(:model="form.password", type="password", placeholder="Password", auto-complete="on")
+            el-input(v-model="form.password", type="password", placeholder="Password", auto-complete="on")
           el-form-item
-            el-button(type="primary", @click="submit('loginform')") Вход
+            el-button(type="primary", native-type="submit") Вход
 </template>
 
 <script lang="ts">
@@ -39,7 +39,7 @@ export default class Login extends Vue {
     error: string = ''
 
     loading: boolean = false
-
+    /*
     created() {
       this.loading = true
       commonAPI.check()
@@ -53,18 +53,18 @@ export default class Login extends Vue {
         console.log(response)
       })
     }
-
-    submit(formName: string) {
+*/
+    submit() {
       const v = this
       // @ts-ignore
-      this.$refs[formName].validate((valid) => {
+      this.$refs.loginform.validate((valid) => {
         if (valid) {
           v.loading = true
           LoginService.execute(v.form).then(
             (response) => {
-              this.$store.commit('setAuth', true)
-              this.$store.dispatch('setStore', response.data.state)
-              this.$store.commit('setSelection', 0)
+            //  this.$store.commit('setAuth', true)
+            //  this.$store.dispatch('setStore', response.data.state)
+            //  this.$store.commit('setSelection', 0)
               this.$router.push({ path: 'main' })
             },
           ).catch((error: any) => {
@@ -76,3 +76,19 @@ export default class Login extends Vue {
     }
 }
 </script>
+<style>
+  .loginpage{
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+  }
+  .loginpage .el-form-item__content{
+    text-align: center;
+  }
+  .loginpage .form-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+</style>

@@ -12,6 +12,7 @@ import Vue from 'vue';
 import Header from '@/views/Header.vue';
 import Footer from '@/views/Footer.vue';
 import Sidemenu from '@/views/Sidemenu.vue';
+import LanguageService from '@/services/LanguageService';
 
   @Component({
     name: 'App',
@@ -19,9 +20,13 @@ import Sidemenu from '@/views/Sidemenu.vue';
       Sidemenu, Header, Footer,
     },
   })
-export default class extends Vue {
+export default class App extends Vue {
   get auth(): boolean {
     return this.$store.getters.auth;
+  }
+
+  created() {
+    this.$store.commit('setLanguage', LanguageService.extract())
   }
 }
 </script>

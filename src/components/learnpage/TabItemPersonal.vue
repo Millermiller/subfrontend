@@ -8,10 +8,10 @@
       el-col(:span="9", :md="8")
          span.text-muted.small
            i.ion.ion-speedometer.ion-small
-        span(:class="['small', {success: item.result > 80, warning: (item.result > 50 && item.result < 80), danger: item.result < 50 } ]").
+         span(:class="['small', {success: item.result > 80, warning: (item.result > 50 && item.result < 80), danger: item.result < 50 } ]").
            {{item.result}}%
 
-        span.text-muted.small(style="padding-left: 15px")
+         span.text-muted.small(style="padding-left: 15px")
            i.ion.ion-ios-browsers-outline.ion-small
             span {{item.count}}
 

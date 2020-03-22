@@ -14,8 +14,7 @@
                   p.pointer(
                     v-on:mouseover="showExtra(extra)"
                      v-on:mouseout="clearExtra")
-                    span {{extra.orig}}
-                    - {{extra.extra}}
+                    span {{extra.orig}} - {{extra.extra}}
 
         el-col#textarea(:span="12")
           textarea.panel#transarea(
