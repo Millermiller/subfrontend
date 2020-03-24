@@ -47,6 +47,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import 'swiper/css/swiper.css'
 import './libs'
+import '@/assets/css/style.css';
 
 Vue.use(VueCookies)
 

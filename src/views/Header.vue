@@ -1,10 +1,7 @@
 <template lang="pug">
   div.navbar.navbar-static-topnavbar-fixed-left(role="navigation", ref="menu")
-    a#left-menu(@click="showLeftMenu")
-      button.navbar-toggle.collapsed
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
+
+    LeftMenuButton
 
     el-menu.el-menu-demo.main-menu.hidden-sm-and-down(mode="horizontal")
       router-link.el-menu-item.home(tag="li", to="/", exact)
@@ -41,9 +38,11 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { LoginService } from '@/services/LoginService';
 import { store } from '@/store';
+import LeftMenuButton from '@/components/LeftMenuButton.vue';
 
   @Component({
     name: 'Header',
+    components: { LeftMenuButton },
   })
 export default class Header extends Vue {
     offset: number = 30
@@ -55,10 +54,6 @@ export default class Header extends Vue {
     url: any = {
       value: 'https://is.scandinaver.local',
       title: 'Исландский',
-    }
-
-    showLeftMenu = (): void => {
-      this.$root.$emit('show')
     }
 
     logout(): void {
@@ -114,3 +109,211 @@ export default class Header extends Vue {
     }
 }
 </script>
+<style>
+  .navbar .navbar-nav > li > a{
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .navbar {
+    position: relative;
+    height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid transparent
+  }
+
+  .navbar:before, .navbar:after {
+    display: table;
+    content: " "
+  }
+
+  .navbar:after {
+    clear: both
+  }
+
+  .navbar:before, .navbar:after {
+    display: table;
+    content: " "
+  }
+
+  .navbar:after {
+    clear: both
+  }
+  .navbar-collapse {
+    max-height: 340px;
+    padding-right: 15px;
+    padding-left: 15px;
+    overflow-x: visible;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    -webkit-overflow-scrolling: touch
+  }
+
+  .navbar-collapse:before, .navbar-collapse:after {
+    display: table;
+    content: " "
+  }
+
+  .navbar-collapse:after {
+    clear: both
+  }
+
+  .navbar-collapse:before, .navbar-collapse:after {
+    display: table;
+    content: " "
+  }
+
+  .navbar-collapse:after {
+    clear: both
+  }
+
+  .navbar-collapse.in {
+    overflow-y: auto
+  }
+
+  .navbar-static-top {
+    z-index: 1000;
+    border-width: 0 0 1px
+  }
+  .el-menu.el-menu-vertical {
+    width: 100%;
+    min-height: 400px;
+    display: block;
+    border-radius: 0;
+  }
+  .el-menu.el-menu-vertical a{
+    width: 100%;
+    padding: 0;
+    display: inline-block;
+  }
+  ul.el-menu.el-menu-vertical li{
+    border-top: 1px solid white;
+    border-bottom: 1px solid #dfdfdf;
+  }
+  ul.el-menu.el-menu-vertical li i{
+    width: 30px;
+  }
+  .el-menu-item a:hover {
+    text-decoration: none;
+  }
+  .el-menu a {
+    outline: none;
+    padding: 20px;
+    text-decoration: none;
+  }
+  .el-menu-item.is-active{
+    color: #48576a;
+  }
+  .el-menu-item .router-link-active,
+  .nav > li > a.router-link-active{
+    outline-offset: -2px;
+  }
+  .main-menu{
+    box-shadow: 0 2px 3px hsla(0,0%,7%,.1),0 0 0 1px hsla(0,0%,7%,.1);
+    background-color: #fff;
+    padding: 0 20px;
+  }
+
+  .main-menu .el-menu-item{
+    border-bottom: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+  }
+  .main-menu .el-menu-item i{
+    font-size:26px;
+  }
+
+  .main-menu .el-menu-item:hover,
+  .main-menu .el-menu-item:hover > i{
+    background: none;
+    color: #20a0ff !important;
+    border-bottom: none;
+  }
+  .main-menu hr{
+    height: 2px;
+    margin: 0;
+    background: #20a0ff;
+    border: none;
+    transition: .3s ease-in-out;
+    position: absolute;
+    bottom: -1px;
+    left: 30px;
+    width: 111px;
+  }
+  .el-menu-item.logout{
+    float: right;
+  }
+  .el-menu-item.logout a{
+    padding: 0px 0 0 10px;
+    border-left: 1px solid #ddd;
+    font-family: Segoe UI Light, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+  }
+  .userblock span{
+    padding-left: 15px;
+    font-family: Segoe UI Light, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+  }
+  .el-menu-item * {
+    vertical-align: inherit !important;
+  }
+
+  @media (max-width: 991px){
+    .navbar-default {
+      background: rgba(255,255,255,.85);
+      border: 0;
+      color: #777;
+      text-transform: uppercase;
+      display: inline-block;
+      text-align: center;
+    }
+    .navbar{
+      height: 0px;
+    }
+    .right-panel{
+      position: absolute;
+      z-index: 9999;
+      width: 70%;
+      right: 0;
+    }
+    .slideInRight {
+      -webkit-animation-name: slideInRight;
+      animation-name: slideInRight;
+    }
+    .slideOutRight {
+      -webkit-animation-name: slideOutRight;
+      animation-name: slideOutRight;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .navbar {
+      border-radius: 4px
+    }
+    .navbar-collapse {
+      width: auto;
+      border-top: 0;
+      box-shadow: none
+    }
+
+    .navbar-collapse.collapse {
+      display: block;
+    }
+
+    .navbar-collapse.in {
+      overflow-y: auto
+    }
+
+    .navbar-collapse .navbar-nav.navbar-left:first-child {
+      margin-left: -15px
+    }
+
+    .navbar-collapse .navbar-nav.navbar-right:last-child {
+      margin-right: -15px
+    }
+
+    .navbar-collapse .navbar-text:last-child {
+      margin-right: 0
+    }
+  }
+
+</style>

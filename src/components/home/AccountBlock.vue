@@ -44,3 +44,21 @@ export default class extends Vue {
     }
 }
 </script>
+<style>
+  .account-card p{
+    font-family: Segoe UI, Helvetica, Arial, sans-serif;
+  }
+
+
+  .avatar-wrapper-big {
+    height: 180px;
+    width: 180px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 0 auto 30px;
+  }
+  .userinfo header{
+    text-align: center;
+  }
+
+</style>

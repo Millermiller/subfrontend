@@ -2,7 +2,7 @@
   el-col#assetsblock(:span="8", :xs="24")
     el-card.box-card
 
-      clearfix(slot="header") class="clearfix">
+      .clearfix(slot="header")
         el-row(type="flex" justify="space-between")
           span.h3 Мои словари
           el-popover(placement="top-start",

@@ -22,3 +22,11 @@ export default class extends Vue {
   }
 }
 </script>
+<style>
+  .personal-widget-block .widget-description{
+    width: 100%;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 48px;
+  }
+</style>

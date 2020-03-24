@@ -18,11 +18,11 @@ const requireAuth = (to: any, _from: any, next: any) => {
     next({ name: 'login' })
   } else if (store.getters.auth === false) {
     commonAPI.check().then((response) => {
-      store.commit('setAuth', response.data.auth)
-      if (response.data.auth === false) {
+      if (response.data.user === false) {
         next({ name: 'login' })
       } else {
-        store.dispatch('setStore', response.data.state)
+        store.commit('setAuth', true)
+        store.dispatch('setStore', response.data)
         store.commit('setSelection', 0)
         next()
       }

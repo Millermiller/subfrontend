@@ -78,3 +78,12 @@ export default class Result extends Vue {
   }
 }
 </script>
+<style>
+  .result-card .el-card__body {
+    padding-right: 0;
+  }
+  .diagram {
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+  }
+</style>

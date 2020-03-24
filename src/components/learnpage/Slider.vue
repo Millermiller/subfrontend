@@ -104,3 +104,61 @@ export default class Slider extends Vue {
     }
 }
 </script>
+<style>
+  .swiper-container {
+    width: 100%;
+    height: 65vh;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  .swiper-slide {
+    overflow: hidden;
+    text-align: center;
+    font-size: 16px;
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .swiper-slide-active {
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
+  }
+  .swiper-container .swiper-button-prev, .swiper-container .swiper-button-next {
+    top: 0;
+    height: 100%;
+    width: 90px;
+  }
+
+  .swiper-container .swiper-button-next {
+    right: 0;
+  }
+
+  .swiper-container .swiper-button-prev {
+    left: 0;
+  }
+
+  .swiper-pagination-progressbar-fill {
+    background: #20a0ff !important;
+  }
+
+  .swiper-pagination-progressbar {
+    background-color: transparent !important;
+  }
+  #slider-intro > .el-card__body {
+    padding: 0;
+  }
+
+</style>

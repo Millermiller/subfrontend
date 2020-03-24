@@ -63,10 +63,14 @@ export default class Sidemenu extends Vue {
 
     mounted() {
       const data = this;
-      this.$root.$on('show', () => {
+      this.$eventHub.$on('show', () => {
         data.visible = true;
         data.$store.commit('setBackdrop', 1)
       })
+    }
+
+    beforeDestroy() {
+      this.$eventHub.$off('show')
     }
 }
 </script>

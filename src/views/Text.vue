@@ -198,3 +198,17 @@ export default class TextItem extends Vue {
     }
 }
 </script>
+<style>
+  #transarea {
+    height: 100px;
+    padding: 15px;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .text-success {
+    cursor: pointer;
+    margin: 0 2px 4px 0;
+    padding: 2px 4px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+</style>

@@ -44,3 +44,23 @@ export default class TextCard extends Vue {
     }
 }
 </script>
+<style>
+  .text {
+    margin-bottom: 20px;
+    position: relative;
+    color: #D3DCE6;
+  }
+  .text .image {
+    height: 220px;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .text.open {
+    background: #fafafa;
+    color: #333;
+  }
+  .text img {
+     width: 100%;
+     display: block;
+   }
+</style>

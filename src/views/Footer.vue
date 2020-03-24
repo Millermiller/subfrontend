@@ -97,3 +97,14 @@ export default class Footer extends Vue {
     */
 }
 </script>
+<style>
+  #feedback_message {
+    min-height: 240px !important;
+  }
+  .copyright {
+    font-size: 14px;
+    padding: 12px 0;
+    color: #fff;
+    display: block;
+  }
+</style>

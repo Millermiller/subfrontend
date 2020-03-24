@@ -1,10 +1,7 @@
 <template lang="pug">
   el-container
-    a#right-menu(@click="toggleRightMenu")
-      button.navbar-toggle.collapsed
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
+
+    RightMenuButton
 
     el-main
       el-row(:gutter='20')
@@ -27,12 +24,14 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Tabs from '@/components/learnpage/Tabs.vue';
 import Slider from '@/components/learnpage/Slider.vue';
+import RightMenuButton from '@/components/RightMenuButton.vue';
 
   @Component({
     name: 'Learn',
     components: {
       Slider,
       Tabs,
+      RightMenuButton,
     },
   })
 export default class Learn extends Vue {
@@ -41,7 +40,7 @@ export default class Learn extends Vue {
     visible: boolean = false
 
     created() {
-      // this.$eventHub.$on('closeMenu', this.closeMenu);
+      this.$eventHub.$on('toggleRightMenu', this.toggleRightMenu());
       this.$eventHub.$on('paidModal', this.modal);
     }
 

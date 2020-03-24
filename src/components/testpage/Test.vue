@@ -228,3 +228,14 @@ export default class Test extends Vue {
     }
 }
 </script>
+<style>
+  .variants p {
+    text-align: center;
+    padding: 16px 10px;
+    margin: 0;
+  }
+
+  .variants p:hover {
+    color: #20a0ff;
+  }
+</style>

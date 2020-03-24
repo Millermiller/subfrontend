@@ -1,5 +1,5 @@
 <template lang="pug">
-  .list-itemlist-item-card.el-row
+  .list-item.list-item-card.el-row
     el-col(:span="20")
       p(:class="['asset_title', {'text-success' : card.exist}]") {{card.word.word}}
     el-col(:span="4")
@@ -59,3 +59,9 @@ export default class extends Vue {
     }
 }
 </script>
+<style>
+  .card-value {
+    border-top: 1px solid #ddd;
+    padding-top: 5px;
+  }
+</style>

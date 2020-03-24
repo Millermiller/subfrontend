@@ -77,3 +77,28 @@ export default class ErrorItem extends Vue {
     }
 }
 </script>
+<style>
+  .errorcard {
+    background-color: #fff;
+    margin-right: 10px;
+    transition: all 1s;
+    height: 112px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: auto;
+    margin-bottom: 10px;
+  }
+  .errorcard > .el-col {
+    height: 100%;
+  }
+  .errorcard .ion-ios-star-outline,
+  .errorcard .ion-ios-star {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .error-translate {
+    position: absolute;
+    bottom: 0;
+  }
+</style>
