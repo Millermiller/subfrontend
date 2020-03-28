@@ -27,7 +27,7 @@
         i.ion-help(v-else)
       audio(:src="item.word.audio", preload="none", ref="player")
 
-      i(:class="['ion favourite-button pointer', favouriteButtonClass()]", @click="favourite")
+      i(:class="['ion favourite-button pointer', favouriteButtonClass]", @click="favourite")
       i.ion-ios-volume-high.ion.pointer(@click="play")
 </template>
 

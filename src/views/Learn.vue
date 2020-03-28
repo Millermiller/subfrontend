@@ -40,7 +40,7 @@ export default class Learn extends Vue {
     visible: boolean = false
 
     created() {
-      this.$eventHub.$on('toggleRightMenu', this.toggleRightMenu());
+      this.$eventHub.$on('toggleRightMenu', this.toggleRightMenuR());
       this.$eventHub.$on('paidModal', this.modal);
     }
 
@@ -48,7 +48,7 @@ export default class Learn extends Vue {
       this.dialogVisible = true
     }
 
-    toggleRightMenu() {
+    toggleRightMenuR() {
       this.visible = !this.visible;
       this.$store.dispatch('toggleMenuOpen')
       this.$store.dispatch('toggleBackdrop')

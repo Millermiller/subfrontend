@@ -2,9 +2,9 @@
   el-container
     el-main
       el-row(:gutter='20')
-        assets
-          cards(v-if='show' :cards='cards' :name='name' :loading='loading')
-            dictionary(v-if='show')
+        Assets
+        Cards(v-if='show' :cards='cards' :name='name' :loading='loading')
+        Dictionary(v-if='show')
 </template>
 
 <script lang="ts">

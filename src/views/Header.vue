@@ -21,14 +21,19 @@
         span {{user.login}}
 
       li.el-menu-item.pull-right
-        el-select(:model="url", @change="gotosite", size="small", :placeholder="(sites.length) ? sites[0].label : ''")
-          el-option(
-            v-for="item in sites",
-            :key="item.value",
-            :label="item.label",
-            :value="item")
-            img(style="float: left" :src="item.flag")
-            span(style="float: left") {{ item.label }}
+        el-select(
+          :value="title",
+          :model="url",
+          @change="gotosite",
+          size="small",
+          :placeholder="(sites.length) ? sites[0].label : ''")
+            el-option(
+              v-for="item in sites",
+              :key="item.value",
+              :label="item.label",
+              :value="item")
+              img(style="float: left" :src="item.flag")
+              span(style="float: left") {{ item.label }}
 
       hr(:style="{ left: offset + 'px', width: width + 'px'  }")
 </template>
@@ -50,6 +55,8 @@ export default class Header extends Vue {
     width: number = 40
 
     private observer?: MutationObserver
+
+    private title: string = 'Исландский'
 
     url: any = {
       value: 'https://is.scandinaver.local',

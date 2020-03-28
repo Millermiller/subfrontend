@@ -5,14 +5,13 @@ import {
 } from 'vuex-smart-module'
 import Vue from 'vue'
 import { Store } from 'vuex'
-import request from '@/utils/request'
 
-import { assetModule } from '@/store/modules/asset'
 import { text } from '@/store/modules/text'
 import { user } from '@/store/modules/user'
 import { test } from '@/store/modules/test'
 import { User } from '@/models/User'
 import IState from '@/models/State';
+import { assetModule } from '@/store/modules/asset';
 
 
 interface SetStoreParams {
@@ -165,12 +164,14 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
     )
   }
 
-  toggleBackdrop = () => {
+  toggleBackdrop() {
     if (this.state.backdrop === 0 && this.state.rightMenuOpen) this.commit('setBackdrop', 1)
     else this.commit('setBackdrop', 0)
   }
 
-  toggleMenuOpen = () => this.commit('setMenuOpen', !this.state.rightMenuOpen)
+  toggleMenuOpen() {
+    this.commit('setMenuOpen', false)
+  }
 }
 
 // Create a module with module asset classes
