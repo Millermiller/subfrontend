@@ -25,10 +25,9 @@
               span.no-margin.danger.pull-right.small(slot="reference") Добавлено: {{item.word.user.login}}
 
         i.ion-help(v-else)
-      audio(:src="item.word.audio", preload="none", ref="player")
-
-      i(:class="['ion favourite-button pointer', favouriteButtonClass]", @click="favourite")
-      i.ion-ios-volume-high.ion.pointer(@click="play")
+      i.playicon.el-icon-video-play.pointer(@click="play(card)")
+      i(:class="['favourite-button pointer', favouriteButtonClass]", @click="favourite")
+      i.el-icon-video-play.pointer(@click="play")
 </template>
 
 <script lang="ts">
@@ -36,7 +35,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop, Watch } from 'vue-property-decorator'
 import cardAPI from '@/api/cardAPI'
-import { ICard } from '@/models/Card'
+import { Card, ICard } from '@/models/Card'
 
   @Component({
     name: 'Slide',
@@ -45,9 +44,8 @@ export default class Slide extends Vue {
     @Prop({ required: true })
     private item!: ICard
 
-    activeClass: string = 'ion-ios-star'
-
-    defaultClass: string = 'ion-ios-star-outline'
+    activeClass: string = 'el-icon-star-on'
+    defaultClass: string = 'el-icon-star-off'
 
     show: boolean = false
 
@@ -64,9 +62,8 @@ export default class Slide extends Vue {
       this.show = (!this.show)
     }
 
-    play() {
-      // @ts-ignore
-      this.$refs.player.play()
+    play(card: Card) {
+      new Audio(card.audio).play()
     }
 
     favourite() {

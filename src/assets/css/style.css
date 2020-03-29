@@ -752,10 +752,16 @@ span.warning-text {
 
 .favourite-button {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 20px;
+  left: 15px;
+  font-size: 24px;
 }
-
+.el-icon-video-play {
+  position: absolute;
+  bottom: 20pxemaile;
+  right: 20px;
+  font-size: 24px;
+}
 .__cov-progress {
   position: absolute !important;
   z-index: 100;

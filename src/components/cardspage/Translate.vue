@@ -3,7 +3,7 @@
     el-col(:span="20")
       p(:class="['asset_title', {'text-success' : card.exist}]") {{card.word.word}}
     el-col(:span="4")
-      i.ion.ion-ios-plus-empty.pointer(@click="add")
+      i.ion.el-icon-circle-plus-outline.pointer(@click="add")
     el-col(:span="24")
       p(:class="['no-margin', 'card-value', {'text-success' : card.exist}]") {{card.value}}
     el-col(:span="24", v-if="card.word.creator")

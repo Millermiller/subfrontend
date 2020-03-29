@@ -99,7 +99,10 @@ export default class Slider extends Vue {
     created() {
       if (parseInt(this.$route.params.id, 10) > 0) this.getAsset(parseInt(this.$route.params.id, 10))
       else {
-        this.cards.push(new Card(new Word('Выберите словарь'), true))
+        const card = new Card()
+        card.word = new Word('Выберите словарь')
+        card.nocontrols = true
+        this.cards.push(card)
       }
     }
 }

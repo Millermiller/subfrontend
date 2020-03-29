@@ -1,11 +1,12 @@
-import IWord from '@/models/Word'
+import { Word } from '@/models/Word'
 import { ITranslate } from '@/models/Translate'
+import { User } from '@/models/User';
 
 export interface ICard {
   translate: ITranslate
   id: number
   asset_id: number
-  word?: IWord
+  word?: Word
   exist?: boolean
   favourite?: boolean
   nocontrols?: boolean
@@ -14,12 +15,10 @@ export interface ICard {
 export class Card implements ICard {
   asset_id!: number
   id!: number
-  word?: IWord
+  word: Word
   translate!: ITranslate
   nocontrols?: boolean
+  audio: string
+  user: User
 
-  constructor(word?: IWord, nocontrols?: boolean) {
-    this.word = word
-    this.nocontrols = nocontrols
-  }
 }

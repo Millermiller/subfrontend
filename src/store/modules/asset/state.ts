@@ -1,8 +1,10 @@
+import { Asset } from '@/models/Asset';
+
 export default class State {
   assets: any = {
     words: [],
     sentences: [],
-    favourites: {},
+    favourites: Asset,
     personal: [],
   }
 

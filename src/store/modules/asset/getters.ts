@@ -2,6 +2,7 @@ import { Getters } from 'vuex-smart-module';
 import { Card } from 'element-ui';
 import State from '@/store/modules/asset/state';
 import { Word } from '@/models/Word';
+import { Asset } from '@/models/Asset';
 
 export default class AssetGetters extends Getters<State> {
   get activeAssetType() {
@@ -54,6 +55,10 @@ export default class AssetGetters extends Getters<State> {
   }
 
   get activeAsset() {
-    return this.state.activePersonalAsset;
+    return this.state.activePersonalAsset
+  }
+
+  get favouriteAsset(): Asset {
+    return this.state.assets.favourites
   }
 }

@@ -1,37 +1,37 @@
 <template lang="pug">
-  el-col#testblock(:span="8" :xs="24")
-    el-card.box-card(v-loading.body="loading")
-      .clearfix(slot="header")
-        vue-progress-bar
-        h3.text-center(style="height: 76px").
-          {{question.word ? question.word.word : 'Выберите словарь'}}
-      .variants
-        p.pointer(v-for="(variant, index) in variants.data" @click="check(variant)" :key="index").
-          {{variant.text}}
+    el-col#testblock(:span="8" :xs="24")
+        el-card.box-card(v-loading.body="loading")
+            .clearfix(slot="header")
+                vue-progress-bar
+                h3.text-center(style="height: 76px").
+                    {{question.word ? question.word.word : 'Выберите словарь'}}
+            .variants
+                p.pointer(v-for="(variant, index) in variants.data" @click="check(variant)" :key="index").
+                    {{variant.text}}
 
-    el-dialog(title="Результаты:", :visible.sync="dialogVisible")
-      el-row(type="flex" align="middle")
-        el-col(:md="18")
-          p.success(v-if="percent >= 80").
-            Вы перешли на следующий уровень!
-          p.text-danger(v-if="percent < 80").
-            Вы не прошли тест!
-          p.
-            Правильные ответы: {{success}} из {{quantity}}
-        el-col(:md="6")
-          span(:class="['percentage',  percent < 80 ? 'warning' : 'success']") {{percent}}%
+        el-dialog(title="Результаты:", :visible.sync="dialogVisible")
+            el-row(type="flex" align="middle")
+                el-col(:md="18")
+                    p.success(v-if="percent >= 80").
+                        Вы перешли на следующий уровень!
+                    p.text-danger(v-if="percent < 80").
+                        Вы не прошли тест!
+                    p.
+                        Правильные ответы: {{success}} из {{quantity}}
+                el-col(:md="6")
+                    span(:class="['percentage',  percent < 80 ? 'warning' : 'success']") {{percent}}%
 
-      template(v-if="fail > 0")
-        el-row
-          p Ошибки:
-          p(v-for="(error, index) in errors" :key="index").
-            {{error.word.word}} - {{error.translate.value}}
+            template(v-if="fail > 0")
+                el-row
+                    p Ошибки:
+                    p(v-for="(error, index) in errors" :key="index").
+                        {{error.word.word}} - {{error.translate.value}}
 
-      span.dialog-footer(slot="footer")
-        el-button(v-if="percent < 80", @click="reload").
-          Попробовать еще раз
-        el-button(@click="dialogVisible = false").
-          Закрыть
+            span.dialog-footer(slot="footer")
+                el-button(v-if="percent < 80", @click="reload").
+                    Попробовать еще раз
+                el-button(@click="dialogVisible = false").
+                    Закрыть
 </template>
 
 <script lang="ts">
@@ -56,37 +56,39 @@ export default class Test extends Vue {
     }
   }
 
+    // id теста
     id: number = 0
 
-    // id теста
     title: string = ''
 
+    // all data
     cards: Collection = new Collection([])
 
-    // all data
+    // массив всех translates
     translates: string[] = []
 
-    // массив всех translates
+    // количество вопросов
     quantity: number = 0
 
-    // количество вопросов
-    question?: ICard = new Card()
-
     // текущий вопрос
+    question?: ICard = new Card();
+
     variants: VariantsCollection = new VariantsCollection([]) // 4 варианта ответа на текущий вопрос
 
+    // количество данных ответов
     answers: number = 0
 
-    // количество данных ответов
+    // количество правильных ответов
     success: number = 0
 
-    // количество правильных ответов
+    // процент правильных ответов
     percent: number = 0
 
-    // процент правильных ответов
-    fail: number = 0 // количество неправильных ответов
+    // количество неправильных ответов
+    fail: number = 0
 
-    errors: any[] = [] // массив ошибок
+    // массив ошибок
+    errors: any[] = []
 
     dialogVisible: boolean = false
 

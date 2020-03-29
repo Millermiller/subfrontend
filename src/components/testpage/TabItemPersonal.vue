@@ -67,7 +67,7 @@ export default class TabItemPersonal extends Vue {
       if (this.isActive) {
         this.$store.dispatch('loadAsset', this.item.id)
         this.$store.commit('setActiveAssetEdit', true)
-        this.$router.push('/cards')
+        this.$router.push(`/cards/${this.item.id}`)
       }
     }
 

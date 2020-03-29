@@ -21,6 +21,7 @@ const requireAuth = (to: any, _from: any, next: any) => {
       if (response.data.user === false) {
         next({ name: 'login' })
       } else {
+        Vue.$user = response.data.user
         store.commit('setAuth', true)
         store.dispatch('setStore', response.data)
         store.commit('setSelection', 0)
@@ -83,6 +84,12 @@ const routes = [
   },
   {
     path: '/cards',
+    name: 'cards',
+    component: Cards,
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/cards/:id',
     name: 'cards',
     component: Cards,
     beforeEnter: requireAuth,

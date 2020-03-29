@@ -87,8 +87,12 @@ export default class extends Vue {
   }
 
   mounted() {
-    this.$store.dispatch('onCardsPageOpen')
-    this.load(this.$store.getters.activeAsset)
+    if (parseInt(this.$route.params.id, 10) > 0) {
+      this.load(parseInt(this.$route.params.id, 10))
+    } else {
+      this.$store.dispatch('onCardsPageOpen')
+      this.load(this.$store.getters.activeAsset)
+    }
   }
 
   beforeDestroy() {

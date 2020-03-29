@@ -16,7 +16,7 @@
               content="Создание карточек недоступно базовым аккаунтам")
               el-button(slot="reference" @click="openform") Добавить
 
-      el-input(placeholder="слово для поиска.." :model="word")
+      el-input(placeholder="слово для поиска..", v-model="word")
         el-button.el-icon-search(slot="append", @click="search")
 
       p.text-muted(v-if="message") {{message}}
