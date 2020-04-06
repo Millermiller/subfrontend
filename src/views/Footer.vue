@@ -107,4 +107,7 @@ export default class Footer extends Vue {
     color: #fff;
     display: block;
   }
+  .footer-inner{
+      width: 100%
+  }
 </style>
