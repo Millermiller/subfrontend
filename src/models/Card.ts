@@ -20,5 +20,4 @@ export class Card implements ICard {
   nocontrols?: boolean
   audio: string
   user: User
-
 }

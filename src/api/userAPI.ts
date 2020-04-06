@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import request from '@/utils/request'
 import ILoginForm from '@/api/ILoginForm'
 import IState from '@/models/State'
@@ -11,6 +11,10 @@ export interface ILoginData {
 
 export default {
   login(data: ILoginForm): Promise<AxiosResponse<ILoginData>> {
+    const request = axios.create({
+      baseURL: process.env.VUE_APP_BASE_API,
+      timeout: 5000,
+    })
     return request.post('/login', data)
   },
   logout(): Promise<AxiosResponse> {

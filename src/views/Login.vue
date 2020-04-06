@@ -62,9 +62,6 @@ export default class Login extends Vue {
           v.loading = true
           LoginService.execute(v.form).then(
             (response) => {
-            //  this.$store.commit('setAuth', true)
-            //  this.$store.dispatch('setStore', response.data.state)
-            //  this.$store.commit('setSelection', 0)
               this.$router.push({ path: 'main' })
             },
           ).catch((error: any) => {
