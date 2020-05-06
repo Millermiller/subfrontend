@@ -18,74 +18,53 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import commonAPI from '@/api/commonAPI'
 import ILoginForm from '@/api/ILoginForm'
-import { LoginService } from '@/services/LoginService';
+import { LoginService } from '@/services/LoginService'
 
-  @Component
+@Component
 export default class Login extends Vue {
-    form: ILoginForm = {
-      login: '',
-      password: '',
-    }
+  form: ILoginForm = {
+    login: '',
+    password: '',
+  }
 
-    rules: {} = {
-      login: [
-        { required: true, message: 'Введите логин или email', trigger: 'submit' },
-      ],
-      password: [
-        { required: true, message: 'Введите пароль', trigger: 'submit' },
-      ],
-    }
+  rules: {} = {
+    login: [{ required: true, message: 'Введите логин или email', trigger: 'submit' }],
+    password: [{ required: true, message: 'Введите пароль', trigger: 'submit' }],
+  }
 
-    error: string = ''
+  error: string = ''
+  loading: boolean = false
 
-    loading: boolean = false
-    /*
-    created() {
-      this.loading = true
-      commonAPI.check()
-      commonAPI.check().then((response) => {
-        if (response.data.auth === true) {
-          this.$router.push({ name: 'main' })
-        } else {
-          this.loading = false
-        }
-      }, (response) => {
-        console.log(response)
-      })
-    }
-*/
-    submit() {
-      const v = this
-      // @ts-ignore
-      this.$refs.loginform.validate((valid) => {
-        if (valid) {
-          v.loading = true
-          LoginService.execute(v.form).then(
-            (response) => {
-              this.$router.push({ path: 'main' })
-            },
-          ).catch((error: any) => {
+  submit() {
+    const v = this
+    // @ts-ignore
+    this.$refs.loginform.validate((valid) => {
+      if (valid) {
+        v.loading = true
+        LoginService.login(v.form)
+          .then(() => this.$router.push('/'))
+          .catch((error: any) => {
             v.error = error
-            v.loading = false;
+            v.loading = false
           })
-        }
-      })
-    }
+      }
+    })
+  }
 }
 </script>
 <style>
-  .loginpage{
-    background-size: cover;
-    height: 100vh;
-    width: 100%;
-  }
-  .loginpage .el-form-item__content{
-    text-align: center;
-  }
-  .loginpage .form-wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
+.loginpage {
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+}
+.loginpage .el-form-item__content {
+  text-align: center;
+}
+.loginpage .form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 </style>

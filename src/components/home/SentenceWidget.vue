@@ -1,37 +1,27 @@
 <template lang="pug">
   el-col#sentencewidget(:span=8 :xs=8)
-    el-card(shadow='hover' @click.native='sentences()').widget-block.pointer
-      p.widget-title Предложения
+    el-card.widget-block.pointer(shadow='hover' @click.native="goto('/learn')")
+      p.widget-title {{title}}
       p.widget-description {{active}}/{{all}}
       el-progress(type='circle', :percentage='percent')
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import Component from 'vue-class-component'
+import BaseWidget from '@/components/home/BaseWidget'
 
-  @Component({
-    name: 'Sentencewidget',
-  })
-export default class extends Vue {
-    active: number = 0
+@Component({
+  name: 'SentenceWidget',
+})
+export default class SentenceWidget extends BaseWidget {
+  title = this.$root.$i18n.tc('sentences')
+  active = this.$store.getters.activeSentences
+  all = this.$store.getters.sentences.length
+  timeout = 200
 
-    all: number = 1
-
-    get percent() {
-      return Math.round(100 * this.active / this.all)
-    }
-
-    sentences() {
-      this.$store.dispatch('setActiveAssetType', 2)
-      this.$router.push('/learn')
-    }
-
-    created() {
-      setTimeout(() => {
-        this.active = this.$store.getters.activeSentences
-        this.all = this.$store.getters.sentences.length
-      }, 500)
-    }
+  goto() {
+    this.$store.dispatch('setActiveAssetType', 2)
+    this.$router.push('/learn')
+  }
 }
 </script>

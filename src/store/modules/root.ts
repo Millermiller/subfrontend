@@ -1,25 +1,17 @@
-// Import base classes
-// https://github.com/ktsn/vuex-smart-module
-import {
-  Getters, Mutations, Actions, Module, Context,
-} from 'vuex-smart-module'
-import Vue from 'vue'
-import { Store } from 'vuex'
 
+import { Getters, Mutations, Actions, Module, Context } from 'vuex-smart-module'
+import { Store } from 'vuex'
 import { text } from '@/store/modules/text'
 import { user } from '@/store/modules/user'
 import { test } from '@/store/modules/test'
 import { User } from '@/models/User'
-import IState from '@/models/State';
-import { assetModule } from '@/store/modules/asset';
-
-
-interface SetStoreParams {
-  data: any
-}
+import IState from '@/models/State'
+import { assetModule } from '@/store/modules/asset'
+import commonAPI from '@/api/commonAPI'
 
 // State
 class State {
+  fullscreenLoading: boolean = false
   sites = []
   currentsite = {}
   domain = ''
@@ -45,6 +37,10 @@ class State {
 // Getters
 // Extend 'Getters' class with 'FooState' type
 class CommonGetters extends Getters<State> {
+  get fullscreenLoading(): boolean {
+    return this.state.fullscreenLoading
+  }
+
   get sites() {
     return this.state.sites
   }
@@ -83,6 +79,10 @@ class CommonGetters extends Getters<State> {
 class CommonMutations extends Mutations<State> {
   setInfo(info: any): void {
     this.state.info = info
+  }
+
+  setFullscreenLoading(loading: boolean): void {
+    this.state.fullscreenLoading = loading
   }
 
   showDictionary(): void {
@@ -133,35 +133,17 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
     this.textstore = text.context(store)
   }
 
-  setStore(data: IState) {
-    this.userstore.commit('setUser', new User(data.user.id, data.user.email, data.user.login, data.user.avatar))
-    this.userstore.commit('setActiveTo', new Date(data.user.active_to.date).toLocaleDateString())
-    this.userstore.commit('setActive', data.user.active)
-    this.userstore.commit('setPlan', data.user.plan)
-    // this.state.info.site = data.site
-
-    this.assetstore.commit('setWords', data.words)
-    this.assetstore.commit('setSentences', data.sentences)
-    this.assetstore.commit('setFavourites', data.favourites)
-    this.assetstore.commit('setPersonal', data.personal)
-
-    this.textstore.commit('setTexts', data.texts)
-
-    // this.commit('setIntro', data.intro)
-    this.commit('setSites', data.sites)
-    this.commit('setCurrentSite', data.currentsite)
-    this.commit('setDomain', data.domain)
-  }
-
-  reloadStore = () => {
-    (<any>Vue).Vue.http.get('/check').then(
-      (response: any) => {
-        this.setStore(response.data.state)
-      },
-      (response: any) => {
-        console.log(response.data)
-      },
-    )
+  reloadStore() {
+    commonAPI.getState().then((response) => {
+      this.assetstore.commit('setWords', response.data.words)
+      this.assetstore.commit('setSentences', response.data.sentences)
+      this.assetstore.commit('setFavourites', response.data.favourites)
+      this.assetstore.commit('setPersonal', response.data.personal)
+      this.textstore.commit('setTexts', response.data.texts)
+      this.commit('setSites', response.data.sites)
+      this.commit('setCurrentSite', response.data.currentsite)
+      this.commit('setDomain', response.data.domain)
+    })
   }
 
   toggleBackdrop() {

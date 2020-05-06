@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import { IAsset } from '@/models/Asset';
+import { IAsset } from '@/models/Asset'
 
 export default {
   getAsset(id: number): Promise<AxiosResponse> {

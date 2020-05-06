@@ -4,6 +4,8 @@ import { createStore } from 'vuex-smart-module'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueProgressBar from 'vue-progressbar'
 import VueCookies from 'vue-cookies'
+import VueI18n from 'vue-i18n'
+import { messages } from '@/locales/ru'
 //  import VueBus from 'vue-eventbus'
 //  Vue.use(VueBus)
 import Meta from 'vue-meta'
@@ -47,10 +49,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import 'swiper/css/swiper.css'
 import './libs'
-import '@/assets/css/style.css';
+import '@/assets/css/style.css'
 
 Vue.use(VueCookies)
-
+Vue.use(VueI18n)
 Vue.use(VueProgressBar, {
   color: '#20A0FF',
   failedColor: '#874b4b',
@@ -61,7 +63,12 @@ Vue.use(VueProgressBar, {
   },
   location: 'top',
 })
-
+const i18n = new VueI18n({
+  locale: 'ru',
+  messages: {
+    ru: messages,
+  },
+})
 Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
 Vue.use(Loading.directive)
@@ -104,6 +111,7 @@ Vue.use(Popover)
 Vue.use(Tag)
 
 new Vue({
+  i18n,
   router,
   store,
   render: h => h(App),

@@ -9,30 +9,15 @@ import Texts from '@/views/Texts.vue'
 import TextItem from '@/views/Text.vue'
 import Puzzles from '@/views/Puzzles.vue'
 import { store } from '@/store'
-import commonAPI from '@/api/commonAPI'
+
+import { LoginService } from '@/services/LoginService'
 
 Vue.use(VueRouter)
 
 const requireAuth = (to: any, _from: any, next: any) => {
-  if (!window.localStorage.getItem('auth._token.local')) {
-    next({ name: 'login' })
-  } else if (store.getters.auth === false) {
-    commonAPI.check().then((response) => {
-      if (response.data.user === false) {
-        next({ name: 'login' })
-      } else {
-        Vue.$user = response.data.user
-        store.commit('setAuth', true)
-        store.dispatch('setStore', response.data)
-        store.commit('setSelection', 0)
-        next()
-      }
-    }, (response) => {
-      console.log(response)
-    })
-  } else {
-    next()
-  }
+  LoginService.checkAuth()
+    .then(() => next(), () => next({ name: 'login' }))
+    .catch(() => next({ name: 'login' }))
 }
 
 const routes = [
