@@ -2,7 +2,7 @@
   el-col#wordwidget(:span=8 :xs=24)
     el-card.widget-block.pointer(shadow="hover" @click.native="goto('/learn')")
       p.widget-title {{title}}
-      p.widget-description {{this.active}}/{{this.all}}
+      p.widget-description {{active}}/{{all}}
       el-progress(type="circle" :percentage="percent")
 </template>
 
@@ -15,8 +15,13 @@ import BaseWidget from '@/components/home/BaseWidget'
 })
 export default class WordWidget extends BaseWidget {
   title = this.$root.$i18n.tc('words')
-  active = this.$store.getters.activeWords
-  all = this.$store.getters.words.length
-  timeout = 100
+
+  get all() {
+    return this.$store.getters.words.length
+  }
+
+  get active() {
+    return this.$store.getters.activeWords
+  }
 }
 </script>

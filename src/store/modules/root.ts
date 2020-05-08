@@ -1,4 +1,3 @@
-
 import { Getters, Mutations, Actions, Module, Context } from 'vuex-smart-module'
 import { Store } from 'vuex'
 import { text } from '@/store/modules/text'
@@ -8,6 +7,7 @@ import { User } from '@/models/User'
 import IState from '@/models/State'
 import { assetModule } from '@/store/modules/asset'
 import commonAPI from '@/api/commonAPI'
+import { puzzleModule } from '@/store/modules/puzzle'
 
 // State
 class State {
@@ -122,15 +122,15 @@ class CommonMutations extends Mutations<State> {
 
 class CommonActions extends Actions<State, CommonGetters, CommonMutations, CommonActions> {
   userstore!: Context<typeof user>
-
   assetstore!: Context<typeof assetModule>
-
   textstore!: Context<typeof text>
+  puzzleStore!: Context<typeof puzzleModule>
 
   $init(store: Store<any>): void {
     this.userstore = user.context(store)
     this.assetstore = assetModule.context(store)
     this.textstore = text.context(store)
+    this.puzzleStore = puzzleModule.context(store)
   }
 
   reloadStore() {
@@ -140,6 +140,7 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
       this.assetstore.commit('setFavourites', response.data.favourites)
       this.assetstore.commit('setPersonal', response.data.personal)
       this.textstore.commit('setTexts', response.data.texts)
+      this.puzzleStore.commit('setPuzzles', response.data.puzzles)
       this.commit('setSites', response.data.sites)
       this.commit('setCurrentSite', response.data.currentsite)
       this.commit('setDomain', response.data.domain)
@@ -168,5 +169,6 @@ export const root = new Module({
     assetModule,
     text,
     test,
+    puzzleModule,
   },
 })

@@ -40,56 +40,54 @@ import IWord from '@/models/Word'
 import ISentence from '@/models/Sentence'
 import { IPersonal } from '@/models/Personal'
 
-  @Component({
-    name: 'TabItemPersonal',
-  })
+@Component({
+  name: 'TabItemPersonal',
+})
 export default class TabItemPersonal extends Vue {
-    @Prop({ required: true })
-    private item!: any
+  @Prop({ required: true })
+  private item!: any
 
-    @Prop({ required: true })
-    private type!: any
+  @Prop({ required: true })
+  private type!: any
 
-    @Prop({ required: true })
-    private index!: any
+  @Prop({ required: true })
+  private index!: any
 
-    words: IWord[] = []
+  words: IWord[] = []
+  sentences: ISentence[] = []
+  personal: IPersonal[] = []
 
-    sentences: ISentence[] = []
+  get isActive() {
+    return this.$store.getters.isActive || this.item.type === 3
+  }
 
-    personal: IPersonal[] = []
-
-    get isActive() {
-      return this.$store.getters.isActive || this.item.type === 3
+  cardspage() {
+    if (this.isActive) {
+      this.$store.dispatch('loadAsset', this.item.id)
+      this.$store.commit('setActiveAssetEdit', true)
+      this.$router.push(`/cards/${this.item.id}`)
     }
+  }
 
-    cardspage() {
-      if (this.isActive) {
-        this.$store.dispatch('loadAsset', this.item.id)
-        this.$store.commit('setActiveAssetEdit', true)
-        this.$router.push(`/cards/${this.item.id}`)
+  loadTest(): void {
+    if (this.item.count > 1) {
+      if (window.innerWidth <= 910) {
+        this.$eventHub.$emit('closeMenu')
       }
+
+      this.$store.commit('setSelection', { asset: this.item, index: this.index })
+      this.$router.push(`/learn/${this.item.id}`)
     }
+  }
 
-    loadTest(): void {
-      if (this.item.count > 1) {
-        if (window.innerWidth <= 910) {
-          this.$eventHub.$emit('closeMenu')
-        }
-
-        this.$store.commit('setSelection', { asset: this.item, index: this.index })
-        this.$router.push(`/learn/${this.item.id}`)
+  test(): void {
+    if (this.item.count > 1) {
+      if (window.innerWidth <= 910) {
+        this.$eventHub.$emit('closeMenu')
       }
+      //  this.$store.commit('setSelection', {asset: this.item, index: this.index})
+      this.$router.push(`/test/${this.item.id}`)
     }
-
-    test(): void {
-      if (this.item.count > 1) {
-        if (window.innerWidth <= 910) {
-          this.$eventHub.$emit('closeMenu')
-        }
-        //  this.$store.commit('setSelection', {asset: this.item, index: this.index})
-        this.$router.push(`/test/${this.item.id}`)
-      }
-    }
+  }
 }
 </script>

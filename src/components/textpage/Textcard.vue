@@ -24,43 +24,47 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 
-  @Component({
-    name: 'TextCard',
-  })
+@Component({
+  name: 'TextCard',
+})
 export default class TextCard extends Vue {
-    @Prop({ required: true })
-    private text!: any
+  @Prop({ required: true })
+  private text!: any
 
-    get buttontype() {
-      return (!this.text.available) ? 'info' : (this.text.active) ? 'primary' : 'warning'
-    }
+  get buttontype() {
+    return !this.text.available ? 'info' : this.text.active ? 'primary' : 'warning'
+  }
 
-    get buttontext() {
-      return (!this.text.available) ? 'Недоступно базовым аккаунтам' : (this.text.active) ? 'Перейти' : 'Закрыто'
-    }
+  get buttontext() {
+    return !this.text.available
+      ? 'Недоступно базовым аккаунтам'
+      : this.text.active
+      ? 'Перейти'
+      : 'Закрыто'
+  }
 
-    gototext() {
-      if (this.text.active && this.text.available) this.$router.push(`/translates/${this.text.id}`)
-    }
+  gototext() {
+    if (this.text.active && this.text.available) this.$router.push(`/translates/${this.text.id}`)
+  }
 }
 </script>
 <style>
-  .text {
-    margin-bottom: 20px;
-    position: relative;
-    color: #D3DCE6;
-  }
-  .text .image {
-    height: 220px;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  .text.open {
-    background: #fafafa;
-    color: #333;
-  }
-  .text img {
-     width: 100%;
-     display: block;
-   }
+.text {
+  margin-bottom: 20px;
+  position: relative;
+  color: #d3dce6;
+}
+.text .image {
+  height: 220px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.text.open {
+  background: #fafafa;
+  color: #333;
+}
+.text img {
+  width: 100%;
+  display: block;
+}
 </style>

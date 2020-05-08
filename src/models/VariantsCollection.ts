@@ -1,5 +1,3 @@
-import { Collection } from '@/models/Collection';
+import { Collection } from '@/models/Collection'
 
-export default class VariantsCollection extends Collection {
-
-}
+export default class VariantsCollection extends Collection {}

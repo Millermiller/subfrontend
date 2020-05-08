@@ -23,49 +23,46 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import feedbackAPI from '@/api/feedbackAPI';
-import IFeedbackForm, { FeedbackForm } from '@/api/IFeedbackForm';
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import feedbackAPI from '@/api/feedbackAPI'
+import IFeedbackForm, { FeedbackForm } from '@/api/IFeedbackForm'
 
-  @Component({})
+@Component({})
 export default class Footer extends Vue {
-    dialogFormVisible: boolean = false
-    copy: string = 'scandinaver.org © 2018'
-    introVisible: boolean = false
+  dialogFormVisible: boolean = false
+  copy: string = 'scandinaver.org © 2018'
+  introVisible: boolean = false
+  form: IFeedbackForm = new FeedbackForm()
 
-    form: IFeedbackForm = new FeedbackForm()
+  rules: {} = {
+    message: [{ required: true, message: 'Поле не может быть пустым!', trigger: 'sumbit' }],
+  }
 
-    rules: {} = {
-      message: [
-        { required: true, message: 'Поле не может быть пустым!', trigger: 'sumbit' },
-      ],
-    }
-
-    submit() {
-      // @ts-ignore
-      this.$refs.messageform.validate((valid): void => {
-        if (valid) {
-          feedbackAPI.create(this.form).then(
-            (response) => {
-              if (response.status === 201) {
-                this.dialogFormVisible = false
-                this.$notify.success({
-                  title: '',
-                  message: 'Сообщение отправлено',
-                  duration: 2000,
-                });
-                this.form = new FeedbackForm()
-              }
-            },
-            (response) => {
+  submit() {
+    // @ts-ignore
+    this.$refs.messageform.validate((valid): void => {
+      if (valid) {
+        feedbackAPI.create(this.form).then(
+          (response) => {
+            if (response.status === 201) {
               this.dialogFormVisible = false
-              console.log(response.data)
-            },
-          )
-        }
-      })
-    }
+              this.$notify.success({
+                title: '',
+                message: 'Сообщение отправлено',
+                duration: 2000,
+              })
+              this.form = new FeedbackForm()
+            }
+          },
+          (response) => {
+            this.dialogFormVisible = false
+            console.log(response.data)
+          },
+        )
+      }
+    })
+  }
   /*
     showIntro() {
       this.$store.commit('setIntroVisibility', {page: this.$route.name, visible: true})
@@ -98,16 +95,16 @@ export default class Footer extends Vue {
 }
 </script>
 <style>
-  #feedback_message {
-    min-height: 240px !important;
-  }
-  .copyright {
-    font-size: 14px;
-    padding: 12px 0;
-    color: #fff;
-    display: block;
-  }
-  .footer-inner{
-      width: 100%
-  }
+#feedback_message {
+  min-height: 240px !important;
+}
+.copyright {
+  font-size: 14px;
+  padding: 12px 0;
+  color: #fff;
+  display: block;
+}
+.footer-inner {
+  width: 100%;
+}
 </style>

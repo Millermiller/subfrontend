@@ -1,3 +1,3 @@
-export interface ITest{
-  id: number,
+export interface ITest {
+  id: number
 }

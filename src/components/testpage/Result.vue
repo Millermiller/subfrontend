@@ -8,9 +8,9 @@
             el-progress(type="circle", :percentage="percent", :width="100")
           el-col.asset-info(:span="16")
             template(v-if="title")
-              p(v-if="level > 0") {{level}} уровень
-              p вопросов: {{quantity}}
-              p Лучший результат: {{result}}%
+              p(v-if="level > 0") {{$t('level', {level: level})}}
+              p {{$t('questionsCount', {quantity: quantity})}}
+              p {{$t('bestResult', {result: result})}}
 
       section#errorsblock(data-scrollbar, style="height: 55vh;overflow: hidden")
         transition-group(name="splash", tag="div")
@@ -79,11 +79,11 @@ export default class Result extends Vue {
 }
 </script>
 <style>
-  .result-card .el-card__body {
-    padding-right: 0;
-  }
-  .diagram {
-    border-right: 1px solid #ddd;
-    padding-right: 20px;
-  }
+.result-card .el-card__body {
+  padding-right: 0;
+}
+.diagram {
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+}
 </style>

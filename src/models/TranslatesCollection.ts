@@ -1,4 +1,4 @@
-import { Collection } from '@/models/Collection';
+import { Collection } from '@/models/Collection'
 
 export class TranslatesCollection extends Collection {
   data: string[]

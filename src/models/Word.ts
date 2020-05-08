@@ -1,15 +1,15 @@
-import { User } from '@/models/User';
+import { User } from '@/models/User'
 
 export default interface IWord {
-  id: number,
-  active: boolean,
+  id: number
+  active: boolean
   word: string
 }
 
 export class Word implements IWord {
-  active!: boolean;
-  id!: number;
-  word!: string;
+  active!: boolean
+  id!: number
+  word!: string
   user: User
 
   constructor(word: string) {

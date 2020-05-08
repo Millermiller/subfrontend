@@ -1,4 +1,4 @@
 export default interface ISentence {
-  id: number,
+  id: number
   active: boolean
 }

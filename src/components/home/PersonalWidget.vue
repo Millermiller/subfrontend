@@ -9,11 +9,12 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-  @Component({
-    name: 'PersonaWidget',
-  })
+@Component({
+  name: 'PersonaWidget',
+})
 export default class extends Vue {
   private title = this.$root.$i18n.tc('personals')
+
   get all() {
     return this.$store.getters.personal.length
   }
@@ -24,10 +25,10 @@ export default class extends Vue {
 }
 </script>
 <style>
-  .personal-widget-block .widget-description{
-    width: 100%;
-    text-align: right;
-    padding-right: 10px;
-    font-size: 48px;
-  }
+.personal-widget-block .widget-description {
+  width: 100%;
+  text-align: right;
+  padding-right: 10px;
+  font-size: 48px;
+}
 </style>

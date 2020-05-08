@@ -1,19 +1,19 @@
-export interface IPuzzle{
-  id: number,
-  success: boolean,
-  active: boolean,
-  text: string,
+export interface IPuzzle {
+  id: number
+  success: boolean
+  active: boolean
+  text: string
   translate: any
 }
 
 export class Puzzle implements IPuzzle {
-  active!: boolean;
+  active!: boolean
 
-  id!: number;
+  id!: number
 
-  success!: boolean;
+  success!: boolean
 
-  text!: string;
+  text!: string
 
-  translate: any;
+  translate: any
 }

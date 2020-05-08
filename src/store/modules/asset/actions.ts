@@ -4,7 +4,12 @@ import State from '@/store/modules/asset/state'
 import AssetGetters from '@/store/modules/asset/getters'
 import AssetMutations from '@/store/modules/asset/mutations'
 
-export default class AssetActions extends Actions<State, AssetGetters, AssetMutations, AssetActions> {
+export default class AssetActions extends Actions<
+  State,
+  AssetGetters,
+  AssetMutations,
+  AssetActions
+> {
   addPersonalAsset(title: string) {
     return new Promise((resolve, reject) => {
       request.post('/asset', { title }).then(
@@ -59,6 +64,7 @@ export default class AssetActions extends Actions<State, AssetGetters, AssetMuta
 
   onCardsPageOpen() {
     const asset = { type: 3 }
-    if (!this.state.activePersonalAssetEdit) this.commit('setSelection', this.getters.favouriteAsset.id)
+    if (!this.state.activePersonalAssetEdit)
+      this.commit('setSelection', this.getters.favouriteAsset.id)
   }
 }

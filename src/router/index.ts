@@ -16,7 +16,10 @@ Vue.use(VueRouter)
 
 const requireAuth = (to: any, _from: any, next: any) => {
   LoginService.checkAuth()
-    .then(() => next(), () => next({ name: 'login' }))
+    .then(
+      () => next(),
+      () => next({ name: 'login' }),
+    )
     .catch(() => next({ name: 'login' }))
 }
 

@@ -2,11 +2,11 @@ import axios, { AxiosResponse } from 'axios'
 import request from '@/utils/request'
 import ILoginForm from '@/api/ILoginForm'
 import IState from '@/models/State'
-import { store } from '@/store';
+import { store } from '@/store'
 
 export interface ILoginData {
   state: IState
-  message: string,
+  message: string
   access_token: string
 }
 

@@ -15,8 +15,13 @@ import BaseWidget from '@/components/home/BaseWidget'
 })
 export default class TextWidget extends BaseWidget {
   title = this.$root.$i18n.tc('texts')
-  active = this.$store.getters.activeTexts
-  all = this.$store.getters.texts.length
-  timeout = 400
+
+  get all() {
+    return this.$store.getters.texts.length
+  }
+
+  get active() {
+    return this.$store.getters.activeTexts
+  }
 }
 </script>

@@ -15,9 +15,14 @@ import BaseWidget from '@/components/home/BaseWidget'
 })
 export default class SentenceWidget extends BaseWidget {
   title = this.$root.$i18n.tc('sentences')
-  active = this.$store.getters.activeSentences
-  all = this.$store.getters.sentences.length
-  timeout = 200
+
+  get all() {
+    return this.$store.getters.sentences.length
+  }
+
+  get active() {
+    return this.$store.getters.activeSentences
+  }
 
   goto() {
     this.$store.dispatch('setActiveAssetType', 2)

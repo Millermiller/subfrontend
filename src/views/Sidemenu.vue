@@ -32,45 +32,45 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
 @Component({})
 export default class Sidemenu extends Vue {
-    private visible: boolean = false
+  private visible: boolean = false
 
-    get avatar() {
-      return this.$store.getters.avatar
-    }
+  get avatar() {
+    return this.$store.getters.avatar
+  }
 
-    get login() {
-      return this.$store.getters.login;
-    }
+  get login() {
+    return this.$store.getters.login
+  }
 
-    get email() {
-      return this.$store.getters.email;
-    }
+  get email() {
+    return this.$store.getters.email
+  }
 
-    get backdrop() {
-      return this.$store.getters.backdrop;
-    }
+  get backdrop() {
+    return this.$store.getters.backdrop
+  }
 
-    toggle() {
-      this.visible = !this.visible;
+  toggle() {
+    this.visible = !this.visible
 
-      if (!this.$store.getters.rightMenuOpen) this.$store.commit('setBackdrop', 0)
-    }
+    if (!this.$store.getters.rightMenuOpen) this.$store.commit('setBackdrop', 0)
+  }
 
-    mounted() {
-      const data = this;
-      this.$eventHub.$on('show', () => {
-        data.visible = true;
-        data.$store.commit('setBackdrop', 1)
-      })
-    }
+  mounted() {
+    const data = this
+    this.$eventHub.$on('show', () => {
+      data.visible = true
+      data.$store.commit('setBackdrop', 1)
+    })
+  }
 
-    beforeDestroy() {
-      this.$eventHub.$off('show')
-    }
+  beforeDestroy() {
+    this.$eventHub.$off('show')
+  }
 }
 </script>

@@ -1,6 +1,6 @@
 import { Word } from '@/models/Word'
 import { ITranslate } from '@/models/Translate'
-import { User } from '@/models/User';
+import { User } from '@/models/User'
 
 export interface ICard {
   translate: ITranslate

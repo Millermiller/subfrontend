@@ -15,11 +15,11 @@
           leave-active-class="animated slideOutRight")
           Tabs(v-show="visible")
 
-    el-dialog(title="Это закрытая часть сайта", :visible.sync="dialogVisible")
+    el-dialog(:title="$t('closed')", :visible.sync="dialogVisible")
       span
-        a Оплатите подписку</a> чтобы получить полный доступ
+        a {{$t('subscription')}}
       span.dialog-footer(slot="footer")
-        el-button(@click="dialogVisible = false") Закрыть
+        el-button(@click="dialogVisible = false") {{$t('close')}}
 </template>
 
 <script lang="ts">
@@ -29,42 +29,41 @@ import Result from '@/components/testpage/Result.vue'
 import Test from '@/components/testpage/Test.vue'
 import Tabs from '@/components/testpage/Tabs.vue'
 
-  @Component({
-    name: 'Tests',
-    components: {
-      Result,
-      Test,
-      Tabs,
-    },
-  })
-export default class extends Vue {
-    dialogVisible: boolean = false
+@Component({
+  name: 'Tests',
+  components: {
+    Result,
+    Test,
+    Tabs,
+  },
+})
+export default class Tests extends Vue {
+  dialogVisible: boolean = false
+  visible: boolean = false
 
-    visible: boolean = false
+  created(): void {
+    this.$eventHub.$on('closeMenu', this.toggleRightMenu);
+    this.$eventHub.$on('paidModal', this.modal);
+  }
 
-    created(): void {
-      this.$eventHub.$on('closeMenu', this.toggleRightMenu);
-      this.$eventHub.$on('paidModal', this.modal);
-    }
+  modal(): void {
+    this.dialogVisible = true
+  }
 
-    modal(): void {
-      this.dialogVisible = true
-    }
+  toggleRightMenu(): void {
+    this.visible = !this.visible;
+    this.$store.dispatch('toggleMenuOpen')
+    this.$store.dispatch('toggleBackdrop')
+  }
 
-    toggleRightMenu(): void {
-      this.visible = !this.visible;
-      this.$store.dispatch('toggleMenuOpen')
-      this.$store.dispatch('toggleBackdrop')
-    }
+  mounted(): void {
+    this.visible = window.innerWidth > 910
+  }
 
-    mounted(): void {
-      this.visible = window.innerWidth > 910
-    }
-
-    beforeDestroy() {
-      // this.$store.dispatch('onCardsPageClose')
-      this.$eventHub.$off('closeMenu');
-      this.$eventHub.$off('paidModal');
-    }
+  beforeDestroy() {
+    // this.$store.dispatch('onCardsPageClose')
+    this.$eventHub.$off('closeMenu');
+    this.$eventHub.$off('paidModal');
+  }
 }
 </script>

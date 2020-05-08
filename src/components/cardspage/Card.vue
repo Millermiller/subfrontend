@@ -34,18 +34,18 @@ import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import { ICard } from '@/models/Card'
 
-  @Component({
-    name: 'Card',
-  })
+@Component({
+  name: 'Card',
+})
 export default class extends Vue {
-    @Prop({ required: true })
-    private card!: ICard
+  @Prop({ required: true })
+  private card!: ICard
 
-    @Prop({ required: true })
-    private index!: number
+  @Prop({ required: true })
+  private index!: number
 
-    removeCard() {
-      this.$eventHub.$emit('deleteCardFromAsset', { card: this.card, index: this.index })
-    }
+  removeCard() {
+    this.$eventHub.$emit('deleteCardFromAsset', { card: this.card, index: this.index })
+  }
 }
 </script>

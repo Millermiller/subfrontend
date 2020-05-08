@@ -25,9 +25,10 @@
               span.no-margin.danger.pull-right.small(slot="reference") Добавлено: {{item.word.user.login}}
 
         i.ion-help(v-else)
-      i.playicon.el-icon-video-play.pointer(@click="play(card)")
-      i(:class="['favourite-button pointer', favouriteButtonClass]", @click="favourite")
-      i.el-icon-video-play.pointer(@click="play")
+
+      i(:class="['favourite-button pointer', favouriteButtonClass, {'rotated muted': loading}]", @click="favourite")
+
+      i.playicon.el-icon-video-play.pointer(@click="play(item.word.audio)")
 </template>
 
 <script lang="ts">
@@ -37,137 +38,145 @@ import { Prop, Watch } from 'vue-property-decorator'
 import cardAPI from '@/api/cardAPI'
 import { Card, ICard } from '@/models/Card'
 
-  @Component({
-    name: 'Slide',
-  })
+@Component({
+  name: 'Slide',
+})
 export default class Slide extends Vue {
-    @Prop({ required: true })
-    private item!: ICard
+  @Prop({ required: true })
+  private item!: ICard
 
-    activeClass: string = 'el-icon-star-on'
-    defaultClass: string = 'el-icon-star-off'
+  activeClass: string = 'el-icon-star-on'
+  defaultClass: string = 'el-icon-star-off'
+  show: boolean = false
+  loading: boolean = false
 
-    show: boolean = false
+  get favouriteButtonClass(): string {
+    return this.item.favourite ? this.activeClass : this.defaultClass
+  }
 
-    get favouriteButtonClass(): string {
-      return this.item.favourite ? this.activeClass : this.defaultClass
-    }
+  @Watch('$route', { immediate: true, deep: true })
+  onUrlChange(newVal: any) {
+    this.show = false
+  }
 
-    @Watch('$route', { immediate: true, deep: true })
-    onUrlChange(newVal: any) {
-      this.show = false
-    }
+  showTranslate() {
+    this.show = !this.show
+  }
 
-    showTranslate() {
-      this.show = (!this.show)
-    }
+  play(audio: string) {
+    new Audio(process.env.VUE_APP_BASE_API + audio).play()
+  }
 
-    play(card: Card) {
-      new Audio(card.audio).play()
-    }
-
-    favourite() {
-      const self = this
-      if (!this.item.favourite) {
-        cardAPI.addFavourite(this.item).then((response) => {
+  favourite() {
+    const self = this
+    self.loading = true
+    if (!this.item.favourite) {
+      cardAPI.addFavourite(this.item).then(
+        (response) => {
           if (response.status === 201) {
             self.item.favourite = true
             self.$notify.success({
               title: self.item.word!.word,
-              message: 'Добавлено в Избранное',
+              message: this.$tc('addToFavourite'),
               duration: 2000,
             })
             this.$store.commit('addCardToFavorite')
+            self.loading = false
           } else {
             console.log(response.data)
           }
         },
         (error) => {
           console.log(error)
-        })
-      } else {
-        cardAPI.destroyFavourite(this.item).then((response) => {
+        },
+      )
+    } else {
+      cardAPI.destroyFavourite(this.item).then(
+        (response) => {
           if (response.status === 204) {
             self.item.favourite = false
             self.$notify.success({
               title: self.item.word!.word,
-              message: 'Удалено из Избранного',
+              message: this.$tc('removedFromFavourite'),
               duration: 2000,
             })
             this.$store.commit('removeCardFromFavorite')
+            self.loading = false
           } else {
             console.log(response.data)
           }
         },
         (error) => {
           console.log(error)
-        })
-      }
+        },
+      )
     }
+  }
 }
 </script>
 <style>
-  .slide-value {
-    border-bottom: 1px solid #dadada;
-    width: 80%;
-    text-align: center;
-    padding-bottom: 40px;
-  }
-  .swiper-slide.swiper-slide-active {
-    transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg) !important;
-  }
-  .slide {
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
+.slide-value {
+  border-bottom: 1px solid #dadada;
+  width: 80%;
+  text-align: center;
+  padding-bottom: 40px;
+}
+.swiper-slide.swiper-slide-active {
+  transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg) !important;
+}
+.slide {
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
 
-  .slide .word {
-    border-bottom: 1px solid rgb(209, 219, 229);
-    font-size: 1.3em;
-  }
+.slide .word {
+  border-bottom: 1px solid rgb(209, 219, 229);
+  font-size: 1.3em;
+  margin-top: 10px;
+}
 
-  .slide .ion-ios-volume-high {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
-  .slide > .item {
-    height: 250px;
-    padding-top: 20px;
-    background-color: #f5f5f5;
-    transition: left 0.1s ease-out 0s;
-  }
-  .word {
-    text-align: center;
-    font-size: 2em;
-    padding-bottom: 10px;
-  }
+.slide .ion-ios-volume-high {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.slide > .item {
+  height: 250px;
+  padding-top: 20px;
+  background-color: #f5f5f5;
+  transition: left 0.1s ease-out 0s;
+}
+.word {
+  text-align: center;
+  font-size: 2em;
+  padding-bottom: 10px;
+}
 
-  .value {
-    padding-top: 10px;
-    line-height: 1;
-  }
-  .example-value {
-    font-style: italic;
-  }
+.value {
+  padding-top: 10px;
+  line-height: 1;
+}
+.example-value {
+  font-style: italic;
+}
 
-  .example-area {
-    margin-top: 40px;
-  }
-  .translate-area {
-    position: relative;
-    min-height: 80%;
-    border: 1px dashed #dadada;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    flex-direction: column;
-    padding-top: 40px;
-  }
-  .translate-area .ion-help {
-    font-size: 6em;
-    color: #dadada;
-  }
+.example-area {
+  margin-top: 40px;
+}
+.translate-area {
+  position: relative;
+  min-height: 80%;
+  border: 1px dashed #dadada;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+  padding-top: 40px;
+}
+.translate-area .ion-help {
+  font-size: 6em;
+  color: #dadada;
+}
 </style>

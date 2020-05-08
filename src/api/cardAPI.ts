@@ -1,11 +1,10 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import { ICard } from '@/models/Card';
-import IDictionaryForm from '@/api/IDictionaryForm';
-import IWord from '@/models/Word';
-import { ITranslate } from '@/models/Translate';
-import { IAsset } from '@/models/Asset';
-
+import { ICard } from '@/models/Card'
+import IDictionaryForm from '@/api/IDictionaryForm'
+import IWord from '@/models/Word'
+import { ITranslate } from '@/models/Translate'
+import { IAsset } from '@/models/Asset'
 
 export default {
   createCard(word: IWord, translate: ITranslate, asset: IAsset): Promise<AxiosResponse> {

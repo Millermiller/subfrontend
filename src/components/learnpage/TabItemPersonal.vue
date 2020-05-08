@@ -18,13 +18,13 @@
       el-col(:span="15" :md="16" class="text-right")
         template
           span(:class="[isActive ? 'text-primary' : 'text-muted', 'pointer', 'small']",  @click="cardspage()")
-            i.ion.ion-edit.ion-small изменить
+            i.ion.ion-edit.ion-small {{$t('edit')}}
           span.text-primary.small |
           span(:class="['text-primary', 'pointer', 'small', {'muted': item.count < 1}]" @click="loadTest()")
-            i.ion.ion-ios-redo.ion-small учить
+            i.ion.ion-ios-redo.ion-small {{$t('learn')}}
           span(:class="['text-primary', 'small']") |
           span(:class="['text-primary', 'pointer', 'small', {'muted': item.count < 1}]"  @click="test()")
-            i(:class="['ion', 'ion-ios-checkmark-outline', 'ion-small']") тест
+            i(:class="['ion', 'ion-ios-checkmark-outline', 'ion-small']") {{$t('test')}}
 </template>
 
 <script lang="ts">
@@ -35,55 +35,53 @@ import IWord from '@/models/Word'
 import ISentence from '@/models/Sentence'
 import { IPersonal } from '@/models/Personal'
 
-  @Component({
-    name: 'TabItemPersonal',
-  })
+@Component({
+  name: 'TabItemPersonal',
+})
 export default class extends Vue {
-    @Prop({ required: true })
-    private item!: any
+  @Prop({ required: true })
+  private item!: any
 
-    @Prop({ required: true })
-    private type!: any
+  @Prop({ required: true })
+  private type!: any
 
-    @Prop({ required: true })
-    private index!: number
+  @Prop({ required: true })
+  private index!: number
 
-    words: IWord[] = []
+  words: IWord[] = []
+  sentences: ISentence[] = []
+  personal: IPersonal[] = []
 
-    sentences: ISentence[] = []
+  get isActive() {
+    return this.$store.getters.isActive || this.item.type === 3
+  }
 
-    personal: IPersonal[] = []
-
-    get isActive() {
-      return this.$store.getters.isActive || this.item.type === 3
-    }
-
-    loadTest(): void {
-      if (this.item.count > 1) {
-        if (window.innerWidth <= 910) {
-          this.$eventHub.$emit('closeMenu')
-        }
-        this.$store.commit('setSelection', { asset: this.item, index: this.index })
-        this.$router.push(`/learn/${this.item.id}`)
+  loadTest(): void {
+    if (this.item.count > 1) {
+      if (window.innerWidth <= 910) {
+        this.$eventHub.$emit('closeMenu')
       }
+      this.$store.commit('setSelection', { asset: this.item, index: this.index })
+      this.$router.push(`/learn/${this.item.id}`)
     }
+  }
 
-    cardspage() {
-      if (this.isActive) {
-        this.$store.dispatch('loadAsset', this.item.id)
-        this.$store.commit('setActiveAssetEdit', true)
-        this.$router.push(`/cards/${this.item.id}`)
-      }
+  cardspage() {
+    if (this.isActive) {
+      this.$store.dispatch('loadAsset', this.item.id)
+      this.$store.commit('setActiveAssetEdit', true)
+      this.$router.push(`/cards/${this.item.id}`)
     }
+  }
 
-    test(): void {
-      if (this.item.count > 1) {
-        if (window.innerWidth <= 910) {
-          this.$eventHub.$emit('closeMenu')
-        }
-        //  this.$store.commit('setSelection', {asset: this.item, index: this.index})
-        this.$router.push(`/test/${this.item.id}`)
+  test(): void {
+    if (this.item.count > 1) {
+      if (window.innerWidth <= 910) {
+        this.$eventHub.$emit('closeMenu')
       }
+      //  this.$store.commit('setSelection', {asset: this.item, index: this.index})
+      this.$router.push(`/test/${this.item.id}`)
     }
+  }
 }
 </script>

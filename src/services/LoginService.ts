@@ -10,7 +10,7 @@ export class LoginService {
         (response) => {
           if (response.status === 200) {
             const token = `Bearer ${response.data.access_token}`
-            Vue.$cookies.set('authfrontend._token.local', token, 90, '/', '.scandinaver.local')
+            Vue.$cookies.set('authfrontend._token.local', token, 8600, '/', '.scandinaver.local')
             window.localStorage.setItem('authfrontend._token.local', token)
             this.fetchUser(token).then(() => resolve())
           } else {
@@ -57,6 +57,7 @@ export class LoginService {
             Vue.$user = response.data
             store.commit('setUser', response.data)
             store.commit('setAuth', true)
+            store.commit('setActive', response.data.premium)
             store.commit('setSelection', 0)
             store.dispatch('reloadStore').then((response) => {
               resolve()

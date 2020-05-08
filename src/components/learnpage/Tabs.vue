@@ -3,43 +3,44 @@
     el-card.box-card.tab-navigation
       el-tabs(@tab-click='handleClick', :value='active')
 
-        el-tab-pane(label='Слова', name='words')
+        el-tab-pane(:label="$t('words')", name='words')
           section(data-scrollbar)
             ul.nav.nav-list
-              tabitem(v-for='(word, index) in words', :item='word', :index='index', :key='word.id', type='asset').
+              TabItem(v-for='(word, index) in words', :item='word', :index='index', :key='word.id', type='asset').
 
 
-        el-tab-pane(label='Предложения', name='sentences')
+        el-tab-pane(:label="$t('sentences')", name='sentences')
           section(data-scrollbar)
             ul.nav.nav-list
-              tabitem(v-for='(sentence, index) in sentences', :item='sentence', :index='index', :key='sentence.id', type='asset').
+              TabItem(v-for='(sentence, index) in sentences', :item='sentence', :index='index', :key='sentence.id', type='asset').
 
 
-        el-tab-pane(label='Мои словари', name='personal')
+        el-tab-pane(:label="$t('personals')", name='personal')
           section(data-scrollbar)
             ul.nav.nav-list
-              tabitempersonal(v-for='(personal, index) in personals', :item='personal', :index='index', :key='personal.id', type='personal').
+              TabItemPersonal(v-for='(personal, index) in personals', :item='personal', :index='index', :key='personal.id', type='personal').
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import Scrollbar from 'smooth-scrollbar'
-import Tabitem from '@/components/learnpage/TabItem.vue'
-import Tabitempersonal from '@/components/learnpage/TabItemPersonal.vue'
+import TabItem from '@/components/learnpage/TabItem.vue'
+import TabItemPersonal from '@/components/learnpage/TabItemPersonal.vue'
 
-  @Component({
-    name: 'Tabs',
-    components: {
-      Tabitem, Tabitempersonal,
-    },
-    mounted() {
-      Scrollbar.initAll({
-        alwaysShowTracks: true,
-        //  overscrollEffect: 'bounce',
-      })
-    },
-  })
+@Component({
+  name: 'Tabs',
+  components: {
+    TabItem,
+    TabItemPersonal,
+  },
+  mounted() {
+    Scrollbar.initAll({
+      alwaysShowTracks: true,
+      //  overscrollEffect: 'bounce',
+    })
+  },
+})
 export default class extends Vue {
   get personals() {
     return this.$store.getters.personal
@@ -57,8 +58,8 @@ export default class extends Vue {
     return this.$store.getters.activeAssetType
   }
 
-    handleClick = () => {
-      //
-    }
+  handleClick = () => {
+    //
+  }
 }
 </script>

@@ -19,33 +19,33 @@ import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import cardAPI from '@/api/cardAPI'
 
-  @Component({
-    name: 'ErrorItem',
-  })
+@Component({
+  name: 'ErrorItem',
+})
 export default class ErrorItem extends Vue {
-    @Prop({ required: true })
-    public item: any
+  @Prop({ required: true })
+  public item: any
 
-    @Prop({ required: true })
-    public index!: any
+  @Prop({ required: true })
+  public index!: any
 
-    activeClass: string = 'ion-ios-star'
+  activeClass: string = 'ion-ios-star'
+  defaultClass: string = 'ion-ios-star-outline'
 
-    defaultClass: string = 'ion-ios-star-outline'
+  remove(id: number) {
+    this.$eventHub.$emit('removeErrorItem', id)
+  }
 
-    remove(id: number) {
-      this.$eventHub.$emit('removeErrorItem', id)
-    }
-
-    favourite() {
-      const self = this
-      if (!this.item.favourite) {
-        cardAPI.addFavourite(this.item).then((response) => {
+  favourite() {
+    const self = this
+    if (!this.item.favourite) {
+      cardAPI.addFavourite(this.item).then(
+        (response) => {
           if (response.status === 201) {
             self.item.favourite = true
             self.$notify.success({
               title: self.item.word.word,
-              message: 'Добавлено в Избранное',
+              message: this.$tc('addToFavourite'),
               duration: 2000,
             })
             this.$store.commit('addCardToFavorite')
@@ -55,14 +55,16 @@ export default class ErrorItem extends Vue {
         },
         (error) => {
           console.log(error)
-        })
-      } else {
-        cardAPI.destroyFavourite(this.item).then((response) => {
+        },
+      )
+    } else {
+      cardAPI.destroyFavourite(this.item).then(
+        (response) => {
           if (response.status === 204) {
             self.item.favourite = false
             self.$notify.success({
               title: self.item.word.word,
-              message: 'Удалено из Избранного',
+              message: this.$tc('removedFromFavourite'),
               duration: 2000,
             })
             this.$store.commit('removeCardFromFavorite')
@@ -72,33 +74,34 @@ export default class ErrorItem extends Vue {
         },
         (error) => {
           console.log(error)
-        })
-      }
+        },
+      )
     }
+  }
 }
 </script>
 <style>
-  .errorcard {
-    background-color: #fff;
-    margin-right: 10px;
-    transition: all 1s;
-    height: 112px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    width: auto;
-    margin-bottom: 10px;
-  }
-  .errorcard > .el-col {
-    height: 100%;
-  }
-  .errorcard .ion-ios-star-outline,
-  .errorcard .ion-ios-star {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
-  .error-translate {
-    position: absolute;
-    bottom: 0;
-  }
+.errorcard {
+  background-color: #fff;
+  margin-right: 10px;
+  transition: all 1s;
+  height: 112px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: auto;
+  margin-bottom: 10px;
+}
+.errorcard > .el-col {
+  height: 100%;
+}
+.errorcard .ion-ios-star-outline,
+.errorcard .ion-ios-star {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.error-translate {
+  position: absolute;
+  bottom: 0;
+}
 </style>

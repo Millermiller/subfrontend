@@ -1,37 +1,37 @@
 <template lang="pug">
-    el-col#testblock(:span="8" :xs="24")
-        el-card.box-card(v-loading.body="loading")
-            .clearfix(slot="header")
-                vue-progress-bar
-                h3.text-center(style="height: 76px").
-                    {{question.word ? question.word.word : 'Выберите словарь'}}
-            .variants
-                p.pointer(v-for="(variant, index) in variants.data" @click="check(variant)" :key="index").
-                    {{variant.text}}
+  el-col#testblock(:span="8" :xs="24")
+    el-card.box-card(v-loading.body="loading")
+      .clearfix(slot="header")
+        vue-progress-bar
+        h3.text-center(style="height: 76px").
+          {{question.word ? question.word.word : $t('selectAsset')}}
+      .variants
+        p.pointer(v-for="(variant, index) in variants.data" @click="check(variant)" :key="index").
+          {{variant.text}}
 
-        el-dialog(title="Результаты:", :visible.sync="dialogVisible")
-            el-row(type="flex" align="middle")
-                el-col(:md="18")
-                    p.success(v-if="percent >= 80").
-                        Вы перешли на следующий уровень!
-                    p.text-danger(v-if="percent < 80").
-                        Вы не прошли тест!
-                    p.
-                        Правильные ответы: {{success}} из {{quantity}}
-                el-col(:md="6")
-                    span(:class="['percentage',  percent < 80 ? 'warning' : 'success']") {{percent}}%
+    el-dialog(title="Результаты:", :visible.sync="dialogVisible")
+      el-row(type="flex" align="middle")
+        el-col(:md="18")
+          p.success(v-if="percent >= 80").
+            {{$t('newLevel')}}
+          p.text-danger(v-if="percent < 80").
+            {{$t('testFail')}}
+          p.
+            {{$t('correctAnswers', {success: success, all: quantity})}}
+        el-col(:md="6")
+          span(:class="['percentage',  percent < 80 ? 'warning' : 'success']") {{percent}}%
 
-            template(v-if="fail > 0")
-                el-row
-                    p Ошибки:
-                    p(v-for="(error, index) in errors" :key="index").
-                        {{error.word.word}} - {{error.translate.value}}
+      template(v-if="fail > 0")
+        el-row
+          p Ошибки:
+          p(v-for="(error, index) in errors" :key="index").
+            {{error.word.word}} - {{error.translate.value}}
 
-            span.dialog-footer(slot="footer")
-                el-button(v-if="percent < 80", @click="reload").
-                    Попробовать еще раз
-                el-button(@click="dialogVisible = false").
-                    Закрыть
+      span.dialog-footer(slot="footer")
+        el-button(v-if="percent < 80", @click="reload").
+          {{$t('repeat')}}
+        el-button(@click="dialogVisible = false").
+          {{$t('close')}}
 </template>
 
 <script lang="ts">
@@ -44,11 +44,11 @@ import { Card, ICard } from '@/models/Card'
 import { TranslatesCollection } from '@/models/TranslatesCollection'
 import VariantsCollection from '@/models/VariantsCollection'
 import testAPI from '@/api/testAPI'
-import { Collection } from '@/models/Collection';
+import { Collection } from '@/models/Collection'
 
-  @Component({
-    name: 'Test',
-  })
+@Component({
+  name: 'Test',
+})
 export default class Test extends Vue {
   metaInfo() {
     return {
@@ -56,66 +56,53 @@ export default class Test extends Vue {
     }
   }
 
-    // id теста
-    id: number = 0
+  // id теста
+  id: number = 0
+  title: string = ''
+  // all data
+  cards: Collection = new Collection([])
+  // массив всех translates
+  translates: string[] = []
+  // количество вопросов
+  quantity: number = 0
+  // текущий вопрос
+  question?: ICard = new Card()
+  variants: VariantsCollection = new VariantsCollection([]) // 4 варианта ответа на текущий вопрос
+  // количество данных ответов
+  answers: number = 0
+  // количество правильных ответов
+  success: number = 0
+  // процент правильных ответов
+  percent: number = 0
+  // количество неправильных ответов
+  fail: number = 0
+  // массив ошибок
+  errors: any[] = []
+  dialogVisible: boolean = false
+  loading: boolean = false
 
-    title: string = ''
+  @Watch('$route')
+  private onRouteChange(route: Route) {
+    if (route.params.id) this.getAsset(parseInt(route.params.id, 10))
+  }
 
-    // all data
-    cards: Collection = new Collection([])
+  created() {
+    this.percent = 0
+    this.$Progress.set(0)
+    this.$store.commit('resetError')
+    if (parseInt(this.$route.params.id, 10) > 0) this.getAsset(parseInt(this.$route.params.id, 10))
+  }
 
-    // массив всех translates
-    translates: string[] = []
+  reload() {
+    this.getAsset(this.id)
+    this.dialogVisible = false
+  }
 
-    // количество вопросов
-    quantity: number = 0
-
-    // текущий вопрос
-    question?: ICard = new Card();
-
-    variants: VariantsCollection = new VariantsCollection([]) // 4 варианта ответа на текущий вопрос
-
-    // количество данных ответов
-    answers: number = 0
-
-    // количество правильных ответов
-    success: number = 0
-
-    // процент правильных ответов
-    percent: number = 0
-
-    // количество неправильных ответов
-    fail: number = 0
-
-    // массив ошибок
-    errors: any[] = []
-
-    dialogVisible: boolean = false
-
-    loading: boolean = false
-
-    @Watch('$route')
-    private onRouteChange(route: Route) {
-      if (route.params.id) this.getAsset(parseInt(route.params.id, 10))
-    }
-
-
-    created() {
-      this.percent = 0
-      this.$Progress.set(0)
-      this.$store.commit('resetError')
-      if (parseInt(this.$route.params.id, 10) > 0) this.getAsset(parseInt(this.$route.params.id, 10))
-    }
-
-    reload() {
-      this.getAsset(this.id)
-      this.dialogVisible = false
-    }
-
-    getAsset(id: number) {
-      this.loading = true
-      this.id = id
-      assetAPI.getAsset(id).then((response) => {
+  getAsset(id: number) {
+    this.loading = true
+    this.id = id
+    assetAPI.getAsset(id).then(
+      (response) => {
         if (response.data.success === false) {
           this.$notify.error({
             title: 'Ошибка',
@@ -149,95 +136,99 @@ export default class Test extends Vue {
           this.createTest()
           this.loading = false
         }
-      }, (response) => {
+      },
+      (response) => {
         console.log(response)
-      })
+      },
+    )
+  }
+
+  check(variant: any) {
+    this.answers++
+    this.$Progress.set(Math.floor((this.answers * 100) / this.quantity))
+    if (variant.correct) {
+      this.$Progress.setColor('#20A0FF')
+      this.success++
+      this.percent = Math.floor((this.success * 100) / this.quantity)
+      this.$store.commit('setPercent', this.percent)
+      this.next()
+    } else {
+      this.$Progress.setColor('#FF4949')
+      this.fail++
+      this.errors.push(this.question) // todo: use store
+      this.$store.commit('setError', this.question)
+      this.next()
     }
+  }
 
-    check(variant: any) {
-      this.answers++
-      this.$Progress.set(Math.floor((this.answers * 100) / this.quantity))
-      if (variant.correct) {
-        this.$Progress.setColor('#20A0FF')
-        this.success++
-        this.percent = Math.floor((this.success * 100) / this.quantity)
-        this.$store.commit('setPercent', this.percent)
-        this.next()
-      } else {
-        this.$Progress.setColor('#FF4949')
-        this.fail++
-        this.errors.push(this.question) // todo: use store
-        this.$store.commit('setError', this.question)
-        this.next()
-      }
+  next() {
+    if (this.cards.count() > 0) this.createTest()
+    else {
+      this.question = new Card()
+      this.variants = new VariantsCollection([])
+      this.dialogVisible = true
+
+      if (this.percent > this.$store.getters.result) this.save()
+
+      if (this.percent > 80) this.nextLevel()
     }
+  }
 
-    next() {
-      if (this.cards.count() > 0) this.createTest()
-      else {
-        this.question = new Card()
-        this.variants = new VariantsCollection([])
-        this.dialogVisible = true
-
-        if (this.percent > this.$store.getters.result) this.save()
-
-        if (this.percent > 80) this.nextLevel()
-      }
-    }
-
-    createTest() {
-      this.question = this.cards.data.pop()
-      this.variants = new VariantsCollection([{
+  createTest() {
+    this.question = this.cards.data.pop()
+    this.variants = new VariantsCollection([
+      {
         text: this.question!.translate.value,
         correct: true,
-      }])
-      const indexes = []
-      const translates: TranslatesCollection = new TranslatesCollection(this.translates.slice())
-      translates.remove(this.question!.translate.value)
+      },
+    ])
+    const indexes = []
+    const translates: TranslatesCollection = new TranslatesCollection(this.translates.slice())
+    translates.remove(this.question!.translate.value)
 
-      while (this.variants.count() < ((this.quantity > 4) ? 4 : this.quantity)) {
-        const l = Math.floor(Math.random() * translates.count())
+    while (this.variants.count() < (this.quantity > 4 ? 4 : this.quantity)) {
+      const l = Math.floor(Math.random() * translates.count())
 
-        if (indexes.indexOf(l) === -1) {
-          indexes.push(l)
-          this.variants.add({ text: translates.get(l), correct: false })
-        }
+      if (indexes.indexOf(l) === -1) {
+        indexes.push(l)
+        this.variants.add({ text: translates.get(l), correct: false })
       }
-
-      this.variants.shuffle()
     }
 
-    save() {
-      testAPI.saveResult(this, this.percent).then(
-        (response) => {
-          this.$store.dispatch('reloadStore')
-        },
-        (response) => {
-          console.log(response.data)
-        },
-      )
-    }
+    this.variants.shuffle()
+  }
 
-    nextLevel() {
-      testAPI.nextLevel(this).then(
-        (response) => {
-          this.$store.dispatch('reloadStore')
-        },
-        (response) => {
-          console.log(response.data)
-        },
-      )
-    }
+  save() {
+    testAPI.saveResult(this, this.percent).then(
+      (response) => {
+        this.$store.dispatch('reloadStore')
+      },
+      (response) => {
+        console.log(response.data)
+      },
+    )
+  }
+
+  nextLevel() {
+    testAPI.nextLevel(this).then(
+      (response) => {
+        this.$store.dispatch('reloadStore')
+      },
+      (response) => {
+        console.log(response.data)
+      },
+    )
+  }
 }
 </script>
 <style>
-  .variants p {
-    text-align: center;
-    padding: 16px 10px;
-    margin: 0;
-  }
+.variants p {
+  text-align: center;
+  padding: 16px 10px;
+  margin: 0;
+}
 
-  .variants p:hover {
-    color: #20a0ff;
-  }
+.variants p:hover {
+  color: #20a0ff;
+}
 </style>

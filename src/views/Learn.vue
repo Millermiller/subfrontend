@@ -26,42 +26,41 @@ import Tabs from '@/components/learnpage/Tabs.vue';
 import Slider from '@/components/learnpage/Slider.vue';
 import RightMenuButton from '@/components/RightMenuButton.vue';
 
-  @Component({
-    name: 'Learn',
-    components: {
-      Slider,
-      Tabs,
-      RightMenuButton,
-    },
-  })
+@Component({
+  name: 'Learn',
+  components: {
+    Slider,
+    Tabs,
+    RightMenuButton,
+  },
+})
 export default class Learn extends Vue {
-    dialogVisible: boolean = false
+  dialogVisible: boolean = false
+  visible: boolean = false
 
-    visible: boolean = false
+  created() {
+    this.$eventHub.$on('toggleRightMenu', this.toggleRightMenuR());
+    this.$eventHub.$on('paidModal', this.modal);
+  }
 
-    created() {
-      this.$eventHub.$on('toggleRightMenu', this.toggleRightMenuR());
-      this.$eventHub.$on('paidModal', this.modal);
-    }
+  modal() {
+    this.dialogVisible = true
+  }
 
-    modal() {
-      this.dialogVisible = true
-    }
+  toggleRightMenuR() {
+    this.visible = !this.visible;
+    this.$store.dispatch('toggleMenuOpen')
+    this.$store.dispatch('toggleBackdrop')
+  }
 
-    toggleRightMenuR() {
-      this.visible = !this.visible;
-      this.$store.dispatch('toggleMenuOpen')
-      this.$store.dispatch('toggleBackdrop')
-    }
+  mounted() {
+    this.visible = window.innerWidth > 910
+  }
 
-    mounted() {
-      this.visible = window.innerWidth > 910
-    }
-
-    beforeDestroy() {
-      // this.$store.dispatch('onCardsPageClose')
-      this.$eventHub.$off('closeMenu');
-      this.$eventHub.$off('paidModal');
-    }
+  beforeDestroy() {
+    // this.$store.dispatch('onCardsPageClose')
+    this.$eventHub.$off('closeMenu');
+    this.$eventHub.$off('paidModal');
+  }
 }
 </script>

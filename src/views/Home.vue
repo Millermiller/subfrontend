@@ -11,11 +11,11 @@
 
         el-col(:md="18", :xs="24", :sm="16")
           el-row#widgetblock(:gutter="20")
-            Wordwidget
-            Sentencewidget
-            Textwidget
-            Personalwidget
-            Puzzlewidget
+            WordWidget
+            SentenceWidget
+            TextWidget
+            PersonalWidget
+            PuzzleWidget
 
       el-dialog(title="Это закрытая часть сайта", :visible.sync="dialogVisible")
         span
@@ -33,21 +33,21 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import Account from '@/components/home/AccountBlock.vue'
-import Wordwidget from '@/components/home/WordWidget.vue'
-import Sentencewidget from '@/components/home/SentenceWidget.vue'
-import Textwidget from '@/components/home/TextWidget.vue'
-import Personalwidget from '@/components/home/PersonalWidget.vue'
-import Puzzlewidget from '@/components/home/PuzzleWidget.vue'
+import WordWidget from '@/components/home/WordWidget.vue'
+import SentenceWidget from '@/components/home/SentenceWidget.vue'
+import TextWidget from '@/components/home/TextWidget.vue'
+import PersonalWidget from '@/components/home/PersonalWidget.vue'
+import PuzzleWidget from '@/components/home/PuzzleWidget.vue'
 
 @Component({
   name: 'Home',
   components: {
     Account,
-    Wordwidget,
-    Sentencewidget,
-    Textwidget,
-    Personalwidget,
-    Puzzlewidget,
+    WordWidget,
+    SentenceWidget,
+    TextWidget,
+    PersonalWidget,
+    PuzzleWidget,
   },
   mounted() {
     console.log('Home')
@@ -59,11 +59,8 @@ import Puzzlewidget from '@/components/home/PuzzleWidget.vue'
 })
 export default class extends Vue {
   name: string = 'Hello!'
-
   metaInfo: any = { title: 'Icelandic | Scandinaver' }
-
   dialogVisible: boolean = false
-
   greetingVisible: boolean = false
 
   modal() {

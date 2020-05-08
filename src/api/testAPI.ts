@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import { ITest } from '@/models/Test';
+import { ITest } from '@/models/Test'
 
 export default {
   saveResult(test: ITest, percent: number): Promise<AxiosResponse> {

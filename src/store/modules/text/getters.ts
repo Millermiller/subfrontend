@@ -10,7 +10,7 @@ export default class TextGetters extends Getters<State> {
   get activeTexts() {
     let count = 0
 
-    this.state.texts.forEach((element:IText, index: number, array: IText[]) => {
+    this.state.texts.forEach((element: IText, index: number, array: IText[]) => {
       if (element.active) count++
     })
 

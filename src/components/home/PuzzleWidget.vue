@@ -8,7 +8,6 @@
 
 <script lang="ts">
 import Component from 'vue-class-component'
-import puzzleAPI from '@/api/puzzleAPI'
 import BaseWidget from '@/components/home/BaseWidget'
 
 @Component({
@@ -16,19 +15,13 @@ import BaseWidget from '@/components/home/BaseWidget'
 })
 export default class PuzzleWidget extends BaseWidget {
   public title = this.$root.$i18n.tc('puzzles')
-  public active = 0
-  public all = 0
-  timeout = 0
 
-  created() {
-    puzzleAPI.getPuzzles().then((response: any) => {
-      this.all = response.data.length
-      response.data.forEach((element: any, index: any, array: any) => {
-        if (element.success) this.active++
-      })
-    }).then(() => {
-      this.percent = Math.round((100 * this.active) / this.all) || 0
-    })
+  get all() {
+    return this.$store.getters.puzzles.length
+  }
+
+  get active() {
+    return this.$store.getters.active
   }
 }
 </script>

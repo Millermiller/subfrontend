@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import IFeedbackForm from '@/api/IFeedbackForm';
+import IFeedbackForm from '@/api/IFeedbackForm'
 
 export default {
   create(form: IFeedbackForm): Promise<AxiosResponse<any[]>> {

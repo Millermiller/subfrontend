@@ -9,27 +9,27 @@ import { Asset } from '@/models/Asset'
 
 export default class AssetMutations extends Mutations<State> {
   setPersonal(data: IPersonal[]) {
-    this.state.assets.personal = data
+    this.state.personal = data
   }
 
   setWords(data: Word[]) {
-    this.state.assets.words = data
+    this.state.words = data
   }
 
   setSentences(data: ISentence[]) {
-    this.state.assets.sentences = data
+    this.state.sentences = data
   }
 
   setFavourites(data: any) {
-    this.state.assets.favourites = data
+    this.state.favourites = data
   }
 
   removePersonal(id: number) {
-    this.state.assets.personal.splice(id, 1)
+    this.state.personal.splice(id, 1)
   }
 
   addPersonal(asset: IPersonal) {
-    this.state.assets.personal.push(asset)
+    this.state.personal.push(asset)
   }
 
   /**
@@ -39,7 +39,7 @@ export default class AssetMutations extends Mutations<State> {
    * @param data.asset
    */
   patchPersonal(data: any) {
-    this.state.assets.personal[data.index] = data.asset
+    this.state.personal[data.index] = data.asset
   }
 
   /**
@@ -49,34 +49,34 @@ export default class AssetMutations extends Mutations<State> {
    * @param card.asset_id
    */
   removeCard(card: Card) {
-    const index = this.state.assets.personal.findIndex((item: any) => item.id === card.asset_id)
-    this.state.assets.personal[index].count--
+    const index = this.state.personal.findIndex((item: any) => item.id === card.asset_id)
+    this.state.personal[index].count--
   }
 
   addCardToFavorite(): void {
-    this.state.assets.personal[0].count++
+    this.state.personal[0].count++
   }
 
   removeCardFromFavorite(): void {
-    this.state.assets.personal[0].count--
+    this.state.personal[0].count--
   }
 
   /**
    * @param asset_id
    */
   addCard(asset_id: number) {
-    const index = this.state.assets.personal.findIndex((item: any) => item.id === asset_id)
-    this.state.assets.personal[index].count++
+    const index = this.state.personal.findIndex((item: any) => item.id === asset_id)
+    this.state.personal[index].count++
   }
 
   setSelection(assetId: number) {
-    this.state.assets.personal.forEach((element: IPersonal, index: number, array: []) => {
+    this.state.personal.forEach((element: IPersonal, index: number, array: IPersonal[]) => {
       Vue.set(element, 'selected', element.id === assetId)
     })
-    this.state.assets.sentences.forEach((element: ISentence, index: number, array: []) => {
+    this.state.sentences.forEach((element: ISentence, index: number, array: ISentence[]) => {
       Vue.set(element, 'selected', element.id === assetId)
     })
-    this.state.assets.words.forEach((element: Word, index: number, array: []) => {
+    this.state.words.forEach((element: Word, index: number, array: Word[]) => {
       Vue.set(element, 'selected', element.id === assetId)
     })
 

@@ -1,10 +1,10 @@
 export interface IText {
-  id: number,
+  id: number
   active: boolean
 }
 
 export class Text implements IText {
-  active!: boolean;
+  active!: boolean
 
-  id!: number;
+  id!: number
 }

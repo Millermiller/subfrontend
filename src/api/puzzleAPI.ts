@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import { IPuzzle } from '@/models/Puzzle';
+import { IPuzzle } from '@/models/Puzzle'
 
 export default {
   getPuzzles(): Promise<AxiosResponse<IPuzzle[]>> {

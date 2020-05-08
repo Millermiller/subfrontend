@@ -1,6 +1,5 @@
-
-export default interface IFeedbackForm{
-  subject: string,
+export default interface IFeedbackForm {
+  subject: string
   message: string
 }
 

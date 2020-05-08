@@ -34,34 +34,34 @@ import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import { ICard } from '@/models/Card'
 
-  @Component({
-    name: 'Translate',
-  })
+@Component({
+  name: 'Translate',
+})
 export default class extends Vue {
-    @Prop({ required: true })
-    private card!: ICard
+  @Prop({ required: true })
+  private card!: ICard
 
-    @Prop({ required: true })
-    private index!: number
+  @Prop({ required: true })
+  private index!: number
 
-    add() {
-      const data = {
-        word: this.card.word,
-        translate_id: this.card.id,
-        asset_id: this.$store.getters.activeAsset,
-        index: this.index,
-      }
-      this.$eventHub.$emit('addCardToAsset', data)
+  get user() {
+    return this.$store.getters.user
+  }
+
+  add() {
+    const data = {
+      word: this.card.word,
+      translate_id: this.card.id,
+      asset_id: this.$store.getters.activeAsset,
+      index: this.index,
     }
-
-    get user() {
-      return this.$store.getters.user
-    }
+    this.$eventHub.$emit('addCardToAsset', data)
+  }
 }
 </script>
 <style>
-  .card-value {
-    border-top: 1px solid #ddd;
-    padding-top: 5px;
-  }
+.card-value {
+  border-top: 1px solid #ddd;
+  padding-top: 5px;
+}
 </style>

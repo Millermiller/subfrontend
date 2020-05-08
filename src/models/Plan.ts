@@ -1,3 +1,1 @@
-export default interface IPlan{
-
-}
+export default interface IPlan {}

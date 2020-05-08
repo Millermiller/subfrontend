@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import { IText } from '@/models/Text';
+import { IText } from '@/models/Text'
 
 export default {
   getText(id: number): Promise<AxiosResponse> {

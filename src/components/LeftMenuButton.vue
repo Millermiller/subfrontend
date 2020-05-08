@@ -10,18 +10,18 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-  @Component({
-    name: 'LeftMenuButton',
-  })
+@Component({
+  name: 'LeftMenuButton',
+})
 export default class LeftMenuButton extends Vue {
-    showLeftMenu = (): void => {
-      this.$eventHub.$emit('show')
-    }
+  showLeftMenu = (): void => {
+    this.$eventHub.$emit('show')
+  }
 }
 </script>
 
 <style>
-  #left-menu{
-    position: absolute;
-  }
+#left-menu {
+  position: absolute;
+}
 </style>

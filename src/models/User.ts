@@ -1,6 +1,6 @@
 import IPlan from '@/models/Plan'
 import { store } from '@/store'
-import { Asset } from '@/models/Asset';
+import { Asset } from '@/models/Asset'
 
 export interface IUser {
   avatar: string

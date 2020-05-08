@@ -1,17 +1,17 @@
 declare module 'vue-user' {
-  import { PluginFunction } from 'vue';
-  import { IUser } from '@/models/User';
+  import { PluginFunction } from 'vue'
+  import { IUser } from '@/models/User'
 
-  const install: PluginFunction<{}>;
+  const install: PluginFunction<{}>
 
-  export { install as default };
+  export { install as default }
 
   module 'vue/types/vue' {
     interface VueConstructor {
-      $user: IUser;
+      $user: IUser
     }
     interface Vue {
-      $user: IUser;
+      $user: IUser
     }
   }
 }

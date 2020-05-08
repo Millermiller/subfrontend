@@ -1,4 +1,3 @@
-
 export default class LanguageService {
   public static extract(): string {
     const hostnameArr = window.location.hostname.split('.')

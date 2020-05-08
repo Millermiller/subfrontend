@@ -1,4 +1,4 @@
 export interface ITranslate {
-  id: number,
+  id: number
   value: string
 }
