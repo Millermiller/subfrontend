@@ -35,12 +35,14 @@ export default class TextCard extends Vue {
     return !this.text.available ? 'info' : this.text.active ? 'primary' : 'warning'
   }
 
-  get buttontext() {
-    return !this.text.available
-      ? 'Недоступно базовым аккаунтам'
-      : this.text.active
-      ? 'Перейти'
-      : 'Закрыто'
+  get buttontext(): string {
+    if (!this.text.available) {
+      return 'Недоступно базовым аккаунтам'
+    }
+    if (this.text.active) {
+      return 'Перейти'
+    }
+    return 'Закрыто'
   }
 
   gototext() {

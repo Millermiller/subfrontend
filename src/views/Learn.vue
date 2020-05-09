@@ -5,7 +5,7 @@
 
     el-main
       el-row(:gutter='20')
-        Slider
+        router-view
         transition(
           name="custom-classes-transition"
           enter-active-class="animated slideInRight"

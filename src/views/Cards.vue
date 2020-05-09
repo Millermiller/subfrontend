@@ -89,6 +89,7 @@ export default class extends Vue {
   mounted() {
     if (parseInt(this.$route.params.id, 10) > 0) {
       this.load(parseInt(this.$route.params.id, 10))
+      this.$store.commit('setSelection', this.$route.params.id)
     } else {
       this.$store.dispatch('onCardsPageOpen')
       this.load(this.$store.getters.activeAsset)

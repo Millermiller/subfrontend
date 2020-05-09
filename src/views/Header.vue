@@ -5,14 +5,14 @@
 
     el-menu.el-menu-demo.main-menu.hidden-sm-and-down(mode="horizontal")
       router-link.el-menu-item.home(tag="li", to="/", exact)
-        i.menu-icon.icon.ion-ios-home-outline
-      router-link.el-menu-item.learn(tag="li", to="/learn") Словари
-      router-link.el-menu-item.test(tag="li", to="/test") Тесты
-      router-link.el-menu-item.cards(tag="li",  to="/cards") Мои словари
-      router-link.el-menu-item.translates(tag="li", to="/translates") Тексты
-      router-link.el-menu-item.puzzle(tag="li",  to="/puzzle") Паззлы
+        i.el-icon-s-home
+      router-link.el-menu-item.learn(tag="li", :to="{name: 'defaultAsset'}", exact) {{$t('assets')}}
+      router-link.el-menu-item.test(tag="li", :to="{name: 'defaultTest'}", exact) {{$t('tests')}}
+      router-link.el-menu-item.cards(tag="li", :to="{name: 'CardsPage', params: {id: favouriteId }}", exact) {{$t('personals')}}
+      router-link.el-menu-item.translates(tag="li", :to="{name: 'TextPage'}") {{$t('texts')}}
+      router-link.el-menu-item.puzzle(tag="li",  :to="{name: 'PuzzlePage'}") {{$t('puzzles')}}
       el-menu-item.logout(index="3")
-        a(@click="logout") выход
+        a(@click="logout") {{$t('logout')}}
 
       li.el-menu-item.pull-right.userblock
         .avatar-wrapper-small.pull-left
@@ -50,14 +50,18 @@ import LeftMenuButton from '@/components/LeftMenuButton.vue'
   components: { LeftMenuButton },
 })
 export default class Header extends Vue {
-  offset: number = 30
-  width: number = 40
+  offset: number = 0
+  width: number = 60
   private observer?: MutationObserver
   private title: string = 'Исландский'
 
   url: any = {
     value: 'https://is.scandinaver.local',
     title: 'Исландский',
+  }
+
+  get favouriteId() {
+    return store.getters.favouriteAsset.id
   }
 
   logout(): void {
@@ -321,6 +325,9 @@ ul.el-menu.el-menu-vertical li i {
 
   .navbar-collapse .navbar-text:last-child {
     margin-right: 0;
+  }
+  .el-menu--horizontal > .el-menu-item {
+    border-bottom: none !important;
   }
 }
 </style>

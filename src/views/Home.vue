@@ -50,7 +50,6 @@ import PuzzleWidget from '@/components/home/PuzzleWidget.vue'
     PuzzleWidget,
   },
   mounted() {
-    console.log('Home')
     if (!localStorage.getItem('myFirstAdventure')) {
       //   this.greetingVisible = true;
       //   localStorage.setItem('myFirstAdventure', true)

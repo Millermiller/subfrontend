@@ -8,7 +8,7 @@
     el-main
       el-row(:gutter="20")
         Result
-        Test
+        router-view
         transition(
           name="custom-classes-transition"
           enter-active-class="animated slideInRight"
@@ -26,14 +26,12 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Result from '@/components/testpage/Result.vue'
-import Test from '@/components/testpage/Test.vue'
 import Tabs from '@/components/testpage/Tabs.vue'
 
 @Component({
   name: 'Tests',
   components: {
     Result,
-    Test,
     Tabs,
   },
 })

@@ -3,6 +3,7 @@ export const messages = {
   words: 'Слова',
   texts: 'Тексты',
   personals: 'Мои словари',
+  assets: 'Словари',
   puzzles: 'Паззлы',
   tests: 'Тесты',
   test: 'тест',

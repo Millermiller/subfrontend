@@ -16,7 +16,7 @@
       section(data-scrollbar, style="height: 65vh;overflow: visible !important", v-loading.body="loading")
         transition-group(name="splash", tag="div")
           Asset(
-            v-for="(asset, index) in assetws",
+            v-for="(asset, index) in assets",
             :asset="asset",
             :index="index",
             :key="asset.id")
@@ -43,7 +43,7 @@ import Asset from '@/components/cardspage/Asset.vue'
 export default class Assets extends Vue {
   loading: boolean = false
 
-  get assetws() {
+  get assets() {
     return this.$store.getters.personal
   }
 

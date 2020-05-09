@@ -115,8 +115,9 @@ export default class Asset extends Vue {
   loadAsset(): void {
     if (this.isActive) {
       this.$eventHub.$emit('assetSelect', this.asset.id)
+      this.$router.push(`/cards/${this.asset.id}`)
       this.$store.commit('showDictionary')
-      this.$store.dispatch('loadAsset', { asset: this.asset, index: this.index })
+      this.$store.commit('setSelection', this.asset.id)
     }
   }
 

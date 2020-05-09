@@ -64,7 +64,8 @@ export default class AssetActions extends Actions<
 
   onCardsPageOpen() {
     const asset = { type: 3 }
-    if (!this.state.activePersonalAssetEdit)
+    if (!this.state.activePersonalAssetEdit) {
       this.commit('setSelection', this.getters.favouriteAsset.id)
+    }
   }
 }

@@ -1,13 +1,9 @@
 import Vue from 'vue'
-import * as Vuex from 'vuex'
-import { createStore } from 'vuex-smart-module'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueProgressBar from 'vue-progressbar'
 import VueCookies from 'vue-cookies'
 import VueI18n from 'vue-i18n'
 import { messages } from '@/locales/ru'
-//  import VueBus from 'vue-eventbus'
-//  Vue.use(VueBus)
 import Meta from 'vue-meta'
 //  import 'element-ui/types/notification'
 import {

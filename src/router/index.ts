@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Learn from '@/views/Learn.vue'
+import Slider from '@/components/learnpage/Slider.vue'
 import Tests from '@/views/Tests.vue'
 import Login from '@/views/Login.vue'
 import Cards from '@/views/Cards.vue'
@@ -47,56 +48,63 @@ const routes = [
     },
   },
   {
-    path: '/learn/:id',
-    name: 'learn',
-    component: Learn,
-    beforeEnter: requireAuth,
-  },
-  {
     path: '/learn',
-    name: 'learnHome',
-    component: Learn,
+    name: 'LearnPage',
+    component: () => import('@/views/Learn.vue'),
     beforeEnter: requireAuth,
+    children: [
+      {
+        path: ':id',
+        name: 'learnAsset',
+        component: () => import('@/components/learnpage/Slider.vue'),
+      },
+      {
+        path: '',
+        name: 'defaultAsset',
+        component: () => import('@/components/learnpage/Slider.vue'),
+      },
+    ],
   },
   {
     path: '/test',
-    name: 'testHome',
+    name: 'TestsPage',
     component: Tests,
     beforeEnter: requireAuth,
-  },
-  {
-    path: '/test/:id',
-    name: 'test',
-    component: Tests,
-    beforeEnter: requireAuth,
-  },
-  {
-    path: '/cards',
-    name: 'cards',
-    component: Cards,
-    beforeEnter: requireAuth,
+    children: [
+      {
+        path: ':id',
+        name: 'Test',
+        component: () => import('@/components/testpage/Test.vue'),
+      },
+      {
+        path: '',
+        name: 'defaultTest',
+        component: () => import('@/components/testpage/Test.vue'),
+      },
+    ],
   },
   {
     path: '/cards/:id',
-    name: 'cards',
+    name: 'CardsPage',
     component: Cards,
     beforeEnter: requireAuth,
+    props: true,
   },
   {
     path: '/translates',
-    name: 'texts',
+    name: 'TextPage',
     component: Texts,
     beforeEnter: requireAuth,
   },
   {
     path: '/translates/:id',
-    name: 'text',
+    name: 'TextItem',
     component: TextItem,
     beforeEnter: requireAuth,
   },
   {
     path: '/puzzle',
-    name: 'puzzle',
+    name: 'PuzzlePage',
     component: Puzzles,
     beforeEnter: requireAuth,
   },

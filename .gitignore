@@ -6,8 +6,9 @@ node_modules
 /tests/e2e/screenshots/
 
 # local env files
-.env.local
+.env.development
 .env.*.local
+.env
 
 # Log files
 npm-debug.log*
@@ -22,4 +23,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-!/src/components/home/PuzzleWidget.vue

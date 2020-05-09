@@ -713,14 +713,6 @@ span.warning-text {
   padding: 5px;
 }
 
-.ion:hover {
-  color: #20a0ff;
-}
-
-.ion-ios-loop-strong {
-  cursor: pointer;
-}
-
 .favourite-button {
   position: absolute;
   bottom: 20px;
