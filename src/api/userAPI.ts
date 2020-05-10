@@ -18,7 +18,16 @@ export default {
     })
     return request.post('/login', data)
   },
-  logout(): Promise<AxiosResponse> {
+  logout(token: string): Promise<AxiosResponse> {
+    const request = axios.create({
+      baseURL: process.env.VUE_APP_BASE_API,
+      timeout: 5000,
+      headers: {
+        post: {
+          Authorization: token,
+        },
+      },
+    })
     return request.post('/logout')
   },
   fetch(token: string): Promise<AxiosResponse> {

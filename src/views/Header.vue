@@ -66,7 +66,6 @@ export default class Header extends Vue {
 
   logout(): void {
     LoginService.logout().then((response) => {
-      store.commit('setAuth', false)
       this.$router.push({ path: '/login' })
     })
   }

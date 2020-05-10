@@ -10,8 +10,9 @@ export class LoginService {
         (response) => {
           if (response.status === 200) {
             const token = `Bearer ${response.data.access_token}`
-            Vue.$cookies.set('authfrontend._token.local', token, 8600, '/', '.scandinaver.local')
-            window.localStorage.setItem('authfrontend._token.local', token)
+            const cookieName = process.env.VUE_APP_COOKIE_NAME as string
+            Vue.$cookies.set(cookieName, token, 8600, '/', process.env.VUE_APP_COOKIE_DOMAIN)
+            window.localStorage.setItem(cookieName, token)
             this.fetchUser(token).then(() => resolve())
           } else {
             reject(response.data.message)
@@ -26,7 +27,8 @@ export class LoginService {
 
   public static checkAuth() {
     return new Promise((resolve, reject) => {
-      const token = Vue.$cookies.get('authfrontend._token.local')
+      const cookieName = process.env.VUE_APP_COOKIE_NAME as string
+      const token = Vue.$cookies.get(cookieName)
       if (Vue.$user !== undefined) {
         resolve()
       }
@@ -44,7 +46,12 @@ export class LoginService {
   }
 
   public static logout() {
-    return userAPI.logout()
+    const cookieName = process.env.VUE_APP_COOKIE_NAME as string
+    const token = Vue.$cookies.get(cookieName)
+    return userAPI.logout(token).then((response) => {
+      store.commit('setAuth', false)
+      Vue.$cookies.remove(cookieName, '/', process.env.VUE_APP_COOKIE_DOMAIN)
+    })
   }
 
   private static fetchUser(token: string) {
