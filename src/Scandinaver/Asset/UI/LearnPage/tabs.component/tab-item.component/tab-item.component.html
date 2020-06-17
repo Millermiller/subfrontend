@@ -1,0 +1,58 @@
+<el-row
+        :class="[
+      'list-item',
+      'pointer',
+      {
+        open: item.active,
+        tested: item.canopen,
+        'not-available': !item.available,
+        selected: item.selected,
+      },
+    ]"
+        @click.native="load()"
+>
+  <el-col :span="24">
+    <p class="asset-title">{{ item.title }}</p>
+    <p class="asset-description">{{ item.description }}</p>
+  </el-col>
+  <el-row>
+    <el-col :span="6">
+        <span class="small text-muted">{{
+          $t('level', { level: item.level })
+        }}</span>
+    </el-col>
+    <el-col :span="9">
+        <span class="text-muted small">
+          <i class="el-icon-odometer tab-icon"></i>
+        </span>
+      <span
+              :class="['small', {
+            success: item.result &gt; 80,
+            warning: (item.result &gt; 50 &amp;&amp; item.result &lt; 80),
+            danger: item.result &lt; 50}]"
+      >{{ item.result }}%
+        </span>
+      <span class="text-muted small" style="padding-left: 15px">
+          <i class="el-icon-document-copy tab-icon"></i>
+        </span>
+      <span>{{ item.count }}</span>
+    </el-col>
+    <el-col class="text-right" :span="9">
+      <template v-if="item.active">
+        <el-button
+                type="primary"
+                size="mini"
+                icon="el-icon-data-analysis"
+                @click.stop="learn()"
+        >
+          {{ $t('learn') }}
+          <i class="el-icon-arrow-righ el-icon-right"></i>
+        </el-button>
+      </template>
+      <template v-else>
+        <span class="small text-muted">{{ $t('closed') }}</span>
+      </template>
+    </el-col>
+    <i class="el-icon-lock" @click="showModal" v-if="!item.available"></i>
+  </el-row>
+</el-row>

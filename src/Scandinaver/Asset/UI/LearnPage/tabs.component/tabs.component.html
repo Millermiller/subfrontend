@@ -1,0 +1,50 @@
+<el-col
+  class="right-panel"
+  id="cardsblock"
+  :span="8"
+  :xs="{span: 24, offset: 0}"
+>
+  <el-card class="box-card tab-navigation">
+    <el-tabs @tab-click="handleClick" :value="active">
+      <el-tab-pane :label="$t('words')" name="words">
+        <section data-scrollbar="data-scrollbar">
+          <ul class="nav nav-list">
+            <TabItemComponent
+              v-for="(word, index) in words"
+              :item="word"
+              :index="index"
+              :key="word.id"
+              type="asset"
+            ></TabItemComponent>
+          </ul>
+        </section>
+      </el-tab-pane>
+      <el-tab-pane :label="$t('sentences')" name="sentences">
+        <section data-scrollbar="data-scrollbar">
+          <ul class="nav nav-list">
+            <TabItemComponent
+              v-for="(sentence, index) in sentences"
+              :item="sentence"
+              :index="index"
+              :key="sentence.id"
+              type="asset"
+            ></TabItemComponent>
+          </ul>
+        </section>
+      </el-tab-pane>
+      <el-tab-pane :label="$t('personals')" name="personal">
+        <section data-scrollbar="data-scrollbar">
+          <ul class="nav nav-list">
+            <TabItemPersonalComponent
+              v-for="(personal, index) in personals"
+              :item="personal"
+              :index="index"
+              :key="personal.id"
+              type="personal"
+            ></TabItemPersonalComponent>
+          </ul>
+        </section>
+      </el-tab-pane>
+    </el-tabs>
+  </el-card>
+</el-col>

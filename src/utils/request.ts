@@ -1,6 +1,6 @@
 import axios from 'axios'
 // eslint-disable-next-line import/no-cycle
-import { store } from '@/store'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import Vue from 'vue'
 
 const service = axios.create({
@@ -20,5 +20,16 @@ service.interceptors.request.use(
     Promise.reject(error)
   },
 )
+
+service.interceptors.response.use(undefined, (error) => {
+  if (error.response) {
+    Vue.$notify.error({
+      title: Vue.$tc('error'),
+      message: error.response.data.message,
+      duration: 4000,
+    })
+  }
+  return Promise.reject(error.response.data)
+})
 
 export default service

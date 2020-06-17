@@ -1,0 +1,10 @@
+<el-col id="personalwidget" :span="8" :xs="24">
+  <el-card
+    class="widget-block personal-widget-block pointer"
+    shadow="hover"
+    @click.native="personal()"
+  >
+    <p class="widget-title">{{ title }}</p>
+    <p class="widget-description">{{ all }}</p>
+  </el-card>
+</el-col>

@@ -1,0 +1,37 @@
+<el-container>
+  <el-main>
+    <el-row :gutter="20">
+      <!--  <wordsblock v-on:modal="modal"></wordsblock>
+      <sentencesblock v-on:modal="modal"></sentencesblock>
+      <personalblock></personalblock> -->
+      <AccountWidgetComponent></AccountWidgetComponent>
+      <el-col :md="18" :xs="24" :sm="16">
+        <el-row id="widgetblock" :gutter="20">
+          <WordWidgetComponent></WordWidgetComponent>
+
+          <SentenceWidgetComponent></SentenceWidgetComponent>
+
+          <TextWidgetComponent></TextWidgetComponent>
+
+          <PersonalWidgetComponent></PersonalWidgetComponent>
+
+          <PuzzleWidgetComponent></PuzzleWidgetComponent>
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-dialog title="Это закрытая часть сайта" :visible.sync="dialogVisible">
+      <span>
+        <a>Оплатите подписку чтобы получить полный доступ</a>
+      </span>
+      <span class="dialog-footer" slot="footer">
+        <el-button @click="dialogVisible = false">Закрыть</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="Привет!" :visible.sync="greetingVisible">
+      <span>Добро пожаловать, {{ username }}!</span>
+      <span class="dialog-footer" slot="footer">
+        <el-button @click="greetingVisible = false">Закрыть</el-button>
+      </span>
+    </el-dialog>
+  </el-main>
+</el-container>

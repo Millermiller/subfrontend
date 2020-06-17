@@ -1,0 +1,21 @@
+<el-container>
+  <RightMenuButtonComponent></RightMenuButtonComponent>
+  <el-main>
+    <el-row :gutter="20">
+      <router-view></router-view>
+      <transition
+        name="custom-classes-transition"
+        enter-active-class="animated slideInRight"
+        leave-active-class="animated slideOutRight"
+      >
+        <TabsComponent></TabsComponent>
+      </transition>
+    </el-row>
+  </el-main>
+  <el-dialog title="Это закрытая часть сайта" :visible.sync="dialogVisible">
+    <span><a>Оплатите подписку</a> </span>
+    <span class="dialog-footer" slot="footer">
+      <el-button @click="dialogVisible = false">Закрыть</el-button>
+    </span>
+  </el-dialog>
+</el-container>

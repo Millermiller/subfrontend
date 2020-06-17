@@ -1,10 +1,8 @@
 declare module 'vue-user' {
   import { PluginFunction } from 'vue'
-  import { IUser } from '@/models/User'
+  import { IUser } from '@/Scandinaver/Core/Domain/User'
 
   const install: PluginFunction<{}>
-
-  export { install as default }
 
   module 'vue/types/vue' {
     interface VueConstructor {

@@ -1,0 +1,6 @@
+export const ADD_PERSONAL_ASSET = 'addPersonalAsset'
+export const RELOAD_PERSONAL_ASSETS = 'reload_personal_assets'
+export const SET_ASSET_AS_SELECTED = 'loadAsset'
+export const RESOLVE_AND_SET_ACTIVE_ASSET_TYPE = 'setActiveAssetType'
+export const ON_CARDS_PAGE_CLOSE = 'onCardsPageClose'
+export const ON_CARDS_PAGE_OPEN = 'onCardsPageOpen'

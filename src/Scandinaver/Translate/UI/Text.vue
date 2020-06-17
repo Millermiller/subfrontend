@@ -1,0 +1,221 @@
+<template>
+  <el-container>
+    <el-main>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-card id="origtext" style="position: relative">
+            <vue-progress-bar></vue-progress-bar>
+            <p class="origtext" v-html="output"></p>
+          </el-card>
+          <el-collapse id="helpblock">
+            <el-collapse-item title="Помощь">
+              <template v-for="(extra, index) in text.extra">
+                <el-col :span="12" :key="index">
+                  <p
+                    class="pointer"
+                    @mouseover="showExtra(extra)"
+                    @mouseout="clearExtra"
+                  >
+                    <span> {{ extra.orig }} - {{ extra.extra }} </span>
+                  </p>
+                </el-col>
+              </template>
+            </el-collapse-item>
+          </el-collapse>
+        </el-col>
+        <el-col id="textarea" :span="12">
+          <textarea
+            class="panel"
+            id="transarea"
+            style="height: 280px"
+            placeholder="Поле для перевода"
+            v-model="input"
+            v-on:input="separate"
+          ></textarea>
+          <el-row>
+            <el-col :span="24">
+              <el-button class="pull-right" :plain="true" @click="clear">
+                {{ $t('clear') }}
+              </el-button>
+              <el-button
+                class="pull-right"
+                v-if="nextTextId"
+                type="success"
+                @click="gotonext()"
+                >
+                {{ $t('nextText') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Watch } from 'vue-property-decorator'
+import { Route } from 'vue-router'
+import { Inject } from 'vue-typedi'
+import TextService from '@/Scandinaver/Translate/Application/text.service'
+import { Text } from '@/Scandinaver/Translate/Domain/Text'
+
+@Component({
+  name: 'TextItem',
+})
+export default class TextItem extends Vue {
+  @Inject()
+  private service: TextService
+
+  @Watch('$route')
+  private onRouteChange(route: Route) {
+    if (route.params.id) this.loadText(parseInt(route.params.id, 10))
+  }
+
+  private titleChunk?: string
+
+  text: any = {
+    computed: '',
+    created_at: '',
+    updated_at: '',
+    id: 0,
+    published: 1,
+    text: '',
+    extra: [],
+    synonyms: [],
+    title: '',
+    count: 0,
+  }
+
+  dictionary: any = []
+  input: string = ''
+  inputWords: string[] = []
+  showedExtra: string = ''
+  showSuccess: boolean = false
+  progress: number = 0
+  nextTextId: number = 0
+  dictionaryLength: number = 0
+
+  metaInfo() {
+    return {
+      title: `Перевод | ${this.text.title}`,
+    }
+  }
+
+  get output() {
+    let c = 0
+    let origs: string[] = []
+    this.dictionaryLength = this.dictionary.length
+    this.text.computed = this.text.text
+
+    this.inputWords.forEach((el: any) => {
+      el = el.toLowerCase()
+      if (el !== '' && el in this.dictionary) {
+        origs = origs.concat(
+          this.dictionary[el].map((item: any) => `${item}|${el}`),
+        )
+      }
+    })
+
+    origs = origs.filter((v, i, a) => a.indexOf(v) === i)
+
+    for (let i = 0; i < origs.length; i++) {
+      const arr = origs[i].split('|')
+      const word = arr[0].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+      const tooltip = arr[1]
+
+      this.text.computed = this.text.computed.replace(
+        new RegExp(`(^|\\s)(${word.trim()})([^\\w]|$)`, 'gi'),
+        `$1<span class="success-text" tooltip=${tooltip}>$2</span>$3`,
+      )
+      c++
+    }
+
+    if (this.showedExtra !== '') {
+      this.text.computed = this.text.computed.replace(
+        new RegExp(`(^|\\s|>)(${this.showedExtra.trim()})([^\\w]|$|<)`, 'gi'),
+        '$1<span class="warning-text">$2</span>$3',
+      )
+    }
+
+    this.progress = Math.floor((c * 100) / this.text.count)
+
+    this.$Progress.set(this.progress)
+
+    if (this.progress > 99) this.showSuccess = true
+
+    return this.text.computed
+  }
+
+  created() {
+    this.loadText(parseInt(this.$route.params.id, 10))
+  }
+
+  async loadText(id: number) {
+    const text: Text = await this.service.getText(id)
+    this.clear()
+    this.text = text
+    this.text.computed = this.text.text
+    this.titleChunk = this.text.title
+    this.dictionary = this.text.synonyms
+    this.nextTextId = 0
+    this.showSuccess = false
+  }
+
+  separate() {
+    this.inputWords = this.input
+      .replace(/\s+/g, ' ')
+      .replace(/\./g, ' ')
+      .replace(/,/g, '')
+      .trim()
+      .split(' ')
+  }
+
+  showExtra(extra: any) {
+    this.showedExtra = extra.orig
+  }
+
+  clearExtra() {
+    this.showedExtra = ''
+  }
+
+  clear() {
+    this.input = ''
+    this.inputWords = []
+    this.progress = 0
+  }
+
+  gotonext() {
+    this.$router.push(`/translates/${this.nextTextId}`)
+  }
+
+  @Watch('showSuccess')
+  private async onChange(val: any) {
+    if (val) {
+      const text: Text = await this.service.nextLevel(this.text)
+      this.nextTextId = text.id
+      this.$notify.success({
+        title: this.text.title,
+        message: 'Текст переведен!',
+        duration: 3000,
+      })
+    }
+  }
+}
+</script>
+<style>
+#transarea {
+  height: 100px;
+  padding: 15px;
+  font-family: 'Open Sans', sans-serif;
+}
+.text-success {
+  cursor: pointer;
+  margin: 0 2px 4px 0;
+  padding: 2px 4px;
+  border-radius: 3px;
+  display: inline-block;
+}
+</style>
