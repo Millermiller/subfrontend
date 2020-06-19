@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Component from 'vue-class-component'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueProgressBar from 'vue-progressbar'
 import VueCookies from 'vue-cookies'
@@ -40,6 +41,10 @@ Vue.prototype.$eventHub = new Vue()
 Vue.use(VueRouter)
 Vue.use(Meta)
 Vue.use(VueDragDrop)
+
+Component.registerHooks([
+  'metaInfo',
+])
 
 const i18n = new VueI18n({
   locale: 'ru',

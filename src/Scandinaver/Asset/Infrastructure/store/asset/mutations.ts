@@ -85,7 +85,7 @@ export default class AssetMutations extends Mutations<State> {
     this.state.activePersonalAssetName = data
   }
 
-  setActiveAssetType(data: string): void {
+  setActiveAssetType(data: number): void {
     this.state.activeAssetType = data
   }
 

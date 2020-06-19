@@ -4,10 +4,11 @@ import State from '@/Scandinaver/Asset/Infrastructure/store/asset/state'
 import { Word } from '@/Scandinaver/Asset/Domain/Word'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 
 export default class AssetGetters extends Getters<State> {
-  get activeAssetType() {
-    return this.state.activeAssetType !== '' ? this.state.activeAssetType : 'words'
+  get activeAssetType(): string {
+    return this.state.activeAssetType.toString()
   }
 
   get activeAssetName() {

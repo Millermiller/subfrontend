@@ -10,6 +10,10 @@ export abstract class BaseCollection<T extends Entity> implements Iterable<T> {
     this.data = data
   }
 
+  public all(): T[] {
+    return this.data
+  }
+
   public get(id: number): T {
     return this.data[id]
   }
@@ -46,15 +50,17 @@ export abstract class BaseCollection<T extends Entity> implements Iterable<T> {
   }
 
   public prev(): T {
-    if (this.count() >= this.index - 1) {
-      return this.get(this.index - 1)
+    this.index--
+    if (this.count() >= this.index) {
+      return this.get(this.index)
     }
     throw new CollectionException('item not fount')
   }
 
   public next(): T {
-    if (this.count() >= this.index + 1) {
-      return this.get(this.index + 1)
+    this.index++
+    if (this.count() >= this.index) {
+      return this.get(this.index)
     }
     throw new CollectionException('item not fount')
   }

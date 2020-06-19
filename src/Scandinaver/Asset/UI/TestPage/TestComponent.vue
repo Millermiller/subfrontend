@@ -13,7 +13,7 @@
         </h3>
       </div>
       <div class="variants" v-if="isTestLoaded">
-        <p class="pointer" v-for="(variant, index) of question.variants" @click="check(variant)" :key="index">
+        <p class="pointer" v-for="(variant, index) of question.variants.all()" @click="check(variant)" :key="index">
           {{ variant.value }}
         </p>
       </div>
@@ -31,7 +31,7 @@
       </el-row>
       <template v-if="fail &gt; 0">
         <el-row>
-          <p>Ошибки:</p>
+          <p>{{$t('errors')}}:</p>
           <p v-for="(error, index) in errors" :key="index">{{ error.word.word }} - {{ error.translate.value }}</p>
         </el-row>
       </template>
@@ -59,8 +59,9 @@ import { RESOLVE_AND_SET_ACTIVE_ASSET_TYPE } from '@/Scandinaver/Asset/Infrastru
 import { SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import Variant from '@/Scandinaver/Asset/Domain/Variant'
 import { Test } from '@/Scandinaver/Asset/Domain/Test'
-import Question from '@/Scandinaver/Asset/Domain/Question'
 import CollectionException from '@/Scandinaver/Core/Domain/CollectionException'
+import Question from '@/Scandinaver/Asset/Domain/Question'
+import { RESET_TEST } from '@/Scandinaver/Asset/Infrastructure/store/test/action.type'
 
 @Component({
   name: 'TestComponent',
@@ -78,7 +79,7 @@ export default class TestComponent extends Vue {
   }
 
   private test: Test
-  private question: Question
+  private question: Question | null = null
   private dialogVisible: boolean = false
   private loading: boolean = false
   private isTestLoaded: boolean = false
@@ -91,8 +92,9 @@ export default class TestComponent extends Vue {
   }
 
   reload() {
-    this.buildTest(this.test.id)
-    this.dialogVisible = false
+    this.buildTest(this.test.id).then(() => {
+      this.dialogVisible = false
+    })
   }
 
   async buildTest(id: number) {
@@ -102,30 +104,30 @@ export default class TestComponent extends Vue {
     this.test = this.testService.create(asset)
 
     this.$store.commit(SET_SELECTION, id)
+
+    this.$store.dispatch(RESET_TEST, this.test)
+
     this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.type)
-    this.$store.commit('setQuantity', this.test.quantity)
-    this.$store.commit('resetError')
-    this.$store.commit('resetPercent')
-    this.$store.commit('setTitle', asset.title)
-    this.$store.commit('setResult', asset.result)
-    this.$store.commit('setLevel', asset.level)
+
 
     this.next()
     this.isTestLoaded = true
     this.loading = false
   }
 
-  check(answer: Variant) {
+  check(variant: Variant) {
     this.test.answers++
     this.$Progress.set(Math.floor((this.test.answers * 100) / this.test.quantity))
-    if (answer.isCorrect()) {
+    if (variant.isCorrect()) {
       this.$Progress.setColor('#20A0FF')
       this.test.success++
       this.$store.commit('setPercent', this.test.percent)
     } else {
       this.$Progress.setColor('#FF4949')
       this.test.fail++
-      this.test.errors.push(this.question)
+      if (this.question instanceof Question) {
+        this.test.errors.push(this.question)
+      }
       this.$store.commit('setError', this.question)
     }
     this.next()

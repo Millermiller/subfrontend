@@ -1,6 +1,7 @@
 <template>
   <el-row
     :class="['list-item', 'pointer', 'open', { selected: item.selected }]"
+    @click.native="load()"
   >
     <el-col :span="24">
       <p class="asset-title" style="height: 57px">{{ item.title }}</p>
@@ -15,8 +16,8 @@
             success: item.result &gt; 80,
             warning: (item.result &gt; 50 &amp;&amp; item.result &lt; 80),
             danger: item.result &lt; 50}]"
-          >{{ item.result }}% </span
-        ><span class="small text-muted" style="padding-left: 15px">
+          >{{ item.result }}% </span>
+        <span class="small text-muted" style="padding-left: 15px">
           <i class="ion ion-ios-browsers-outline ion-small"></i>
           <span>{{ item.count }}</span>
         </span>
@@ -55,6 +56,7 @@ import {
   SET_SELECTION,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import * as events from '@/events/events.type'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({
   name: 'TabItemPersonal',
@@ -85,25 +87,30 @@ export default class TabItemPersonal extends Vue {
     }
   }
 
-  loadTest(): void {
-    if (this.item.count > 1) {
-      if (window.innerWidth <= 910) {
-        this.$eventHub.$emit(events.CLOSE_MENU)
-      }
-
-      this.$store.commit(SET_SELECTION, { asset: this.item, index: this.index })
-      this.$router.push(`/learn/${this.item.id}`)
-    }
+  get currentLanguage(): string {
+    return store.getters.language
   }
 
-  test(): void {
-    if (this.item.count > 1) {
-      if (window.innerWidth <= 910) {
-        this.$eventHub.$emit(events.CLOSE_MENU)
-      }
-      //  this.$store.commit(SET_SELECTION, {asset: this.item, index: this.index})
-      this.$router.push(`/test/${this.item.id}`)
+  load() {
+    if (window.innerWidth <= 910) {
+      this.$eventHub.$emit(events.CLOSE_MENU)
     }
+    this.$store.commit(SET_SELECTION, this.item.id)
+    this.$router.push({
+      name: 'Test',
+      params: { language: this.currentLanguage, id: this.item.id },
+    })
+  }
+
+  learn() {
+    if (window.innerWidth <= 910) {
+      this.$eventHub.$emit(events.CLOSE_MENU)
+    }
+    this.$store.commit(SET_SELECTION, this.item.id)
+    this.$router.push({
+      name: 'learnAsset',
+      params: { language: this.currentLanguage, id: this.item.id },
+    })
   }
 }
 </script>

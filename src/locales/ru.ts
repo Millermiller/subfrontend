@@ -59,7 +59,9 @@ export const messages = {
   correctAnswers: 'Правильные ответы: {success} из {all}',
   repeat: 'Попробовать еще раз',
   questionsCount: 'вопросов: {quantity}',
-  bestResult: 'Лучший результат: {{result}}%',
+  bestResult: 'Лучший результат: {result}%',
   removeAssetConfirm: 'Удалить словарь?',
   notAvailable: 'Недоступно базовым аккаунтам',
+  errors: 'Ошибки:',
+  translates: 'Переводы',
 }

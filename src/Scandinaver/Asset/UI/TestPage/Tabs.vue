@@ -2,7 +2,7 @@
   <el-col class="right-panel" id="cardsblock" :span="8" :xs="24">
     <el-card class="box-card tab-navigation">
       <el-tabs :value="active" @tab-click="handleClick">
-        <el-tab-pane label="Слова" name="words">
+        <el-tab-pane label="Слова" :name="wordTabName">
           <section data-scrollbar="data-scrollbar">
             <div class="steps-wrapper">
               <tabItem
@@ -15,7 +15,7 @@
             </div>
           </section>
         </el-tab-pane>
-        <el-tab-pane label="Предложения" name="sentences">
+        <el-tab-pane label="Предложения" :name="sentencesTabName">
           <section data-scrollbar="data-scrollbar">
             <div class="steps-wrapper">
               <tabItem
@@ -28,7 +28,7 @@
             </div>
           </section>
         </el-tab-pane>
-        <el-tab-pane label="Мои словари" name="personal">
+        <el-tab-pane label="Мои словари" :name="personalTabName">
           <section data-scrollbar="data-scrollbar">
             <div class="steps-wrapper">
               <TabItemPersonal
@@ -52,6 +52,7 @@ import Component from 'vue-class-component'
 import Scrollbar from 'smooth-scrollbar'
 import TabItem from '@/Scandinaver/Asset/UI/TestPage/TabItem.vue'
 import TabItemPersonal from '@/Scandinaver/Asset/UI/TestPage/TabItemPersonal.vue'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 
 @Component({
   name: 'Tabs',
@@ -67,7 +68,9 @@ import TabItemPersonal from '@/Scandinaver/Asset/UI/TestPage/TabItemPersonal.vue
   },
 })
 export default class Tabs extends Vue {
-  activeName: string = 'first'
+  wordTabName = AssetType.WORDS.toString()
+  sentencesTabName = AssetType.SENTENCES.toString()
+  personalTabName = AssetType.PERSONAL.toString()
 
   get personals() {
     return this.$store.getters.personal

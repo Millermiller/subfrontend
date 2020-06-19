@@ -17,9 +17,9 @@
   </el-col>
   <el-row>
     <el-col :span="6">
-        <span class="small text-muted">{{
-          $t('level', { level: item.level })
-        }}</span>
+        <span class="small text-muted">
+          {{ $t('level', { level: item.level })}}
+        </span>
     </el-col>
     <el-col :span="9">
         <span class="text-muted small">
@@ -40,12 +40,12 @@
     <el-col class="text-right" :span="9">
       <template v-if="item.active">
         <el-button
-                type="primary"
+                type="danger"
                 size="mini"
                 icon="el-icon-data-analysis"
-                @click.stop="learn()"
+                @click.stop="test()"
         >
-          {{ $t('learn') }}
+          {{ $t('test') }}
           <i class="el-icon-arrow-righ el-icon-right"></i>
         </el-button>
       </template>

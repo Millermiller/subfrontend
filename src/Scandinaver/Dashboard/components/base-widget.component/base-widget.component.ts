@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component
 export default class BaseWidgetComponent extends Vue {
@@ -17,7 +18,14 @@ export default class BaseWidgetComponent extends Vue {
     return Math.round((100 * this.active) / this.all) || 0
   }
 
-  goto(to: any) {
-    this.$router.push(to)
+  get currentLanguage(): string {
+    return store.getters.language
+  }
+
+  goto(routeName: string) {
+    this.$router.push({
+      name: routeName,
+      params: { language: this.currentLanguage },
+    })
   }
 }

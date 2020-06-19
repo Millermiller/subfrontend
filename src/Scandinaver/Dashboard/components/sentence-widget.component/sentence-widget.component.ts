@@ -1,5 +1,6 @@
 import Component from 'vue-class-component'
 import { RESOLVE_AND_SET_ACTIVE_ASSET_TYPE } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 import BaseWidgetComponent from '../base-widget.component/base-widget.component'
 
 @Component
@@ -14,8 +15,11 @@ export default class SentenceWidgetComponent extends BaseWidgetComponent {
     return this.$store.getters.activeSentences
   }
 
-  goto() {
-    this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, 2)
-    this.$router.push('/learn')
+  goto(routeName: string) {
+    this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.SENTENCES)
+    this.$router.push({
+      name: routeName,
+      params: { language: this.currentLanguage },
+    })
   }
 }

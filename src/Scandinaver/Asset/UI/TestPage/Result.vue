@@ -4,34 +4,25 @@
       <div class="clearfix" id="infoblock" slot="header">
         <el-row :gutter="20">
           <el-col class="diagram" :span="8">
-            <el-progress
-              type="circle"
-              :percentage="percent"
-              :width="100"
-            ></el-progress>
+            <el-progress type="circle" :percentage="percent" :width="100"></el-progress>
           </el-col>
-          <el-col class="asset-info" :span="16"
-            ><template v-if="title"
-              ><p v-if="level &gt; 0">{{ $t('level', { level: level }) }}</p>
+          <el-col class="asset-info" :span="16">
+            <template v-if="title">
+              <p v-if="level &gt; 0">{{ $t('level', { level: level }) }}</p>
               <p>{{ $t('questionsCount', { quantity: quantity }) }}</p>
-              <p>{{ $t('bestResult', { result: result }) }}</p></template
-            ></el-col
-          >
+              <p>{{ $t('bestResult', { result: result }) }}</p>
+            </template>
+          </el-col>
         </el-row>
       </div>
-      <section
-        id="errorsblock"
-        data-scrollbar="data-scrollbar"
-        style="height: 55vh;overflow: hidden"
-      >
+      <section id="errorsblock" data-scrollbar="data-scrollbar" style="height: 55vh;overflow: hidden">
         <transition-group name="splash" tag="div">
-          <ErrorItem
-            class="splash-item"
-            v-for="(error, index) in errors"
-            :item="error"
-            :index="index"
-            :key="index"
-          ></ErrorItem>
+          <ErrorItem class="splash-item"
+                     v-for="(error, index) in errors"
+                     :item="error"
+                     :index="index"
+                     :key="index">
+          </ErrorItem>
         </transition-group>
       </section>
     </el-card>
@@ -44,6 +35,8 @@ import Component from 'vue-class-component'
 import Scrollbar from 'smooth-scrollbar'
 import ErrorItem from '@/Scandinaver/Asset/UI/TestPage/ErrorItem.vue'
 import * as events from '@/events/events.type'
+import Question from '@/Scandinaver/Asset/Domain/Question'
+
 @Component({
   name: 'Result',
   components: {
@@ -69,7 +62,7 @@ export default class Result extends Vue {
     return this.$store.getters.quantity
   }
 
-  get errors() {
+  get errors(): Question[] {
     return this.$store.getters.errors
   }
 

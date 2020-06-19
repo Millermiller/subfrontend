@@ -6,7 +6,7 @@
 >
   <el-card class="box-card tab-navigation">
     <el-tabs @tab-click="handleClick" :value="active">
-      <el-tab-pane :label="$t('words')" name="words">
+      <el-tab-pane :label="$t('words')" :name="wordTabName">
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
             <TabItemComponent
@@ -19,7 +19,7 @@
           </ul>
         </section>
       </el-tab-pane>
-      <el-tab-pane :label="$t('sentences')" name="sentences">
+      <el-tab-pane :label="$t('sentences')" :name="sentencesTabName">
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
             <TabItemComponent
@@ -32,7 +32,7 @@
           </ul>
         </section>
       </el-tab-pane>
-      <el-tab-pane :label="$t('personals')" name="personal">
+      <el-tab-pane :label="$t('personals')" :name="personalTabName">
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
             <TabItemPersonalComponent

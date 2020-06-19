@@ -7,7 +7,7 @@ import PersonalWidgetComponent from './components/personal-widget.component/pers
 import SentenceWidgetComponent from './components/sentence-widget.component/sentence-widget.component.vue'
 import PuzzleWidgetComponent from './components/puzzle-widget.component/puzzle-widget.component.vue'
 
-@Component({
+@Component<HomeModule>({
   name: 'HomeModule',
   components: {
     AccountWidgetComponent,
@@ -25,15 +25,20 @@ import PuzzleWidgetComponent from './components/puzzle-widget.component/puzzle-w
   },
 })
 export default class HomeModule extends Vue {
-  name: string = 'Hello!'
   dialogVisible: boolean = false
   greetingVisible: boolean = false
 
-  modal() {
-    this.dialogVisible = true
+  metaInfo() {
+    return {
+      title: 'Scandinaver',
+    }
   }
 
   get username() {
     return this.$store.getters.login
+  }
+
+  modal() {
+    this.dialogVisible = true
   }
 }

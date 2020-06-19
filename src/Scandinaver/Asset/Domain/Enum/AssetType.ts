@@ -1,6 +1,6 @@
 export enum AssetType {
-  PERSONAL = 1,
-  WORDS = 2,
-  SENTENCES = 3,
+  WORDS = 1,
+  SENTENCES = 2,
+  PERSONAL = 3,
   FAVORITES = 4,
 }

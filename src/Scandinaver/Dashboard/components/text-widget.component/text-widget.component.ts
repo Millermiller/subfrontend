@@ -3,7 +3,7 @@ import BaseWidgetComponent from '../base-widget.component/base-widget.component'
 
 @Component
 export default class TextWidgetComponent extends BaseWidgetComponent {
-  title = this.$root.$tc('texts')
+  title = this.$root.$tc('translates')
 
   get all() {
     return this.$store.getters.texts.length

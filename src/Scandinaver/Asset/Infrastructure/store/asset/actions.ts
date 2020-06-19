@@ -10,6 +10,8 @@ import {
   SET_PERSONAL,
   SET_SELECTION,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import type = Mocha.utils.type
 
 export default class AssetActions extends Actions<
   State,
@@ -55,13 +57,7 @@ export default class AssetActions extends Actions<
   }
 
   setActiveAssetType(data: number) {
-    let type = ''
-
-    if (data === 1) type = 'words'
-    else if (data === 2) type = 'sentences'
-    else type = 'personal'
-
-    this.commit(SET_ACTIVE_ASSET_TYPE, type)
+    this.commit(SET_ACTIVE_ASSET_TYPE, data)
   }
 
   onCardsPageClose() {

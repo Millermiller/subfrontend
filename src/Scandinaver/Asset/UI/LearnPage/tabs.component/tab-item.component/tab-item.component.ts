@@ -6,6 +6,7 @@ import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
 import { IPersonal } from '@/Scandinaver/Asset/Domain/Personal'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import * as events from '@/events/events.type'
+import { SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 
 @Component({
   name: 'TabItemComponent',
@@ -44,7 +45,7 @@ export default class TabItemComponent extends Vue {
     if (window.innerWidth <= 910) {
       this.$eventHub.$emit(events.CLOSE_MENU)
     }
-    //  this.$store.commit(SET_SELECTION, {asset: this.item, index: this.index})
+    this.$store.commit(SET_SELECTION, this.item.id)
     this.$router.push({
       name: 'Test',
       params: { language: this.currentLanguage, id: this.item.id },

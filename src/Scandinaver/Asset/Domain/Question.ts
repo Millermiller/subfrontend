@@ -9,17 +9,21 @@ import VariantsFromAssetFactory from '@/Scandinaver/Asset/Domain/VariantsFromAss
 export default class Question extends Entity {
   @Inject()
   private variantsFabric: VariantsFromAssetFactory
-  subject: string
   variants: VariantsCollection
+  card: Card
 
   constructor(card: Card, translates: Translate[]) {
     super()
+    this.card = card
     this.variantsFabric = Container.get(VariantsFromAssetFactory)
-    this.subject = card.subject
     this.variants = this.variantsFabric.build(card, translates)
   }
 
   getId(): string {
     return this.subject
+  }
+
+  get subject(): string {
+    return this.card.subject
   }
 }
