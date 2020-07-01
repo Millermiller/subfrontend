@@ -17,11 +17,7 @@
       </div>
       <section id="errorsblock" data-scrollbar="data-scrollbar" style="height: 55vh;overflow: hidden">
         <transition-group name="splash" tag="div">
-          <ErrorItem class="splash-item"
-                     v-for="(error, index) in errors"
-                     :item="error"
-                     :index="index"
-                     :key="index">
+          <ErrorItem class="splash-item" v-for="(error, index) in errors" :item="error" :index="index" :key="index">
           </ErrorItem>
         </transition-group>
       </section>
@@ -87,9 +83,12 @@ export default class Result extends Vue {
   }
 }
 </script>
-<style>
-.result-card .el-card__body {
-  padding-right: 0;
+
+<style lang="scss">
+.result-card {
+  .el-card__body {
+    padding-right: 0;
+  }
 }
 .diagram {
   border-right: 1px solid #ddd;

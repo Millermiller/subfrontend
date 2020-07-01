@@ -1,6 +1,6 @@
 <el-row
   :class="['list-item', 'pointer', 'open', {'selected': item.selected}]"
-  @click.native="loadTest()"
+  @click.native="load()"
 >
   <el-col :span="24">
     <p class="asset-title" style="height: 57px">{{ item.title }}</p>

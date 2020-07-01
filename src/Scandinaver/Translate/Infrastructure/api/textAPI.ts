@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
 import { Service } from 'typedi'
-import { Text } from '@/Scandinaver/Translate/Domain/Text'
+import { Translate } from '../../Domain/Translate'
 
 export namespace API {
   @Service()
@@ -10,7 +10,7 @@ export namespace API {
       return request.get(`/text/${id}`)
     }
 
-    nextLevel(text: Text): Promise<AxiosResponse<Text>> {
+    nextLevel(text: Translate): Promise<AxiosResponse<Translate>> {
       return request.post('/nextTLevel', { id: text.id })
     }
   }

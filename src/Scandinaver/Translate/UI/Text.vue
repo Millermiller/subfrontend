@@ -24,13 +24,16 @@
           </el-collapse>
         </el-col>
         <el-col id="textarea" :span="12">
+          <label for="transarea"></label>
           <textarea
             class="panel"
             id="transarea"
             style="height: 280px"
             placeholder="Поле для перевода"
-            v-model="input"
-            v-on:input="separate"
+            v-loading.body="loading"
+            v-model="inputStream"
+            @input="findPosition"
+            @click="findPosition"
           ></textarea>
           <el-row>
             <el-col :span="24">
@@ -42,7 +45,7 @@
                 v-if="nextTextId"
                 type="success"
                 @click="gotonext()"
-                >
+              >
                 {{ $t('nextText') }}
               </el-button>
             </el-col>
@@ -60,7 +63,8 @@ import { Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 import { Inject } from 'vue-typedi'
 import TextService from '@/Scandinaver/Translate/Application/text.service'
-import { Text } from '@/Scandinaver/Translate/Domain/Text'
+import { BehaviorSubject, Subject } from 'rxjs'
+import { Translate } from '../Domain/Translate'
 
 @Component({
   name: 'TextItem',
@@ -69,108 +73,159 @@ export default class TextItem extends Vue {
   @Inject()
   private service: TextService
 
+  private text: Translate = new Translate()
+  private inputStream: string = ''
+  private input: Subject<string> = new Subject<string>()
+  private textSequence: {
+    text: string
+    selected: boolean
+    progress: number
+  }[] = [{ text: '', selected: false, progress: 0 }]
+  private inputSequence: string[] = []
+  private inputObservables: Subject<{ index: number; parts: string[] }>[] = []
+  private currentSentenceSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0)
+  private showedExtra: string = ''
+  private length: number = 0
+  private dictionary: any = []
+  private nextTextId: number = 0
+  private loading: boolean = false
+
+  @Watch('inputStream')
+  private onInputChanged(val: string) {
+    this.input.next(val)
+  }
+
   @Watch('$route')
   private onRouteChange(route: Route) {
     if (route.params.id) this.loadText(parseInt(route.params.id, 10))
   }
 
-  private titleChunk?: string
-
-  text: any = {
-    computed: '',
-    created_at: '',
-    updated_at: '',
-    id: 0,
-    published: 1,
-    text: '',
-    extra: [],
-    synonyms: [],
-    title: '',
-    count: 0,
-  }
-
-  dictionary: any = []
-  input: string = ''
-  inputWords: string[] = []
-  showedExtra: string = ''
-  showSuccess: boolean = false
-  progress: number = 0
-  nextTextId: number = 0
-  dictionaryLength: number = 0
-
-  metaInfo() {
-    return {
-      title: `Перевод | ${this.text.title}`,
+  @Watch('progress')
+  private async onChange(progress: any) {
+    this.$Progress.set(progress)
+    if (progress > 90) {
+      const text: Translate = await this.service.nextLevel(this.text)
+      this.nextTextId = text.id
+      this.$notify.success({
+        title: this.text.title,
+        message: this.$tc('translateComplete'),
+        duration: 3000,
+      })
     }
   }
 
-  get output() {
-    let c = 0
-    let origs: string[] = []
-    this.dictionaryLength = this.dictionary.length
-    this.text.computed = this.text.text
-
-    this.inputWords.forEach((el: any) => {
-      el = el.toLowerCase()
-      if (el !== '' && el in this.dictionary) {
-        origs = origs.concat(
-          this.dictionary[el].map((item: any) => `${item}|${el}`),
-        )
+  created() {
+    this.input.subscribe((data) => {
+      this.inputSequence = this.inputStream.split('.')
+      const index = this.currentSentenceSubject.getValue()
+      if (index <= this.textSequence.length - 1) {
+        console.log(index)
+        console.log(this.textSequence.length - 1)
+        const parts = this.inputSequence[index].split(' ')
+        this.inputObservables[index].next({ index, parts })
       }
     })
 
-    origs = origs.filter((v, i, a) => a.indexOf(v) === i)
+    this.currentSentenceSubject.subscribe((data) => {
+      this.textSequence.forEach((sequence) => {
+        sequence.selected = false
+      })
+      if (data <= this.textSequence.length - 1) {
+        this.textSequence[data].selected = true
+      }
+    })
 
-    for (let i = 0; i < origs.length; i++) {
-      const arr = origs[i].split('|')
-      const word = arr[0].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-      const tooltip = arr[1]
+    this.loadText(parseInt(this.$route.params.id, 10))
+  }
 
-      this.text.computed = this.text.computed.replace(
-        new RegExp(`(^|\\s)(${word.trim()})([^\\w]|$)`, 'gi'),
-        `$1<span class="success-text" tooltip=${tooltip}>$2</span>$3`,
-      )
-      c++
-    }
+  get output(): string {
+    let output: string
+
+    output = this.textSequence
+      .map((sentence) => {
+        if (sentence.selected) {
+          return `<span class="active-sentence">${sentence.text}</span>`
+        }
+        return sentence.text
+      })
+      .join('. ')
 
     if (this.showedExtra !== '') {
-      this.text.computed = this.text.computed.replace(
+      output = output.replace(
         new RegExp(`(^|\\s|>)(${this.showedExtra.trim()})([^\\w]|$|<)`, 'gi'),
         '$1<span class="warning-text">$2</span>$3',
       )
     }
 
-    this.progress = Math.floor((c * 100) / this.text.count)
-
-    this.$Progress.set(this.progress)
-
-    if (this.progress > 99) this.showSuccess = true
-
-    return this.text.computed
+    return output
   }
 
-  created() {
-    this.loadText(parseInt(this.$route.params.id, 10))
+  get progress(): number {
+    const count = this.textSequence.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.progress,
+      0,
+    )
+    return Math.floor((count * 100) / this.length)
   }
 
   async loadText(id: number) {
-    const text: Text = await this.service.getText(id)
-    this.clear()
+    this.loading = true
+    const text: Translate = await this.service.getText(id)
+    this.inputObservables = text.text
+      .split('.')
+      .map(chunk => new Subject<{ index: number; parts: string[] }>())
+    this.inputObservables.forEach((observable) => {
+      observable.subscribe((data) => {
+        if (data.index <= this.textSequence.length - 1) {
+          this.rebuild(data)
+        }
+      })
+    })
+    this.textSequence = text.text
+      .split('.')
+      .filter(chunk => chunk !== '')
+      .map(chunk => ({ text: chunk, selected: false, progress: 0 }))
+    // this.clear()
     this.text = text
-    this.text.computed = this.text.text
-    this.titleChunk = this.text.title
+    this.length = [...new Set(text.text.split(' '))].length
     this.dictionary = this.text.synonyms
     this.nextTextId = 0
-    this.showSuccess = false
+    this.loading = false
   }
 
-  separate() {
-    this.inputWords = this.input
-      .replace(/\s+/g, ' ')
-      .replace(/\./g, ' ')
-      .replace(/,/g, '')
-      .trim()
-      .split(' ')
+  rebuild(data: { index: number; parts: string[] }) {
+    data.parts = data.parts.filter(item => item !== '')
+
+    const origs: { [key: string]: string } = {}
+    const origparts: string[] = []
+
+    data.parts.forEach((el: any) => {
+      el = el.toLowerCase()
+      if (el !== '' && el in this.dictionary) {
+        origparts.push(this.dictionary[el][0])
+        origs[this.dictionary[el]] = el
+      }
+    })
+
+    const searchString: string = origparts.join('|')
+    this.textSequence[data.index].text = this.text.text
+      .split('.')[data.index].replace(
+        new RegExp(searchString, 'gi'),
+        (match: string) => {
+          if (match !== '') {
+            return `<span class="success-text" tooltip=${origs[match]}>${match}</span>`
+          }
+          return match
+        },
+      )
+    this.textSequence[data.index].progress = [...new Set(origparts)].length
+  }
+
+  findPosition(ev: any) {
+    this.currentSentenceSubject.next(
+      this.inputStream.substring(0, ev.target.selectionStart).split('.')
+        .length - 1,
+    )
   }
 
   showExtra(extra: any) {
@@ -181,31 +236,35 @@ export default class TextItem extends Vue {
     this.showedExtra = ''
   }
 
-  clear() {
-    this.input = ''
-    this.inputWords = []
-    this.progress = 0
+  async clear() {
+    await this.loadText(parseInt(this.$route.params.id, 10))
+    this.currentSentenceSubject.next(0)
+    this.inputStream = ''
   }
 
   gotonext() {
     this.$router.push(`/translates/${this.nextTextId}`)
   }
-
-  @Watch('showSuccess')
-  private async onChange(val: any) {
-    if (val) {
-      const text: Text = await this.service.nextLevel(this.text)
-      this.nextTextId = text.id
-      this.$notify.success({
-        title: this.text.title,
-        message: 'Текст переведен!',
-        duration: 3000,
-      })
-    }
-  }
 }
 </script>
-<style>
+<style lang="scss">
+@import '../../../assets/css/variables';
+
+.active-sentence {
+  background-color: rgba(238, 195, 115, 0.86);
+  #border-bottom: 1px solid $blue-color;
+}
+#origtext {
+  overflow: visible;
+
+  .el-card__body {
+    overflow: visible;
+  }
+
+  .origtext {
+    word-spacing: 1px;
+  }
+}
 #transarea {
   height: 100px;
   padding: 15px;

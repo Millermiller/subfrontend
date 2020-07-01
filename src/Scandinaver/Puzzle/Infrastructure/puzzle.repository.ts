@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi'
 import { API } from '@/Scandinaver/Puzzle/Infrastructure/api/puzzleAPI'
 import { plainToClass } from 'class-transformer'
-import { Puzzle } from '@/Scandinaver/Puzzle/models/Puzzle'
+import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
 import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
 import PuzzleAPI = API.PuzzleAPI
 

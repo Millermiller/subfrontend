@@ -64,4 +64,7 @@ export const messages = {
   notAvailable: 'Недоступно базовым аккаунтам',
   errors: 'Ошибки:',
   translates: 'Переводы',
+  puzzleComplete: 'Все правильно!',
+  translateComplete: 'Текст переведен!',
+  clear: 'Очистить',
 }

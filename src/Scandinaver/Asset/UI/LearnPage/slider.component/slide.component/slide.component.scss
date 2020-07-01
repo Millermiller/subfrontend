@@ -1,64 +1,45 @@
-.slide-value {
-  border-bottom: 1px solid #dadada;
-  width: 80%;
-  text-align: center;
-  padding-bottom: 40px;
-}
-.swiper-slide.swiper-slide-active {
-  transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg) !important;
-}
+
 .slide {
   padding: 10px;
   height: 100%;
   width: 100%;
   position: relative;
-}
 
-.slide .word {
-  border-bottom: 1px solid rgb(209, 219, 229);
-  font-size: 1.3em;
-  margin-top: 10px;
-}
+  .word {
+    border-bottom: 1px solid rgb(209, 219, 229);
+    font-size: 1.3em;
+    margin-top: 10px;
+    padding-bottom: 10px;
+  }
 
-.slide .ion-ios-volume-high {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-.slide > .item {
-  height: 250px;
-  padding-top: 20px;
-  background-color: #f5f5f5;
-  transition: left 0.1s ease-out 0s;
-}
-.word {
-  text-align: center;
-  font-size: 2em;
-  padding-bottom: 10px;
-}
+  .translate-area {
+    position: relative;
+    min-height: 80%;
+    border: 1px dashed #dadada;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    padding-top: 40px;
 
-.value {
-  padding-top: 10px;
-  line-height: 1;
-}
-.example-value {
-  font-style: italic;
-}
+    .slide-value {
+      border-bottom: 1px solid #dadada;
+      width: 80%;
+      text-align: center;
+      padding-bottom: 40px;
+    }
 
-.example-area {
-  margin-top: 40px;
-}
-.translate-area {
-  position: relative;
-  min-height: 80%;
-  border: 1px dashed #dadada;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  flex-direction: column;
-  padding-top: 40px;
-}
-.translate-area .ion-help {
-  font-size: 6em;
-  color: #dadada;
+    .ion-help {
+      font-size: 6em;
+      color: #dadada;
+    }
+  }
+
+  .example-area {
+    margin-top: 40px;
+
+    .example-value {
+      font-style: italic;
+    }
+  }
 }

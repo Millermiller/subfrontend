@@ -31,7 +31,7 @@
       </el-row>
       <template v-if="fail &gt; 0">
         <el-row>
-          <p>{{$t('errors')}}:</p>
+          <p>{{ $t('errors') }}:</p>
           <p v-for="(error, index) in errors" :key="index">{{ error.word.word }} - {{ error.translate.value }}</p>
         </el-row>
       </template>
@@ -104,11 +104,8 @@ export default class TestComponent extends Vue {
     this.test = this.testService.create(asset)
 
     this.$store.commit(SET_SELECTION, id)
-
-    this.$store.dispatch(RESET_TEST, this.test)
-
-    this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.type)
-
+    await this.$store.dispatch(RESET_TEST, this.test)
+    await this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.type)
 
     this.next()
     this.isTestLoaded = true
@@ -154,14 +151,16 @@ export default class TestComponent extends Vue {
   }
 }
 </script>
-<style>
-.variants p {
-  text-align: center;
-  padding: 16px 10px;
-  margin: 0;
-}
 
-.variants p:hover {
-  color: #20a0ff;
+<style lang="scss">
+.variants {
+  p {
+    text-align: center;
+    padding: 16px 10px;
+    margin: 0;
+    &:hover {
+      color: #20a0ff;
+    }
+  }
 }
 </style>

@@ -88,7 +88,9 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import Translate from '@/Scandinaver/Asset/UI/PersonalPage/Translate.vue'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
-import IDictionaryForm, { DictionaryForm } from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
+import IDictionaryForm, {
+  DictionaryForm,
+} from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { Inject } from 'vue-typedi'
 import CardService from '@/Scandinaver/Asset/Application/card.service'
 import * as events from '@/events/events.type'

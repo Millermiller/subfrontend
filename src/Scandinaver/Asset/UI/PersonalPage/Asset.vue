@@ -96,6 +96,7 @@ import { Inject } from 'vue-typedi'
 import AssetService from '@/Scandinaver/Asset/Application/asset.service'
 import { SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import * as events from '@/events/events.type'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({
   name: 'AssetComponent',
@@ -143,10 +144,17 @@ export default class AssetComponent extends Vue {
     }
   }
 
+  get currentLanguage(): string {
+    return store.getters.language
+  }
+
   loadAsset(): void {
     if (this.isActive) {
       this.$eventHub.$emit(events.SELECT_ASSET, this.asset.id)
-      this.$router.push(`/cards/${this.asset.id}`)
+      this.$router.push({
+        name: 'CardsPage',
+        params: { language: this.currentLanguage, id: this.asset.id },
+      })
       this.$store.commit('showDictionary')
       this.$store.commit(SET_SELECTION, this.asset.id)
     }

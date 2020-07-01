@@ -1,8 +1,10 @@
 <template>
-  <a id="left-menu" @click="showLeftMenu"
-    ><button class="navbar-toggle collapsed">
-      <span class="icon-bar"></span><span class="icon-bar"></span
-      ><span class="icon-bar"></span></button
+  <a id="left-menu" @click="showLeftMenu">
+    <button class="navbar-toggle collapsed">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button
   ></a>
 </template>
 
@@ -10,6 +12,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import * as events from '@/events/events.type'
+
 @Component({
   name: 'LeftMenuButton',
 })

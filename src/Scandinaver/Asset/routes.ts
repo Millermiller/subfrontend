@@ -40,7 +40,7 @@ const routes = [
   {
     path: '/:language/cards/:id',
     name: 'CardsPage',
-    component: () => import('@/Scandinaver/Asset/UI/PersonalPage/CardsPage.vue'),
+    component: () => import('@/Scandinaver/Asset/UI/PersonalPage/PersonalComponent.vue'),
     beforeEnter: requireAuth,
     props: true,
   },

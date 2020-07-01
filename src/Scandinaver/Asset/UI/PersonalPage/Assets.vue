@@ -111,6 +111,7 @@ export default class AssetsComponent extends Vue {
   async remove(asset: any) {
     this.loading = true
     await this.assetService.destroyAsset(asset)
+    this.loading = false
     this.$notify.success({
       title: this.$tc('assetRemoved'),
       message: asset.title,

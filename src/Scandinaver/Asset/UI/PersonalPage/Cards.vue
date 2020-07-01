@@ -44,14 +44,14 @@ export default class CardsComponent extends Vue {
   @Inject()
   private service: CardService
 
-  @Prop({ required: true })
-  private name!: string
+  @Prop()
+  private name: string
+
+  @Prop()
+  private cards: any
 
   @Prop({ required: true })
-  private cards!: any
-
-  @Prop({ required: true })
-  private loading!: boolean
+  private loading: boolean
 
   private loadingbody: boolean = false
 

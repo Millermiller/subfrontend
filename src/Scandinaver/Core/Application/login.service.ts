@@ -21,7 +21,7 @@ export class LoginService {
           }
         },
         (response) => {
-          reject(response.response.data.message)
+          reject(response.response.data)
         },
       )
     })
@@ -66,7 +66,7 @@ export class LoginService {
             Vue.$user = response.data
             store.commit('setUser', response.data)
             store.commit('setAuth', true)
-            store.commit('setActive', response.data.premium)
+            store.commit('setActive', response.data.active)
             store.commit(SET_SELECTION, 0)
             store.dispatch('reloadStore').then((response) => {
               resolve()

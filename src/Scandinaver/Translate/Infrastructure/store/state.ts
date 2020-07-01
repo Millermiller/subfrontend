@@ -1,5 +1,5 @@
-import { IText } from '@/Scandinaver/Translate/Domain/Text'
+import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 
 export default class State {
-  texts: IText[] = []
+  texts: Translate[] = []
 }

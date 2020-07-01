@@ -28,24 +28,14 @@
             <p>Создано карточек: {{ card.word.user.cardsCreated }}</p>
           </el-col>
         </el-row>
-        <span class="no-margin danger pull-right small" slot="reference">
-          Добавлено: {{ card.word.user.login }}
-        </span>
+        <span class="no-margin danger pull-right small" slot="reference"> Добавлено: {{ card.word.user.login }} </span>
       </el-popover>
       <template v-if="user.id === card.word.user.id">
-        <el-tooltip
-          class="text-muted"
-          v-if="card.word.is_public"
-          effect="light"
-          placement="top-start">
+        <el-tooltip class="text-muted" v-if="card.word.is_public" effect="light" placement="top-start">
           <div slot="content">Эта карточка видна всем пользователям</div>
           <i class="ion-ios-people ion-small"></i>
         </el-tooltip>
-        <el-tooltip
-          class="text-muted"
-          v-else
-          effect="light"
-          placement="top-start">
+        <el-tooltip class="text-muted" v-else effect="light" placement="top-start">
           <div slot="content">Эта карточка видна только вам</div>
           <i class="ion-ios-person ion-small"></i>
         </el-tooltip>

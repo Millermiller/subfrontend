@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/:language/puzzle',
     name: 'PuzzlePage',
-    component: () => import('@/Scandinaver/Puzzle/Puzzles.vue'),
+    component: () => import('@/Scandinaver/Puzzle/UI/PuzzleComponent.vue'),
     beforeEnter: requireAuth,
   },
 ]

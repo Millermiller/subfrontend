@@ -4,7 +4,7 @@ import { text } from '@/Scandinaver/Translate/Infrastructure/store'
 import { user } from '@/Scandinaver/Core/Infrastructure/store/user'
 import { test } from '@/Scandinaver/Asset/Infrastructure/store/test'
 import { assetModule } from '@/Scandinaver/Asset/Infrastructure/store/asset'
-import { puzzleModule } from '@/Scandinaver/Puzzle/store'
+import { puzzleModule } from '@/Scandinaver/Puzzle/Infrastructure/store'
 import {
   SET_FAVOURITES,
   SET_PERSONAL,
@@ -12,6 +12,8 @@ import {
   SET_WORDS,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { API } from '@/Scandinaver/Core/Infrastructure/api/commonAPI'
+import { plainToClass } from 'class-transformer'
+import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 import CommonAPI = API.CommonAPI
 
 // State
@@ -94,10 +96,6 @@ class CommonMutations extends Mutations<State> {
     this.state.showDictionary = true
   }
 
-  hideDictionary(): void {
-    this.state.showDictionary = false
-  }
-
   // setIntroVisibility = ({data}: { data: any }) => this.state.introNeed[data.page] = data.visible
 
   setBackdrop(data: number): void {
@@ -144,7 +142,7 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
       this.assetstore.commit(SET_SENTENCES, response.data.sentences)
       this.assetstore.commit(SET_FAVOURITES, response.data.favourites)
       this.assetstore.commit(SET_PERSONAL, response.data.personal)
-      this.textstore.commit('setTexts', response.data.texts)
+      this.textstore.commit('setTexts', plainToClass(Translate, response.data.texts))
       this.puzzleStore.commit('setPuzzles', response.data.puzzles)
       this.commit('setSites', response.data.sites)
       this.commit('setCurrentSite', response.data.currentsite)

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
-import { IPuzzle, Puzzle } from '@/Scandinaver/Puzzle/models/Puzzle'
+import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
 import { Service } from 'typedi'
 
 export namespace API {
@@ -10,7 +10,7 @@ export namespace API {
       return request.get('/puzzle')
     }
 
-    processPuzzle(puzzle: IPuzzle): Promise<AxiosResponse> {
+    processPuzzle(puzzle: Puzzle): Promise<AxiosResponse> {
       return request.put(`/puzzle/${puzzle.id}`)
     }
 

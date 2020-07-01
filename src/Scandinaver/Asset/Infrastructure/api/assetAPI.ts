@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios'
 import request from '@/utils/request'
 import { Service } from 'typedi'
-import { Responses } from '@/Scandinaver/Core/Domain/Contract/GetAssetResponse'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { Responses } from '../../../Core/Domain/Contract/Responses'
 
 export namespace API {
   @Service()

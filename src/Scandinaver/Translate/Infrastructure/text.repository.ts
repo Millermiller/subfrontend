@@ -1,32 +1,32 @@
 import { Inject, Service } from 'typedi'
 import { API } from '@/Scandinaver/Translate/Infrastructure/api/textAPI'
-import { Text } from '@/Scandinaver/Translate/Domain/Text'
 import { plainToClass } from 'class-transformer'
 import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
+import { Translate } from '../Domain/Translate'
 import TextAPI = API.TextAPI
 
 @Service()
-export default class TextRepository extends BaseRepository<Text> {
+export default class TextRepository extends BaseRepository<Translate> {
   @Inject()
   private api: TextAPI
 
-  async all(): Promise<Text[]> {
+  async all(): Promise<Translate[]> {
     throw new Error('method not implemented')
   }
 
-  async one(id: number): Promise<Text> {
-    return this.api.getText(id).then(response => plainToClass(Text, response.data))
+  async one(id: number): Promise<Translate> {
+    return this.api.getText(id).then(response => plainToClass(Translate, response.data))
   }
 
-  async save(entity: Text): Promise<Text> {
+  async save(entity: Translate): Promise<Translate> {
     throw new Error('method not implemented')
   }
 
-  async delete(entity: Text): Promise<any> {
+  async delete(entity: Translate): Promise<any> {
     throw new Error('method not implemented')
   }
 
-  nextLevel(text: Text) {
-    return this.api.nextLevel(text).then(response => plainToClass<Text, Text>(Text, response.data))
+  nextLevel(text: Translate) {
+    return this.api.nextLevel(text).then(response => plainToClass<Translate, Translate>(Translate, response.data))
   }
 }

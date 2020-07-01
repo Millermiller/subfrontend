@@ -11,17 +11,15 @@
 <script lang="ts">
 import Component from 'vue-class-component'
 import Vue from 'vue'
-import TextCard from '@/Scandinaver/Translate/UI/Textcard.vue'
+import TextCard from '@/Scandinaver/Translate/UI/TextCardComponent.vue'
 
 @Component({
-  name: 'TextPage',
+  name: 'TextsComponent',
   components: {
     TextCard,
   },
 })
-export default class extends Vue {
-  metaInfo: any = { title: 'Переводы' }
-
+export default class TextsComponent extends Vue {
   get texts() {
     return this.$store.getters.texts
   }

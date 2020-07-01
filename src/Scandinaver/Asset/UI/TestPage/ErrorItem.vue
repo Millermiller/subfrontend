@@ -11,14 +11,7 @@
       </el-col>
       <el-col :span="4">
         <i class="ion ion-ios-close-empty pointer" @click="remove(index)"></i>
-        <i
-          :class="[
-            'favourite-button pointer',
-            favouriteButtonClass,
-            { 'rotated muted': loading },
-          ]"
-          @click="favourite"
-        >
+        <i :class="['favourite-button pointer', favouriteButtonClass, { 'rotated muted': loading }]" @click="favourite">
         </i>
       </el-col>
     </el-row>
@@ -82,7 +75,7 @@ export default class ErrorItem extends Vue {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .errorcard {
   background-color: #fff;
   margin-right: 10px;
@@ -92,15 +85,19 @@ export default class ErrorItem extends Vue {
   padding: 10px;
   width: auto;
   margin-bottom: 10px;
-}
-.errorcard > .el-col {
-  height: 100%;
-}
-.errorcard .ion-ios-star-outline,
-.errorcard .ion-ios-star {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  > .el-col {
+    height: 100%;
+  }
+  .ion-ios-star-outline {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .ion-ios-star {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
 }
 .error-translate {
   position: absolute;

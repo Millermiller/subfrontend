@@ -83,7 +83,10 @@ export default class TabItemPersonal extends Vue {
     if (this.isActive) {
       this.$store.dispatch(SET_ASSET_AS_SELECTED, this.item.id)
       this.$store.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, true)
-      this.$router.push(`/cards/${this.item.id}`)
+      this.$router.push({
+        name: 'CardsPage',
+        params: { language: this.currentLanguage, id: this.item.id },
+      })
     }
   }
 

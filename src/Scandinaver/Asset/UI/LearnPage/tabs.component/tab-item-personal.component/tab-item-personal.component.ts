@@ -5,8 +5,12 @@ import IWord from '@/Scandinaver/Asset/Domain/Word'
 import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
 import { IPersonal } from '@/Scandinaver/Asset/Domain/Personal'
 import { SET_ASSET_AS_SELECTED } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
-import { SET_ACTIVE_PERSONAL_ASSET_EDIT, SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
+import {
+  SET_ACTIVE_PERSONAL_ASSET_EDIT,
+  SET_SELECTION,
+} from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import * as events from '@/events/events.type'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({
   name: 'TabItemPersonalComponent',
@@ -29,31 +33,39 @@ export default class TabItemPersonalComponent extends Vue {
     return this.$store.getters.isActive || this.item.type === 3
   }
 
-  loadTest(): void {
-    if (this.item.count > 1) {
-      if (window.innerWidth <= 910) {
-        this.$eventHub.$emit(events.CLOSE_MENU)
-      }
-      this.$store.commit(SET_SELECTION, { asset: this.item, index: this.index })
-      this.$router.push(`/learn/${this.item.id}`)
+  get currentLanguage(): string {
+    return store.getters.language
+  }
+
+  load(): void {
+    if (window.innerWidth <= 910) {
+      this.$eventHub.$emit(events.CLOSE_MENU)
     }
+    this.$router.push({
+      name: 'learnAsset',
+      params: { language: this.currentLanguage, id: this.item.id },
+    })
   }
 
   cardspage() {
     if (this.isActive) {
       this.$store.dispatch(SET_ASSET_AS_SELECTED, this.item.id)
       this.$store.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, true)
-      this.$router.push(`/cards/${this.item.id}`)
+      this.$router.push({
+        name: 'CardsPage',
+        params: { language: this.currentLanguage, id: this.item.id },
+      })
     }
   }
 
   test(): void {
-    if (this.item.count > 1) {
-      if (window.innerWidth <= 910) {
-        this.$eventHub.$emit(events.CLOSE_MENU)
-      }
-      //  this.$store.commit(SET_SELECTION, {asset: this.item, index: this.index})
-      this.$router.push(`/test/${this.item.id}`)
+    if (window.innerWidth <= 910) {
+      this.$eventHub.$emit(events.CLOSE_MENU)
     }
+    this.$store.commit(SET_SELECTION, this.item.id)
+    this.$router.push({
+      name: 'Test',
+      params: { language: this.currentLanguage, id: this.item.id },
+    })
   }
 }

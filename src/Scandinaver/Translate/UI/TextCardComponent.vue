@@ -23,12 +23,12 @@
           </el-row>
           <el-row type="flex" justify="end">
             <el-button
-              :type="buttontype"
+              :type="buttonType"
               plain="plain"
-              @click="gototext()"
+              @click="goToText"
               :disabled="!text.available"
             >
-              {{ buttontext }}
+              {{ buttonText }}
             </el-button>
           </el-row>
         </el-main>
@@ -41,15 +41,21 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 
 @Component({
-  name: 'TextCard',
+  name: 'TextCardComponent',
 })
-export default class TextCard extends Vue {
+export default class TextCardComponent extends Vue {
   @Prop({ required: true })
-  private text!: any
+  private text!: Translate
 
-  get buttontype() {
+  get currentLanguage(): string {
+    return store.getters.language
+  }
+
+  get buttonType() {
     return !this.text.available
       ? 'info'
       : this.text.active
@@ -57,7 +63,7 @@ export default class TextCard extends Vue {
         : 'warning'
   }
 
-  get buttontext(): string {
+  get buttonText(): string {
     if (!this.text.available) {
       return this.$tc('notAvailable')
     }
@@ -67,28 +73,33 @@ export default class TextCard extends Vue {
     return this.$tc('closed')
   }
 
-  gototext() {
-    if (this.text.active && this.text.available) this.$router.push(`/translates/${this.text.id}`)
+  goToText() {
+    if (this.text.active && this.text.available) {
+      this.$router.push({
+        name: 'TextItem',
+        params: { language: this.currentLanguage, id: this.text.id.toString() },
+      })
+    }
   }
 }
 </script>
-<style>
+<style lang="scss">
 .text {
   margin-bottom: 20px;
   position: relative;
   color: #d3dce6;
-}
-.text .image {
-  height: 220px;
-  background-size: cover;
-  background-repeat: no-repeat;
+  .image {
+    height: 220px;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  img {
+    width: 100%;
+    display: block;
+  }
 }
 .text.open {
   background: #fafafa;
   color: #333;
-}
-.text img {
-  width: 100%;
-  display: block;
 }
 </style>

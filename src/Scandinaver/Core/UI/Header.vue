@@ -7,45 +7,51 @@
         tag="li"
         :to="{ name: 'MainPage', params: { language: currentLanguage } }"
         exact="exact"
-        ><i class="el-icon-s-home"></i
-      ></router-link>
+        >
+        <i class="el-icon-s-home"></i>
+      </router-link>
       <router-link
         class="el-menu-item learn"
         tag="li"
         :to="{ name: 'defaultAsset', params: { language: currentLanguage } }"
-        >{{ $t('assets') }}</router-link
-      >
+        >
+        {{ $t('assets') }}
+      </router-link>
       <router-link
         class="el-menu-item test"
         tag="li"
         :to="{ name: 'defaultTest', params: { language: currentLanguage } }"
-        >{{ $t('tests') }}</router-link
-      >
+        >
+        {{ $t('tests') }}
+      </router-link>
       <router-link
         class="el-menu-item cards"
         tag="li"
         :to="{ name: 'CardsPage', params: { id: favouriteId, language: currentLanguage } }"
         exact="exact"
-        >{{ $t('personals') }}</router-link
-      >
+        >
+        {{ $t('personals') }}
+      </router-link>
       <router-link
         class="el-menu-item translates"
         tag="li"
         :to="{ name: 'TextPage', params: { language: currentLanguage } }"
-        >{{ $t('texts') }}</router-link
-      >
+        >{{ $t('texts') }}
+      </router-link>
       <router-link
         class="el-menu-item puzzle"
         tag="li"
         :to="{ name: 'PuzzlePage', params: { language: currentLanguage } }"
-        >{{ $t('puzzles') }}</router-link
-      >
-      <el-menu-item class="logout" index="3"
-        ><a @click="logout">{{ $t('logout') }}</a></el-menu-item
-      >
+        >{{ $t('puzzles') }}
+      </router-link>
+      <el-menu-item class="logout" index="3">
+        <a @click="logout">{{ $t('logout') }}</a>
+      </el-menu-item>
       <li class="el-menu-item pull-right userblock">
         <div class="avatar-wrapper-small pull-left">
-          <div class="avatar"><img class="avatar-small" :src="user.avatar" /></div>
+          <div class="avatar">
+            <img class="avatar-small" :src="user.avatar"  alt=""/>
+          </div>
         </div>
         <span>{{ user.login }}</span>
       </li>
@@ -56,9 +62,9 @@
           size="small"
           :placeholder="sites.length ? sites[0].label : ''"
         >
-          <el-option v-for="item in sites" :key="item.value" :label="item.label" :value="item.letter"
-            ><img style="float: left" :src="item.flag" /><span style="float: left">{{ item.label }}</span></el-option
-          >
+          <el-option v-for="item in sites" :key="item.value" :label="item.label" :value="item.letter">
+            <img style="float: left" :src="item.flag"  alt=""/><span style="float: left">{{ item.label }}</span>
+          </el-option>
         </el-select>
       </li>
       <hr :style="{ left: offset + 'px', width: width + 'px' }" />
@@ -154,37 +160,32 @@ export default class Header extends Vue {
   }
 }
 </script>
-<style>
-.navbar .navbar-nav > li > a {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
+<style lang="scss">
+
 .navbar {
   position: relative;
   height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
+
+  .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
 }
 
-.navbar:before,
-.navbar:after {
-  display: table;
-  content: ' ';
+.navbar {
+  &:before {
+    display: table;
+    content: ' ';
+  }
+  &:after {
+    display: table;
+    content: ' ';
+    clear: both;
+  }
 }
 
-.navbar:after {
-  clear: both;
-}
-
-.navbar:before,
-.navbar:after {
-  display: table;
-  content: ' ';
-}
-
-.navbar:after {
-  clear: both;
-}
 .navbar-collapse {
   max-height: 340px;
   padding-right: 15px;
@@ -192,26 +193,15 @@ export default class Header extends Vue {
   overflow-x: visible;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch;
-}
-
-.navbar-collapse:before,
-.navbar-collapse:after {
-  display: table;
-  content: ' ';
-}
-
-.navbar-collapse:after {
-  clear: both;
-}
-
-.navbar-collapse:before,
-.navbar-collapse:after {
-  display: table;
-  content: ' ';
-}
-
-.navbar-collapse:after {
-  clear: both;
+  &:before {
+    display: table;
+    content: ' ';
+  }
+  &:after {
+    display: table;
+    content: ' ';
+    clear: both;
+  }
 }
 
 .navbar-collapse.in {
@@ -222,88 +212,123 @@ export default class Header extends Vue {
   z-index: 1000;
   border-width: 0 0 1px;
 }
+
 .el-menu.el-menu-vertical {
   width: 100%;
   min-height: 400px;
   display: block;
   border-radius: 0;
+  a {
+    width: 100%;
+    padding: 0;
+    display: inline-block;
+  }
 }
-.el-menu.el-menu-vertical a {
-  width: 100%;
-  padding: 0;
-  display: inline-block;
+
+ul.el-menu.el-menu-vertical {
+  li {
+    border-top: 1px solid white;
+    border-bottom: 1px solid #dfdfdf;
+    i {
+      width: 30px;
+    }
+  }
 }
-ul.el-menu.el-menu-vertical li {
-  border-top: 1px solid white;
-  border-bottom: 1px solid #dfdfdf;
+
+.el-menu-item {
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .router-link-active {
+    outline-offset: -2px;
+  }
 }
-ul.el-menu.el-menu-vertical li i {
-  width: 30px;
+.el-menu {
+  a {
+    outline: none;
+    padding: 20px;
+    text-decoration: none;
+  }
 }
-.el-menu-item a:hover {
-  text-decoration: none;
-}
-.el-menu a {
-  outline: none;
-  padding: 20px;
-  text-decoration: none;
-}
+
 .el-menu-item.is-active {
   color: #48576a;
 }
-.el-menu-item .router-link-active,
-.nav > li > a.router-link-active {
-  outline-offset: -2px;
+
+.nav {
+  >li {
+    >a.router-link-active {
+      outline-offset: -2px;
+    }
+  }
 }
+
 .main-menu {
   box-shadow: 0 2px 3px hsla(0, 0%, 7%, 0.1), 0 0 0 1px hsla(0, 0%, 7%, 0.1);
   background-color: #fff;
   padding: 0 20px;
+
+  .el-menu-item {
+    border-bottom: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+  }
 }
 
-.main-menu .el-menu-item {
-  border-bottom: none;
-  height: 50px;
-  line-height: 50px;
-  font-size: 16px;
-}
-.main-menu .el-menu-item i {
-  font-size: 26px;
+.main-menu {
+  .el-menu-item {
+    i {
+      font-size: 26px;
+    }
+    &:hover {
+      background: none;
+      color: #20a0ff !important;
+      border-bottom: none;
+      >i {
+        background: none;
+        color: #20a0ff !important;
+        border-bottom: none;
+      }
+    }
+  }
+  hr {
+    height: 2px;
+    margin: 0;
+    background: #20a0ff;
+    border: none;
+    transition: 0.3s ease-in-out;
+    position: absolute;
+    bottom: -1px;
+    left: 30px;
+    width: 111px;
+  }
 }
 
-.main-menu .el-menu-item:hover,
-.main-menu .el-menu-item:hover > i {
-  background: none;
-  color: #20a0ff !important;
-  border-bottom: none;
-}
-.main-menu hr {
-  height: 2px;
-  margin: 0;
-  background: #20a0ff;
-  border: none;
-  transition: 0.3s ease-in-out;
-  position: absolute;
-  bottom: -1px;
-  left: 30px;
-  width: 111px;
-}
 .el-menu-item.logout {
   float: right;
+  a {
+    padding: 0px 0 0 10px;
+    border-left: 1px solid #ddd;
+    font-family: Segoe UI Light, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+  }
 }
-.el-menu-item.logout a {
-  padding: 0px 0 0 10px;
-  border-left: 1px solid #ddd;
-  font-family: Segoe UI Light, Helvetica, Arial, sans-serif;
-  font-size: 17px;
+
+.userblock {
+  span {
+    padding-left: 15px;
+    font-family: Segoe UI Light, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+  }
 }
-.userblock span {
-  padding-left: 15px;
-  font-family: Segoe UI Light, Helvetica, Arial, sans-serif;
-  font-size: 17px;
-}
-.el-menu-item * {
-  vertical-align: inherit !important;
+
+.el-menu-item {
+  * {
+    vertical-align: inherit !important;
+  }
 }
 
 @media (max-width: 991px) {
@@ -316,7 +341,7 @@ ul.el-menu.el-menu-vertical li i {
     text-align: center;
   }
   .navbar {
-    height: 0px;
+    height: 0;
   }
   .right-panel {
     position: absolute;
@@ -342,29 +367,33 @@ ul.el-menu.el-menu-vertical li i {
     width: auto;
     border-top: 0;
     box-shadow: none;
+    .navbar-nav.navbar-left {
+      &:first-child {
+        margin-left: -15px;
+      }
+    }
+    .navbar-nav.navbar-right {
+      &:last-child {
+        margin-right: -15px;
+      }
+    }
+    .navbar-text {
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
-
   .navbar-collapse.collapse {
     display: block;
   }
-
   .navbar-collapse.in {
     overflow-y: auto;
   }
-
-  .navbar-collapse .navbar-nav.navbar-left:first-child {
-    margin-left: -15px;
-  }
-
-  .navbar-collapse .navbar-nav.navbar-right:last-child {
-    margin-right: -15px;
-  }
-
-  .navbar-collapse .navbar-text:last-child {
-    margin-right: 0;
-  }
-  .el-menu--horizontal > .el-menu-item {
-    border-bottom: none !important;
+  .el-menu--horizontal {
+    >.el-menu-item {
+      border-bottom: none !important;
+    }
   }
 }
+
 </style>

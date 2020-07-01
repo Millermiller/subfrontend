@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/:language/translates',
     name: 'TextPage',
-    component: () => import('@/Scandinaver/Translate/UI/Texts.vue'),
+    component: () => import('@/Scandinaver/Translate/UI/TextsComponent.vue'),
     beforeEnter: requireAuth,
   },
   {
