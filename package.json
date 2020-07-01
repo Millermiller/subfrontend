@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build local": "vue-cli-service build --mode development",
-    "build prod": "vue-cli-service build",
+    "build": "vue-cli-service build",
     "serve": "vue-cli-service serve --mode development --host learn.scandinaver.local",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
