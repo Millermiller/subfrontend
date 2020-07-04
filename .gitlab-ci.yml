@@ -17,12 +17,12 @@ build site:
 #     - npm run unit
 
 deploy:
-  image: node:12
+  image: alpine
   stage: deploy
   script:
-    - apt install --no-cache rsync openssh
+    - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | base64 --decode >> ~/.ssh/id_dsa
+    - echo "$SSH_PRIVATE_KEY" | base64 -d >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -rav --delete dist/ deployer@185.87.193.247:/var/www/vue-frontend
