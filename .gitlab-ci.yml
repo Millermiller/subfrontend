@@ -20,7 +20,7 @@ deploy:
   image: node:12
   stage: deploy
   script:
-    - apk add --no-cache rsync openssh
+    - apt install --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 --decode >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
