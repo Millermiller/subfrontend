@@ -4,6 +4,7 @@ import { Prop, Watch } from 'vue-property-decorator'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import { Inject } from 'vue-typedi'
 import CardService from '@/Scandinaver/Asset/Application/card.service'
+import * as process from 'process'
 
 @Component({
   name: 'SlideComponent',
@@ -34,7 +35,9 @@ export default class SlideComponent extends Vue {
   }
 
   play(audio: string) {
-    new Audio(process.env.VUE_APP_BASE_API + audio).play()
+    // @ts-ignore
+    const baseURL = process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org'
+    new Audio(baseURL + audio).play()
   }
 
   async favourite() {

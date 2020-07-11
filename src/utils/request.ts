@@ -4,7 +4,9 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import Vue from 'vue'
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: process.env.NODE_ENV === 'development'
+    ? process.env.VUE_APP_BASE_API
+    : 'https://api.scandinaver.org',
   timeout: 5000,
   // withCredentials: true // send cookies when cross-domain requests
 })

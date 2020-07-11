@@ -12,8 +12,8 @@ export class LoginService {
         (response) => {
           if (response.status === 200) {
             const token = `Bearer ${response.data.access_token}`
-            const cookieName = process.env.VUE_APP_COOKIE_NAME as string
-            Vue.$cookies.set(cookieName, token, 8600, '/', process.env.VUE_APP_COOKIE_DOMAIN)
+            const cookieName = process.env.VUE_APP_COOKIE_NAME as string || 'authfrontend._token.local'
+            Vue.$cookies.set(cookieName, token, 8600, '/', process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org')
             window.localStorage.setItem(cookieName, token)
             this.fetchUser(token).then(() => resolve())
           } else {
@@ -29,7 +29,7 @@ export class LoginService {
 
   public static checkAuth() {
     return new Promise((resolve, reject) => {
-      const cookieName = process.env.VUE_APP_COOKIE_NAME as string
+      const cookieName = process.env.VUE_APP_COOKIE_NAME as string || 'authfrontend._token.local'
       const token = Vue.$cookies.get(cookieName)
       if (Vue.$user !== undefined) {
         resolve()
@@ -48,11 +48,11 @@ export class LoginService {
   }
 
   public static logout() {
-    const cookieName = process.env.VUE_APP_COOKIE_NAME as string
+    const cookieName = process.env.VUE_APP_COOKIE_NAME as string || 'authfrontend._token.local'
     const token = Vue.$cookies.get(cookieName)
     return UserAPI.logout(token).then((response) => {
       store.commit('setAuth', false)
-      Vue.$cookies.remove(cookieName, '/', process.env.VUE_APP_COOKIE_DOMAIN)
+      Vue.$cookies.remove(cookieName, '/', process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org')
     })
   }
 

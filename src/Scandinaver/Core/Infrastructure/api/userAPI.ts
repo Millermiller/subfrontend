@@ -13,7 +13,7 @@ export namespace API {
   export class UserAPI {
     public static login(data: ILoginForm): Promise<AxiosResponse<ILoginData>> {
       const request = axios.create({
-        baseURL: process.env.VUE_APP_BASE_API,
+        baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,
       })
       return request.post('/login', data)
@@ -21,7 +21,7 @@ export namespace API {
 
     static logout(token: string): Promise<AxiosResponse> {
       const request = axios.create({
-        baseURL: process.env.VUE_APP_BASE_API,
+        baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,
         headers: {
           post: {
@@ -34,7 +34,7 @@ export namespace API {
 
     static fetch(token: string): Promise<AxiosResponse> {
       const request = axios.create({
-        baseURL: process.env.VUE_APP_BASE_API,
+        baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,
         headers: {
           get: {
