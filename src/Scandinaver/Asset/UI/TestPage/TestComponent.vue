@@ -51,7 +51,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
-import { Route } from 'vue-router'
 import { Inject } from 'vue-typedi'
 import AssetService from '@/Scandinaver/Asset/Application/asset.service'
 import TestService from '@/Scandinaver/Asset/Application/test.service'
@@ -74,7 +73,7 @@ export default class TestComponent extends Vue {
   private testService: TestService
 
   @Watch('$route')
-  private onRouteChange(route: Route) {
+  private onRouteChange(route: any) {
     if (route.params.id) this.buildTest(parseInt(route.params.id, 10))
   }
 
@@ -103,7 +102,7 @@ export default class TestComponent extends Vue {
     const asset = await this.assetService.getAsset(id)
     this.test = this.testService.create(asset)
 
-    this.$store.commit(SET_SELECTION, id)
+    this.$store.commit(SET_SELECTION, asset)
     await this.$store.dispatch(RESET_TEST, this.test)
     await this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.type)
 

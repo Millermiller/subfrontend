@@ -97,13 +97,14 @@ import AssetService from '@/Scandinaver/Asset/Application/asset.service'
 import { SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import * as events from '@/events/events.type'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 @Component({
   name: 'AssetComponent',
 })
 export default class AssetComponent extends Vue {
   @Prop({ required: true })
-  public asset!: any
+  public asset!: Asset
 
   @Prop({ required: true })
   private index!: number
@@ -149,14 +150,14 @@ export default class AssetComponent extends Vue {
   }
 
   loadAsset(): void {
-    if (this.isActive) {
+    if (this.isActive && !this.asset.selected) {
       this.$eventHub.$emit(events.SELECT_ASSET, this.asset.id)
       this.$router.push({
         name: 'CardsPage',
-        params: { language: this.currentLanguage, id: this.asset.id },
+        params: { language: this.currentLanguage, id: this.asset.id.toString() },
       })
       this.$store.commit('showDictionary')
-      this.$store.commit(SET_SELECTION, this.asset.id)
+      this.$store.commit(SET_SELECTION, this.asset)
     }
   }
 

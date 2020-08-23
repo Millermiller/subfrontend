@@ -1,4 +1,5 @@
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 export namespace Responses {
   export interface GetAssetResponse {
@@ -17,8 +18,8 @@ export namespace Responses {
     site: string
     words: []
     sentences: []
-    favourites: any
-    personal: []
+    favourites: Asset
+    personal: Asset[]
     texts: []
     puzzles: []
     intro: any

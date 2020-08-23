@@ -1,10 +1,10 @@
 import { Getters } from 'vuex-smart-module'
-import { Card } from 'element-ui'
 import State from '@/Scandinaver/Asset/Infrastructure/store/asset/state'
 import { Word } from '@/Scandinaver/Asset/Domain/Word'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import { Card } from '@/Scandinaver/Asset/Domain/Card'
 
 export default class AssetGetters extends Getters<State> {
   get activeAssetType(): string {
@@ -47,7 +47,7 @@ export default class AssetGetters extends Getters<State> {
     return this.state.sentences
   }
 
-  get personal() {
+  get personal(): Asset[] {
     return this.state.personal
   }
 
@@ -60,6 +60,10 @@ export default class AssetGetters extends Getters<State> {
 
   get activeAsset() {
     return this.state.activePersonalAsset
+  }
+
+  getPersonalAssetById(id: number) {
+    return this.personal.find(item => item.id === id)
   }
 
   get favouriteAsset(): Asset {

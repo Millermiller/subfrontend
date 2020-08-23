@@ -7,8 +7,8 @@ export default class State {
   words: Word[] = []
   sentences: ISentence[] = []
   favourites: Asset = new Asset()
-  personal: any[] = []
-  activePersonalAsset: number = 0
+  personal: Asset[] = []
+  activePersonalAsset: Asset = new Asset()
   activePersonalAssetIndex: number = 0
   activePersonalAssetName: string = ''
   activePersonalAssetEdit: boolean = false

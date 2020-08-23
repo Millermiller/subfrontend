@@ -4,6 +4,7 @@ import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { plainToClass } from 'class-transformer'
 import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import CardApi = API.CardApi
 
 @Service()
@@ -19,19 +20,35 @@ export default class CardRepository extends BaseRepository<Card> {
     throw new Error('method not implemented')
   }
 
-  public async delete(card: Card): Promise<any> {
-    this.api.destroyCard(card).then(response => response)
+  async delete(entity: Card): Promise<any> {
+    throw new Error('method not implemented')
+  }
+
+  async removeFromAsset(card: Card, asset: Asset): Promise<any> {
+    return this.api.destroyCard(card, asset).then(response => response)
   }
 
   public async save(card: Card): Promise<Card> {
-    return this.api.createCard(card).then(response => plainToClass(Card, response.data))
+    return this.api
+      .createCard(card)
+      .then(response => plainToClass(Card, response.data))
   }
 
-  public async translate(word: string, sentence: boolean) {
-    return this.api.translate(word, sentence).then(response => response)
+  public async add(card: Card): Promise<Card> {
+    return this.api
+      .addCardToAsset(card)
+      .then(response => plainToClass(Card, response.data))
+  }
+
+  public async translate(word: string, sentence: boolean): Promise<Card[]> {
+    return this.api
+      .translate(word, sentence)
+      .then(response => plainToClass(Card, response.data))
   }
 
   public async addWord(form: IDictionaryForm) {
-    return this.api.addWord(form).then(response => plainToClass<Card, Card>(Card, response.data))
+    return this.api
+      .addWord(form)
+      .then(response => plainToClass<Card, Card>(Card, response.data))
   }
 }

@@ -30,9 +30,6 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import CardComponent from '@/Scandinaver/Asset/UI/PersonalPage/Card.vue'
-import { Inject } from 'vue-typedi'
-import CardService from '@/Scandinaver/Asset/Application/card.service'
-import * as events from '@/events/events.type'
 
 @Component({
   name: 'CardsComponent',
@@ -41,9 +38,6 @@ import * as events from '@/events/events.type'
   },
 })
 export default class CardsComponent extends Vue {
-  @Inject()
-  private service: CardService
-
   @Prop()
   private name: string
 
@@ -54,25 +48,5 @@ export default class CardsComponent extends Vue {
   private loading: boolean
 
   private loadingbody: boolean = false
-
-  created() {
-    this.$eventHub.$on(events.DELETE_CART_FROM_ASSET, this.removeCard)
-  }
-
-  removeCard(data: any) {
-    this.loadingbody = true
-    this.service.destroyCard(data.card)
-    this.cards.splice(data.index, 1) // TODO: сделать перезагрузку
-    this.loadingbody = false
-    this.$notify.success({
-      title: this.$tc('cardRemoved'),
-      message: data.card.word!.word,
-      duration: 4000,
-    })
-  }
-
-  beforeDestroy() {
-    this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)
-  }
 }
 </script>

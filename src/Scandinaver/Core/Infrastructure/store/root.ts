@@ -14,6 +14,7 @@ import {
 import { API } from '@/Scandinaver/Core/Infrastructure/api/commonAPI'
 import { plainToClass } from 'class-transformer'
 import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import CommonAPI = API.CommonAPI
 
 // State
@@ -138,10 +139,15 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
 
   reloadStore() {
     CommonAPI.getState().then((response) => {
+      const personalAssets = plainToClass<Asset, Asset>(Asset, response.data.personal)
+      const favouriteAsset = plainToClass<Asset, Asset>(Asset, response.data.favourites)
+
+      personalAssets.unshift(favouriteAsset)
+
       this.assetstore.commit(SET_WORDS, response.data.words)
       this.assetstore.commit(SET_SENTENCES, response.data.sentences)
       this.assetstore.commit(SET_FAVOURITES, response.data.favourites)
-      this.assetstore.commit(SET_PERSONAL, response.data.personal)
+      this.assetstore.commit(SET_PERSONAL, personalAssets)
       this.textstore.commit('setTexts', plainToClass(Translate, response.data.texts))
       this.puzzleStore.commit('setPuzzles', response.data.puzzles)
       this.commit('setSites', response.data.sites)

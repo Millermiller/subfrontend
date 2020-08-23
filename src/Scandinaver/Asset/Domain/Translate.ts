@@ -12,4 +12,8 @@ export default class Translate extends Entity {
   getId(): any {
     return this.id
   }
+
+  getValue(): string {
+    return this.value
+  }
 }

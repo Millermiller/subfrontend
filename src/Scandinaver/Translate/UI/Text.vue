@@ -60,7 +60,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
-import { Route } from 'vue-router'
 import { Inject } from 'vue-typedi'
 import TextService from '@/Scandinaver/Translate/Application/text.service'
 import { BehaviorSubject, Subject } from 'rxjs'
@@ -96,7 +95,7 @@ export default class TextItem extends Vue {
   }
 
   @Watch('$route')
-  private onRouteChange(route: Route) {
+  private onRouteChange(route: any) {
     if (route.params.id) this.loadText(parseInt(route.params.id, 10))
   }
 

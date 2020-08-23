@@ -1,9 +1,9 @@
 <div class="slide">
-  <p class="word">{{ item.word.word }}</p>
+  <p class="word">{{ item.word.getValue() }}</p>
   <template v-if="!item.nocontrols">
     <div class="translate-area pointer" @click="showTranslate">
       <template v-if="show &amp;&amp; item.translate">
-        <p class="slide-value">{{ item.translate.value }}</p>
+        <p class="slide-value">{{ item.translate.getValue() }}</p>
         <div class="example-area">
           <template v-for="(example, index) in item.examples">
             <p class="example-text" :html="example.text" :key="index"></p>

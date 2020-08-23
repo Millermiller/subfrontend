@@ -67,7 +67,7 @@ export class LoginService {
             store.commit('setUser', response.data)
             store.commit('setAuth', true)
             store.commit('setActive', response.data.active)
-            store.commit(SET_SELECTION, 0)
+            // store.commit(SET_SELECTION, 0)
             store.dispatch('reloadStore').then((response) => {
               resolve()
             })

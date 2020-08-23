@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
-import { Route } from 'vue-router'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import { Word } from '@/Scandinaver/Asset/Domain/Word'
 import AssetService from '@/Scandinaver/Asset/Application/asset.service'
@@ -17,7 +16,7 @@ export default class SliderComponent extends Vue {
   private assetService: AssetService
 
   @Watch('$route')
-  private onRouteChange(route: Route) {
+  private onRouteChange(route: any) {
     if (route.params.id) this.getAsset(parseInt(route.params.id, 10))
   }
 

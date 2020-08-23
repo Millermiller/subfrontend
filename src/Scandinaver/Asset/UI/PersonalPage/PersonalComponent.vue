@@ -19,17 +19,13 @@ import Assets from '@/Scandinaver/Asset/UI/PersonalPage/Assets.vue'
 import Dictionary from '@/Scandinaver/Asset/UI/PersonalPage/Dictionary.vue'
 import Cards from '@/Scandinaver/Asset/UI/PersonalPage/Cards.vue'
 import { ON_CARDS_PAGE_CLOSE, ON_CARDS_PAGE_OPEN } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
-import { SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { Inject } from 'vue-typedi'
 import AssetService from '@/Scandinaver/Asset/Application/asset.service'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import CardService from '@/Scandinaver/Asset/Application/card.service'
-import Translate from '@/Scandinaver/Asset/Domain/Translate'
-import { Word } from '@/Scandinaver/Asset/Domain/Word'
 import * as events from '@/events/events.type'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { Watch } from 'vue-property-decorator'
-import { Route } from 'vue-router'
 
 @Component({
   name: 'PersonalComponent',
@@ -47,7 +43,7 @@ export default class PersonalComponent extends Vue {
   private cardService: CardService
 
   @Watch('$route')
-  private onRouteChange(route: Route) {
+  private onRouteChange(route: any) {
     if (parseInt(this.$route.params.id, 10) > 0) {
       this.load(parseInt(this.$route.params.id, 10))
     } else {
@@ -61,10 +57,10 @@ export default class PersonalComponent extends Vue {
   created() {
     this.$eventHub.$on(events.SELECT_ASSET, this.load)
     this.$eventHub.$on(events.ADD_CART_TO_ASSET, this.add)
+    this.$eventHub.$on(events.DELETE_CART_FROM_ASSET, this.removeCard)
 
     if (parseInt(this.$route.params.id, 10) > 0) {
       this.load(parseInt(this.$route.params.id, 10))
-      //  this.$store.commit(SET_SELECTION, this.$route.params.id)
     } else {
       this.$store.dispatch(ON_CARDS_PAGE_OPEN)
       this.load(this.$store.getters.activeAsset)
@@ -77,18 +73,30 @@ export default class PersonalComponent extends Vue {
     this.loading = false
   }
 
-  async add(word: Word, translate: Translate, asset: any) {
+  async add(card: Card) {
     this.loading = true
-    const card = new Card()
-    card.word = word
-    card.translate = translate
-    card.asset_id = asset.id
+
+    const asset = this.$store.getters.activeAsset
     card.asset = asset
-    await this.cardService.createCard(card)
+
+    await this.cardService.addCardToAsset(card)
     this.loading = false
+    await this.load(asset.getId())
     this.$notify.success({
       title: this.$tc('cardAdded'),
-      message: word.word,
+      message: card.word.getValue(),
+      duration: 4000,
+    })
+  }
+
+  async removeCard(data: any) {
+    this.loading = true
+    const asset = this.$store.getters.activeAsset
+    await this.cardService.removeFromAsset(data.card, data.asset)
+    await this.load(asset.getId())
+    this.$notify.success({
+      title: this.$tc('cardRemoved'),
+      message: data.card.word!.getValue(),
       duration: 4000,
     })
   }
@@ -98,6 +106,7 @@ export default class PersonalComponent extends Vue {
     this.$eventHub.$off(events.SELECT_ASSET)
     this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)
     this.$eventHub.$off(events.ADD_CART_TO_ASSET)
+    this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)
   }
 }
 </script>

@@ -52,9 +52,9 @@ import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import * as events from '@/events/events.type'
 
 @Component({
-  name: 'Translate',
+  name: 'TranslateComponent',
 })
-export default class extends Vue {
+export default class TranslateComponent extends Vue {
   @Prop({ required: true })
   private card!: Card
 
@@ -66,13 +66,7 @@ export default class extends Vue {
   }
 
   add() {
-    const data = {
-      word: this.card.word,
-      translate_id: this.card.id,
-      asset_id: this.$store.getters.activeAsset,
-      index: this.index,
-    }
-    this.$eventHub.$emit(events.ADD_CART_TO_ASSET, data)
+    this.$eventHub.$emit(events.ADD_CART_TO_ASSET, this.card)
   }
 }
 </script>

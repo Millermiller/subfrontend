@@ -45,7 +45,7 @@
         <transition-group name="cards" tag="div">
           <translate
             v-for="(card, index) in cards"
-            :key="card.id"
+            :key="index"
             :card="card"
             :index="index"
           ></translate>
@@ -55,10 +55,10 @@
     <el-dialog :title="$t('newCard')" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item>
-          <el-input :model="form.orig" placeholder="Оригинал"></el-input>
+          <el-input v-model="form.orig" placeholder="Оригинал"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input :model="form.translate" placeholder="Перевод"></el-input>
+          <el-input v-model="form.translate" placeholder="Перевод"></el-input>
         </el-form-item>
         <el-form-item>
           <el-checkbox :model="form.is_public">
@@ -68,7 +68,7 @@
       </el-form>
       <el-collapse>
         <el-collapse-item title="Что это?" name="1">
-          <p>{{ $t('visibleDescription') }}</p>
+          <p v-html="$t('visibleDescription')"></p>
         </el-collapse-item>
       </el-collapse>
       <span class="dialog-footer" slot="footer">
@@ -86,7 +86,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import Translate from '@/Scandinaver/Asset/UI/PersonalPage/Translate.vue'
+import Translate from '@/Scandinaver/Asset/UI/PersonalPage/TranslateComponent.vue'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import IDictionaryForm, {
   DictionaryForm,
@@ -128,12 +128,12 @@ export default class Dictionary extends Vue {
       this.service.translate(this.word, this.sentence).then(
         (response): void => {
           this.loading = false
-          if (!response.data.length) {
+          if (!response.length) {
             this.message = this.$tc('noResult')
             this.cards = []
           } else {
             this.message = false
-            this.cards = response.data
+            this.cards = response
 
             const word_ids: number[] = []
 
@@ -168,7 +168,7 @@ export default class Dictionary extends Vue {
 
   async submit() {
     this.form.is_public = this.form.is_public ? 1 : 0
-    const card = await this.service.addWord(this.form)
+    const card = await this.service.createCard(this.form)
     this.cards = [card]
     this.dialogFormVisible = false
   }
@@ -178,3 +178,11 @@ export default class Dictionary extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.el-collapse {
+  p {
+    word-break: break-word;
+  }
+}
+</style>

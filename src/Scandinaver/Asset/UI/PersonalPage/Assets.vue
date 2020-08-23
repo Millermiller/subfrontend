@@ -45,6 +45,7 @@ import { Inject } from 'vue-typedi'
 import AssetService from '@/Scandinaver/Asset/Application/asset.service'
 import { ADD_PERSONAL_ASSET } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import * as events from '@/events/events.type'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 @Component({
   name: 'AssetsComponent',
@@ -62,7 +63,7 @@ export default class AssetsComponent extends Vue {
 
   loading: boolean = false
 
-  get assets() {
+  get assets(): Asset[] {
     return this.$store.getters.personal
   }
 

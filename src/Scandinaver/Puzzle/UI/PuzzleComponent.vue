@@ -113,6 +113,7 @@ export default class PuzzleComponent extends Vue {
   public dropZones: {}[] = []
   public success: number = 0
   public isRotate: boolean = false
+  private wordsCount: number = 0
 
   created() {
     this.$eventHub.$on(events.PUZZLE_SELECTED, this.createPuzzle)
@@ -123,6 +124,7 @@ export default class PuzzleComponent extends Vue {
     puzzle.active = true
     this.success = 0
     this.$Progress.set(0)
+    this.wordsCount = this.puzzle.pieces.count()
     this.words = this.puzzle.translate.split(' ')
     this.dropZones = []
 
@@ -149,7 +151,7 @@ export default class PuzzleComponent extends Vue {
       toList.content.push(data.item)
       fromList.splice(fromList.indexOf(data.item), 1)
       this.success++
-      this.$Progress.set(Math.floor((this.success * 100) / this.puzzle.pieces.count()))
+      this.$Progress.set(Math.floor((this.success * 100) / this.wordsCount))
 
       if (this.$Progress.get() === 100) {
         this.attach(this.puzzle!)
@@ -166,7 +168,7 @@ export default class PuzzleComponent extends Vue {
       fromList.splice(fromList.indexOf(data.item), 1)
       data.zone.class = 'dragover'
       this.success--
-      this.$Progress.set(Math.floor((this.success * 100) / this.puzzle.pieces.count()))
+      this.$Progress.set(Math.floor((this.success * 100) / this.wordsCount))
     }
   }
 

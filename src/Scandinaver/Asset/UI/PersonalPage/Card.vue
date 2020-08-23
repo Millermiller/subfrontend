@@ -56,9 +56,11 @@ export default class CardComponent extends Vue {
   private index!: number
 
   removeCard() {
+    const asset = this.$store.getters.activeAsset
     this.$eventHub.$emit(events.DELETE_CART_FROM_ASSET, {
       card: this.card,
       index: this.index,
+      asset,
     })
   }
 }

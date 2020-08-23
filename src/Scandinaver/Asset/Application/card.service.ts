@@ -4,13 +4,14 @@ import CardRepository from '@/Scandinaver/Asset/Infrastructure/card.repository'
 import FavouriteRepository from '@/Scandinaver/Asset/Infrastructure/favourite.repository'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import {
-  DECREMENT_FAVOURITE_COUNTER,
-  INCREMENT_FAVOURITE_COUNTER,
-  REMOVE_CARD,
+  DECREMENT_FAVOURITE_COUNTER, DECREMENT_PERSONAL_COUNTER,
+  INCREMENT_FAVOURITE_COUNTER, INCREMENT_PERSONAL_COUNTER,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
-import { AxiosResponse } from 'axios'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
+import { Word } from '@/Scandinaver/Asset/Domain/Word'
+import Translate from '@/Scandinaver/Asset/Domain/Translate'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 @Service()
 export default class CardService extends BaseService<Card> {
@@ -24,9 +25,18 @@ export default class CardService extends BaseService<Card> {
   @Inject()
   private favouriteRepository: FavouriteRepository
 
-  public async createCard(card: Card): Promise<Card> {
-    return this.cardRepository.save(card)
-    // store.commit(INCREMENT_PERSONAL_COUNTER, card.id)
+  public async createCard(form: IDictionaryForm): Promise<Card> {
+    const card = new Card()
+    card.word = new Word(form.orig)
+    card.translate = new Translate(form.translate)
+    await this.cardRepository.save(card)
+    return card
+  }
+
+  public async addCardToAsset(card: Card): Promise<Card> {
+    await this.cardRepository.add(card)
+    store.commit(INCREMENT_PERSONAL_COUNTER, card)
+    return card
   }
 
   public async addToFavourite(card: Card): Promise<Card> {
@@ -43,12 +53,13 @@ export default class CardService extends BaseService<Card> {
     return card
   }
 
-  public async destroyCard(card: Card) {
-    await this.cardRepository.delete(card)
-    store.commit(REMOVE_CARD, card)
+  public async removeFromAsset(card: Card, asset: Asset): Promise<Card> {
+    await this.cardRepository.removeFromAsset(card, asset)
+    await store.commit(DECREMENT_PERSONAL_COUNTER, asset)
+    return card
   }
 
-  public async translate(word: string, sentence: boolean): Promise<AxiosResponse> {
+  public async translate(word: string, sentence: boolean): Promise<Card[]> {
     return this.cardRepository.translate(word, sentence)
   }
 

@@ -1,18 +1,22 @@
 import { User } from '@/Scandinaver/Core/Domain/User'
+import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 
-export default interface IWord {
-  id: number
-  active: boolean
-  word: string
-}
-
-export class Word implements IWord {
+export class Word extends Entity {
   active!: boolean
   id!: number
-  word!: string
+  value!: string
   user: User
 
   constructor(word: string) {
-    this.word = word
+    super()
+    this.value = word
+  }
+
+  getId(): number | string {
+    return this.id;
+  }
+
+  getValue(): string {
+    return this.value
   }
 }

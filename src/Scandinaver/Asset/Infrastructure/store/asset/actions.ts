@@ -11,7 +11,9 @@ import {
   SET_SELECTION,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
-import type = Mocha.utils.type
+import { plainToClass } from 'class-transformer'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { AxiosResponse } from 'axios'
 
 export default class AssetActions extends Actions<
   State,
@@ -25,7 +27,7 @@ export default class AssetActions extends Actions<
         (response: any) => {
           if (response.status === 201) {
             this.dispatch(RELOAD_PERSONAL_ASSETS)
-            this.commit(SET_SELECTION, 1)
+            // this.commit(SET_SELECTION, 1)
             resolve(response)
           }
         },
@@ -39,21 +41,17 @@ export default class AssetActions extends Actions<
 
   reload_personal_assets() {
     return new Promise((resolve, reject) => {
-      request.get('/personal').then(
-        (response: any) => {
-          this.commit(SET_PERSONAL, response.data)
+      request.get<Asset[], AxiosResponse<Asset[]>>('/personal').then(
+        async (response: AxiosResponse<Asset[]>) => {
+          this.commit(SET_PERSONAL, await plainToClass<Asset, Asset>(Asset, response.data))
           resolve(response)
-        },
-        (response: any) => {
-          console.log(response.data)
-          reject()
         },
       )
     })
   }
 
   loadAsset(data: any) {
-    this.commit(SET_SELECTION, data)
+    // this.commit(SET_SELECTION, data)
   }
 
   setActiveAssetType(data: number) {
@@ -61,14 +59,14 @@ export default class AssetActions extends Actions<
   }
 
   onCardsPageClose() {
-    this.commit(SET_SELECTION, 1)
+    this.commit(SET_SELECTION, this.getters.favouriteAsset)
     this.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, false)
   }
 
   onCardsPageOpen() {
     const asset = { type: 3 }
     if (!this.state.activePersonalAssetEdit) {
-      this.commit(SET_SELECTION, this.getters.favouriteAsset.id)
+      this.commit(SET_SELECTION, this.getters.favouriteAsset)
     }
   }
 }
