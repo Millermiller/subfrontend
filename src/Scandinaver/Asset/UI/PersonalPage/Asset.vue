@@ -151,13 +151,10 @@ export default class AssetComponent extends Vue {
 
   loadAsset(): void {
     if (this.isActive && !this.asset.selected) {
-      this.$eventHub.$emit(events.SELECT_ASSET, this.asset.id)
       this.$router.push({
         name: 'CardsPage',
         params: { language: this.currentLanguage, id: this.asset.id.toString() },
       })
-      this.$store.commit('showDictionary')
-      this.$store.commit(SET_SELECTION, this.asset)
     }
   }
 

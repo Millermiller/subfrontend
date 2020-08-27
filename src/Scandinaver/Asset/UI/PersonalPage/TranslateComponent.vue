@@ -2,7 +2,7 @@
   <div class="list-item list-item-card el-row">
     <el-col :span="20">
       <p :class="['asset_title', { 'text-success': card.exist }]">
-        {{ card.word.word }}
+        {{ card.word.getValue() }}
       </p>
     </el-col>
     <el-col :span="4">
@@ -56,7 +56,7 @@ import * as events from '@/events/events.type'
 })
 export default class TranslateComponent extends Vue {
   @Prop({ required: true })
-  private card!: Card
+  private card: Card
 
   @Prop({ required: true })
   private index!: number

@@ -26,7 +26,6 @@ class State {
   info = {}
   backdrop = 0
   rightMenuOpen = false
-  showDictionary = true
   intro = []
   language: string = ''
   introNeed = {
@@ -65,10 +64,6 @@ class CommonGetters extends Getters<State> {
     return this.state.rightMenuOpen
   }
 
-  get showDictionary() {
-    return this.state.showDictionary
-  }
-
   intro(id: number) {
     return this.state.intro[id]
   }
@@ -91,10 +86,6 @@ class CommonMutations extends Mutations<State> {
 
   setFullscreenLoading(loading: boolean): void {
     this.state.fullscreenLoading = loading
-  }
-
-  showDictionary(): void {
-    this.state.showDictionary = true
   }
 
   // setIntroVisibility = ({data}: { data: any }) => this.state.introNeed[data.page] = data.visible

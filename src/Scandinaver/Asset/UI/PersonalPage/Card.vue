@@ -1,7 +1,7 @@
 <template>
   <div class="list-item list-item-card el-row">
     <el-col :span="21">
-      <p>{{ card.word.word }}</p>
+      <p>{{ card.word.getValue() }}</p>
     </el-col>
     <el-col :span="2">
       <el-button
@@ -13,7 +13,7 @@
       ></el-button>
     </el-col>
     <el-col :span="24">
-      <p class="no-margin card-value">{{ card.translate.value }}</p>
+      <p class="no-margin card-value">{{ card.translate.getValue() }}</p>
     </el-col>
     <el-col :span="24" v-if="card.word.creator">
       <el-popover placement="top-start" width="250" trigger="hover">

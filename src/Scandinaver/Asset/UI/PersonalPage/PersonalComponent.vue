@@ -55,7 +55,6 @@ export default class PersonalComponent extends Vue {
   loading: boolean = false
 
   created() {
-    this.$eventHub.$on(events.SELECT_ASSET, this.load)
     this.$eventHub.$on(events.ADD_CART_TO_ASSET, this.add)
     this.$eventHub.$on(events.DELETE_CART_FROM_ASSET, this.removeCard)
 
@@ -103,7 +102,6 @@ export default class PersonalComponent extends Vue {
 
   beforeDestroy() {
     this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
-    this.$eventHub.$off(events.SELECT_ASSET)
     this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)
     this.$eventHub.$off(events.ADD_CART_TO_ASSET)
     this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)

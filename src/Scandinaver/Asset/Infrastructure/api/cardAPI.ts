@@ -10,7 +10,7 @@ export namespace API {
   export class CardApi {
     addCardToAsset(card: Card): Promise<AxiosResponse<Card>> {
       return request.post(
-        `/card/${card.word.id}/${card.translate.id}/${card.asset.id}`,
+        `/card/${card.getId()}/${card.asset.getId()}`,
       )
     }
 

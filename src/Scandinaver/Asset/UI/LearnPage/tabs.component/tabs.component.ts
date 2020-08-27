@@ -36,6 +36,9 @@ export default class TabsComponent extends Vue {
   }
 
   get active() {
+    if (this.$store.getters.activeAssetType === AssetType.FAVORITES.toString()) {
+      return AssetType.PERSONAL.toString()
+    }
     return this.$store.getters.activeAssetType
   }
 
