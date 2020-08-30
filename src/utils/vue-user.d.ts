@@ -6,7 +6,7 @@ declare module 'vue-user' {
 
   module 'vue/types/vue' {
     interface VueConstructor {
-      $user: IUser
+      $user: IUser|undefined
     }
     interface Vue {
       $user: IUser

@@ -1,9 +1,9 @@
 <template>
   <el-row id="footer">
     <el-row class="footer-inner" :gutter="20">
-      <el-col :span="12"
-        ><span class="copyright">{{ copy }}</span></el-col
-      >
+      <el-col :span="12">
+        <span class="copyright">{{ copy }} | {{version}}</span>
+      </el-col>
       <el-col :md="{ span: 4, offset: 8 }" :xs="{ span: 12 }">
         <el-button type="text" @click="showIntro()">Помощь</el-button>
         <el-button type="text" @click="dialogFormVisible = true">Обратная связь</el-button>
@@ -12,51 +12,70 @@
     <el-dialog title="Ваше сообщение:" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="messageform">
         <el-form-item prop="message">
-          <el-input id="feedback_message" type="textarea" v-model="form.message" placeholder="Сообщение"></el-input>
-        </el-form-item> </el-form
-      ><span class="dialog-footer" slot="footer"
-        ><el-button @click="dialogFormVisible = false">Отмена</el-button
-        ><el-button type="primary" @click="submit">Отправить</el-button></span
-      ></el-dialog
-    >
+          <el-input
+            id="feedback_message"
+            type="textarea"
+            v-model="form.message"
+            placeholder="Сообщение"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span class="dialog-footer" slot="footer">
+        <el-button @click="dialogFormVisible = false">Отмена</el-button>
+        <el-button type="primary" @click="submit">Отправить</el-button>
+      </span>
+    </el-dialog>
   </el-row>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import IFeedbackForm, { FeedbackForm } from '@/Scandinaver/Core/Domain/Contract/IFeedbackForm'
+import IFeedbackForm, {
+  FeedbackForm,
+} from '@/Scandinaver/Core/Domain/Contract/IFeedbackForm'
 import FeedbackService from '@/Scandinaver/Core/Application/feedback.service'
 import { Inject } from 'vue-typedi'
+import { version } from '../../../../package.json'
 
 @Component({ name: 'Footer' })
 export default class Footer extends Vue {
   @Inject()
   private service: FeedbackService
 
+  private version: string = `v.${version}`
+
   dialogFormVisible: boolean = false
-  copy: string = 'scandinaver.org © 2018'
+  copy: string = 'scandinaver.org © 2020'
   introVisible: boolean = false
   form: IFeedbackForm = new FeedbackForm()
 
   rules: {} = {
-    message: [{ required: true, message: 'Поле не может быть пустым!', trigger: 'sumbit' }],
+    message: [
+      {
+        required: true,
+        message: 'Поле не может быть пустым!',
+        trigger: 'sumbit',
+      },
+    ],
   }
 
   submit() {
     // @ts-ignore
-    this.$refs.messageform.validate(async (valid): Promise<void> => {
-      if (valid) {
-        await this.service.addFeedback(this.form)
-        this.dialogFormVisible = false
-        this.$notify.success({
-          title: '',
-          message: 'Сообщение отправлено',
-          duration: 2000,
-        })
-        this.form = new FeedbackForm()
-      }
-    })
+    this.$refs.messageform.validate(
+      async (valid: any) => {
+        if (valid) {
+          await this.service.addFeedback(this.form)
+          this.dialogFormVisible = false
+          this.$notify.success({
+            title: '',
+            message: 'Сообщение отправлено',
+            duration: 2000,
+          })
+          this.form = new FeedbackForm()
+        }
+      },
+    )
   }
   /*
     showIntro() {

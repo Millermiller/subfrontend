@@ -1,9 +1,21 @@
-import DashboardModule from '@/Scandinaver/Dashboard/dashboard.module.vue'
 import Login from '@/Scandinaver/Core/UI/Login.vue'
-import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { requireAuth } from '@/router'
+import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 
 const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+    beforeEnter(to: any, from: any, next: any) {
+      LoginService.checkAuth()
+        .then(
+          () => next({ name: 'MainPage', params: { language: 'is' } }),
+          () => next(),
+        )
+        .catch(() => next())
+    },
+  },
   {
     path: '/:language',
     name: 'MainPage',
@@ -11,21 +23,8 @@ const routes = [
       title: 'page401',
       noCache: true,
     },
-    // component: DashboardModule,
     component: () => import('@/Scandinaver/Dashboard/dashboard.module.vue'),
     beforeEnter: requireAuth,
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login,
-    beforeEnter(to: any, from: any, next: any) {
-      if (store.getters.auth) {
-        next({ path: '/' })
-      } else {
-        next()
-      }
-    },
   },
 ]
 

@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios'
 import { API, ILoginData } from '@/Scandinaver/Core/Infrastructure/api/userAPI'
 import Vue from 'vue'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
-import { SET_SELECTION } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import UserAPI = API.UserAPI
 
 export class LoginService {
@@ -12,8 +11,15 @@ export class LoginService {
         (response) => {
           if (response.status === 200) {
             const token = `Bearer ${response.data.access_token}`
-            const cookieName = process.env.VUE_APP_COOKIE_NAME as string || 'authfrontend._token.local'
-            Vue.$cookies.set(cookieName, token, 8600, '/', process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org')
+            const cookieName = (process.env.VUE_APP_COOKIE_NAME as string)
+              || 'authfrontend._token.local'
+            Vue.$cookies.set(
+              cookieName,
+              token,
+              8600,
+              '/',
+              process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org',
+            )
             window.localStorage.setItem(cookieName, token)
             this.fetchUser(token).then(() => resolve())
           } else {
@@ -29,12 +35,14 @@ export class LoginService {
 
   public static checkAuth() {
     return new Promise((resolve, reject) => {
-      const cookieName = process.env.VUE_APP_COOKIE_NAME as string || 'authfrontend._token.local'
+      const cookieName = (process.env.VUE_APP_COOKIE_NAME as string)
+        || 'authfrontend._token.local'
       const token = Vue.$cookies.get(cookieName)
-      if (Vue.$user !== undefined) {
+      const { auth } = store.getters
+      if (auth !== false) {
         resolve()
       }
-      if (Vue.$user === undefined) {
+      if (auth === false) {
         if (token !== null) {
           this.fetchUser(token).then(
             () => resolve(),
@@ -48,22 +56,25 @@ export class LoginService {
   }
 
   public static logout() {
-    const cookieName = process.env.VUE_APP_COOKIE_NAME as string || 'authfrontend._token.local'
+    const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token.local'
     const token = Vue.$cookies.get(cookieName)
     return UserAPI.logout(token).then((response) => {
       store.commit('setAuth', false)
-      Vue.$cookies.remove(cookieName, '/', process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org')
+      store.commit('resetUser')
+      Vue.$cookies.remove(
+        cookieName,
+        '/',
+        process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org',
+      )
     })
   }
 
   private static fetchUser(token: string) {
     return new Promise((resolve, reject) => {
       store.commit('setFullscreenLoading', true)
-      UserAPI
-        .fetch(token)
+      UserAPI.fetch(token)
         .then(
           (response) => {
-            Vue.$user = response.data
             store.commit('setUser', response.data)
             store.commit('setAuth', true)
             store.commit('setActive', response.data.active)

@@ -103,8 +103,10 @@ export default class Header extends Vue {
   }
 
   logout(): void {
+    store.commit('setFullscreenLoading', true)
     LoginService.logout().then((response) => {
-      this.$router.push({ path: '/login' })
+      this.$router.push({ name: 'login' })
+      store.commit('setFullscreenLoading', false)
     })
   }
 

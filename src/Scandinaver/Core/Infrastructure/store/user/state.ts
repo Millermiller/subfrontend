@@ -9,7 +9,7 @@ export default class State {
     email: '',
     plan: {
       name: '',
-      id: '',
+      id: 0,
     },
   }
 }
