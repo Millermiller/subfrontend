@@ -2,7 +2,7 @@ import axios from 'axios'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import Vue from 'vue'
 
-const request = axios.create({
+const requestBuffer = axios.create({
   baseURL: process.env.NODE_ENV === 'development'
     ? process.env.VUE_APP_BASE_API
     : 'https://api.scandinaver.org',
@@ -11,8 +11,9 @@ const request = axios.create({
 })
 
 // Request interceptors
-request.interceptors.request.use(
+requestBuffer.interceptors.request.use(
   (config) => {
+    config.responseType = 'arraybuffer'
     config.baseURL += `/${store.getters.language}`
     config.headers.common.Authorization = Vue.$cookies.get('authfrontend._token.local')
     return config
@@ -22,7 +23,7 @@ request.interceptors.request.use(
   },
 )
 
-request.interceptors.response.use(undefined, (error) => {
+requestBuffer.interceptors.response.use(undefined, (error) => {
   if (error.response) {
     Vue.$notify.error({
       title: Vue.$tc('error'),
@@ -33,4 +34,4 @@ request.interceptors.response.use(undefined, (error) => {
   return Promise.reject(error.response.data)
 })
 
-export default request
+export default requestBuffer

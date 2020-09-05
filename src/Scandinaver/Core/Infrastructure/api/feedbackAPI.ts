@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { request } from '@/utils/request'
+import request from '@/utils/request'
 import IFeedbackForm from '@/Scandinaver/Core/Domain/Contract/IFeedbackForm'
 import { Service } from 'typedi'
 

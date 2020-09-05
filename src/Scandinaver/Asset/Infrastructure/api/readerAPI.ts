@@ -1,6 +1,6 @@
 import { Service } from 'typedi'
 import { AxiosResponse } from 'axios'
-import { requestBuffer } from '@/utils/request'
+import requestBuffer from '@/utils/requestBuffer'
 
 export namespace API {
   @Service()
