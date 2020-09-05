@@ -1,12 +1,19 @@
 <template>
-  <el-row id="footer">
-    <el-row class="footer-inner" :gutter="20">
+  <el-footer height="45px">
+    <el-row class="footer-inner">
       <el-col :span="12">
-        <span class="copyright">{{ copy }} | {{version}}</span>
+        <span class="copyright">{{ copy }} | {{ version }}</span>
       </el-col>
       <el-col :md="{ span: 4, offset: 8 }" :xs="{ span: 12 }">
-        <el-button type="text" @click="showIntro()">Помощь</el-button>
-        <el-button type="text" @click="dialogFormVisible = true">Обратная связь</el-button>
+        <el-button type="text" style="color: #606266;" @click="showIntro()"
+          >Помощь</el-button
+        >
+        <el-button
+          type="text"
+          style="color: #606266;"
+          @click="dialogFormVisible = true"
+          >Обратная связь</el-button
+        >
       </el-col>
     </el-row>
     <el-dialog title="Ваше сообщение:" :visible.sync="dialogFormVisible">
@@ -25,7 +32,7 @@
         <el-button type="primary" @click="submit">Отправить</el-button>
       </span>
     </el-dialog>
-  </el-row>
+  </el-footer>
 </template>
 
 <script lang="ts">
@@ -62,20 +69,18 @@ export default class Footer extends Vue {
 
   submit() {
     // @ts-ignore
-    this.$refs.messageform.validate(
-      async (valid: any) => {
-        if (valid) {
-          await this.service.addFeedback(this.form)
-          this.dialogFormVisible = false
-          this.$notify.success({
-            title: '',
-            message: 'Сообщение отправлено',
-            duration: 2000,
-          })
-          this.form = new FeedbackForm()
-        }
-      },
-    )
+    this.$refs.messageform.validate(async (valid: any) => {
+      if (valid) {
+        await this.service.addFeedback(this.form)
+        this.dialogFormVisible = false
+        this.$notify.success({
+          title: '',
+          message: 'Сообщение отправлено',
+          duration: 2000,
+        })
+        this.form = new FeedbackForm()
+      }
+    })
   }
   /*
     showIntro() {
@@ -108,17 +113,21 @@ export default class Footer extends Vue {
     */
 }
 </script>
-<style>
+<style lang="scss" scoped>
 #feedback_message {
   min-height: 240px !important;
 }
 .copyright {
   font-size: 14px;
   padding: 12px 0;
-  color: #fff;
   display: block;
 }
 .footer-inner {
   width: 100%;
+}
+.el-footer {
+  .el-button + .el-button {
+    margin-left: 20px;
+  }
 }
 </style>

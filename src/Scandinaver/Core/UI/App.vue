@@ -1,10 +1,10 @@
 <template>
-  <div id="app" v-loading.fullscreen.lock="fullscreenLoading">
+  <el-container id="app" v-loading.fullscreen.lock="fullscreenLoading">
     <Header v-if="auth"></Header>
     <Sidemenu v-if="auth"></Sidemenu>
     <router-view></router-view>
     <Footer v-if="auth"></Footer>
-  </div>
+  </el-container>
 </template>
 
 <script lang="ts">

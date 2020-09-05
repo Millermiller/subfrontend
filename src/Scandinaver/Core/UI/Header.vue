@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar navbar-static-topnavbar-fixed-left" role="navigation" ref="menu">
+  <header class="el-header" ref="menu">
     <LeftMenuButton></LeftMenuButton>
     <el-menu class="el-menu-demo main-menu hidden-sm-and-down" mode="horizontal">
       <router-link
@@ -69,7 +69,7 @@
       </li>
       <hr :style="{ left: offset + 'px', width: width + 'px' }" />
     </el-menu>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
@@ -102,6 +102,14 @@ export default class Header extends Vue {
     return store.getters.language
   }
 
+  get user() {
+    return this.$store.getters.user
+  }
+
+  get sites() {
+    return this.$store.getters.sites
+  }
+
   logout(): void {
     store.commit('setFullscreenLoading', true)
     LoginService.logout().then((response) => {
@@ -122,7 +130,7 @@ export default class Header extends Vue {
 
   setUnderline(target: any) {
     const clickedElement = target
-    this.offset = clickedElement.getBoundingClientRect().left
+    this.offset = clickedElement.getBoundingClientRect().left - 20
     this.width = clickedElement.getBoundingClientRect().width
   }
 
@@ -132,14 +140,6 @@ export default class Header extends Vue {
     if (classList.includes('router-link-active')) {
       this.setUnderline(target)
     }
-  }
-
-  get user() {
-    return this.$store.getters.user
-  }
-
-  get sites() {
-    return this.$store.getters.sites
   }
 
   mounted() {
@@ -163,6 +163,13 @@ export default class Header extends Vue {
 }
 </script>
 <style lang="scss">
+
+.el-header {
+  background-color: #FFF;
+  border-bottom: solid 1px #e6e6e6;
+  box-shadow: 0 2px 3px hsla(0, 0%, 7%, 0.1), 0 0 0 1px hsla(0, 0%, 7%, 0.1);
+  padding: 0 20px;
+}
 
 .navbar {
   position: relative;
@@ -255,6 +262,13 @@ ul.el-menu.el-menu-vertical {
   }
 }
 
+#app {
+  .el-menu.el-menu--horizontal {
+    border: none;
+  }
+}
+
+
 .el-menu-item.is-active {
   color: #48576a;
 }
@@ -268,10 +282,6 @@ ul.el-menu.el-menu-vertical {
 }
 
 .main-menu {
-  box-shadow: 0 2px 3px hsla(0, 0%, 7%, 0.1), 0 0 0 1px hsla(0, 0%, 7%, 0.1);
-  background-color: #fff;
-  padding: 0 20px;
-
   .el-menu-item {
     border-bottom: none;
     height: 50px;
