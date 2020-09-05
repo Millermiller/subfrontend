@@ -4,7 +4,7 @@ import { Prop, Watch } from 'vue-property-decorator'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import { Inject } from 'vue-typedi'
 import CardService from '@/Scandinaver/Asset/Application/card.service'
-import * as process from 'process'
+import ReaderService from '@/Scandinaver/Asset/Application/reader.service'
 
 @Component({
   name: 'SlideComponent',
@@ -15,6 +15,9 @@ export default class SlideComponent extends Vue {
 
   @Inject()
   private service: CardService
+
+  @Inject()
+  private readerService: ReaderService
 
   activeClass: string = 'el-icon-star-on'
   defaultClass: string = 'el-icon-star-off'
@@ -34,10 +37,8 @@ export default class SlideComponent extends Vue {
     this.show = !this.show
   }
 
-  play(audio: string) {
-    // @ts-ignore
-    const baseURL = process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org'
-    new Audio(baseURL + audio).play()
+  async play(text: string) {
+    await this.readerService.read(text)
   }
 
   async favourite() {

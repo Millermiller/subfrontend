@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import request from '@/utils/request'
+import { request } from '@/utils/request'
 import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
 import { Service } from 'typedi'
 
