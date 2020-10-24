@@ -36,9 +36,13 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import ILoginForm from '@/Scandinaver/Core/Domain/Contract/ILoginForm'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
+import { Inject } from 'vue-typedi'
 
 @Component
 export default class Login extends Vue {
+  @Inject()
+  private loginService: LoginService
+
   form: ILoginForm = {
     login: '',
     password: '',
@@ -62,7 +66,7 @@ export default class Login extends Vue {
     this.$refs.loginform.validate((valid) => {
       if (valid) {
         v.loading = true
-        LoginService.login(v.form)
+        this.loginService.login(v.form)
           .then(() => this.$router.push('/'))
           .catch((error: any) => {
             v.error = error

@@ -78,12 +78,16 @@ import Component from 'vue-class-component'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import LeftMenuButton from '@/Scandinaver/Core/UI/LeftMenuButton.vue'
+import { Inject } from 'vue-typedi'
 
 @Component({
   name: 'Header',
   components: { LeftMenuButton },
 })
 export default class Header extends Vue {
+  @Inject()
+  private loginService: LoginService
+
   offset: number = 0
   width: number = 60
   private observer?: MutationObserver
@@ -112,7 +116,7 @@ export default class Header extends Vue {
 
   logout(): void {
     store.commit('setFullscreenLoading', true)
-    LoginService.logout().then((response) => {
+    this.loginService.logout().then((response) => {
       this.$router.push({ name: 'login' })
       store.commit('setFullscreenLoading', false)
     })

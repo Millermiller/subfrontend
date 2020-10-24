@@ -1,6 +1,9 @@
 import Login from '@/Scandinaver/Core/UI/Login.vue'
 import { requireAuth } from '@/router'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
+import { Container } from 'typedi'
+
+const loginService = Container.get(LoginService);
 
 const routes = [
   {
@@ -8,7 +11,7 @@ const routes = [
     name: 'login',
     component: Login,
     beforeEnter(to: any, from: any, next: any) {
-      LoginService.checkAuth()
+      loginService.checkAuth()
         .then(
           () => next({ name: 'MainPage', params: { language: 'is' } }),
           () => next(),

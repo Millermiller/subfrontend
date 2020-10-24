@@ -6,8 +6,8 @@
         <p class="slide-value">{{ item.translate.getValue() }}</p>
         <div class="example-area">
           <template v-for="(example, index) in item.examples">
-            <p class="example-text" :html="example.text" :key="index"></p>
-            <p class="example-value" v-html="example.value" :key="index"></p>
+            <p class="example-text" v-html="example.text"></p>
+            <p class="example-value" v-html="example.value"></p>
           </template>
         </div>
         <el-row
@@ -19,7 +19,11 @@
               <el-col :span="6">
                 <div class="avatar-wrapper-small pull-left">
                   <div class="avatar">
-                    <img class="avatar-small" :src="item.word.user.avatar"  alt=""/>
+                    <img
+                      class="avatar-small"
+                      :src="item.word.user.avatar"
+                      alt=""
+                    />
                   </div>
                 </div>
               </el-col>

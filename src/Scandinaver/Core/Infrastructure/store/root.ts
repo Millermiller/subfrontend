@@ -15,6 +15,7 @@ import { API } from '@/Scandinaver/Core/Infrastructure/api/commonAPI'
 import { plainToClass } from 'class-transformer'
 import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import Intro from '@/Scandinaver/Intro/Domain/Intro'
 import CommonAPI = API.CommonAPI
 
 // State
@@ -26,11 +27,11 @@ class State {
   info = {}
   backdrop = 0
   rightMenuOpen = false
-  intro = []
+  intro: Intro[] = []
   language: string = ''
   introNeed = {
     login: false,
-    main: false,
+    MainPage: true,
     learnHome: false,
     learn: false,
     testHome: false,
@@ -64,8 +65,8 @@ class CommonGetters extends Getters<State> {
     return this.state.rightMenuOpen
   }
 
-  intro(id: number) {
-    return this.state.intro[id]
+  get intro(): Intro[] {
+    return this.state.intro
   }
 
   isShowIntro = (id: string) => {
@@ -84,11 +85,18 @@ class CommonMutations extends Mutations<State> {
     this.state.info = info
   }
 
+  setIntro(intro: any): void {
+    this.state.intro = intro
+  }
+
   setFullscreenLoading(loading: boolean): void {
     this.state.fullscreenLoading = loading
   }
 
-  // setIntroVisibility = ({data}: { data: any }) => this.state.introNeed[data.page] = data.visible
+  setIntroVisibility(data: { page: string, visible: boolean }): void {
+    // @ts-ignore
+    this.state.introNeed[data.page] = data.visible
+  }
 
   setBackdrop(data: number): void {
     this.state.backdrop = data
@@ -115,7 +123,12 @@ class CommonMutations extends Mutations<State> {
   }
 }
 
-class CommonActions extends Actions<State, CommonGetters, CommonMutations, CommonActions> {
+class CommonActions extends Actions<
+  State,
+  CommonGetters,
+  CommonMutations,
+  CommonActions
+> {
   userstore!: Context<typeof user>
   assetstore!: Context<typeof assetModule>
   textstore!: Context<typeof text>
@@ -130,8 +143,14 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
 
   reloadStore() {
     CommonAPI.getState().then((response) => {
-      const personalAssets = plainToClass<Asset, Asset>(Asset, response.data.personal)
-      const favouriteAsset = plainToClass<Asset, Asset>(Asset, response.data.favourites)
+      const personalAssets = plainToClass<Asset, Asset>(
+        Asset,
+        response.data.personal,
+      )
+      const favouriteAsset = plainToClass<Asset, Asset>(
+        Asset,
+        response.data.favourites,
+      )
 
       personalAssets.unshift(favouriteAsset)
 
@@ -139,17 +158,24 @@ class CommonActions extends Actions<State, CommonGetters, CommonMutations, Commo
       this.assetstore.commit(SET_SENTENCES, response.data.sentences)
       this.assetstore.commit(SET_FAVOURITES, response.data.favourites)
       this.assetstore.commit(SET_PERSONAL, personalAssets)
-      this.textstore.commit('setTexts', plainToClass(Translate, response.data.texts))
+      this.textstore.commit(
+        'setTexts',
+        plainToClass(Translate, response.data.texts),
+      )
       this.puzzleStore.commit('setPuzzles', response.data.puzzles)
       this.commit('setSites', response.data.sites)
       this.commit('setCurrentSite', response.data.currentsite)
       this.commit('setDomain', response.data.domain)
+      this.commit('setIntro', response.data.intro)
     })
   }
 
   toggleBackdrop() {
-    if (this.state.backdrop === 0 && this.state.rightMenuOpen) this.commit('setBackdrop', 1)
-    else this.commit('setBackdrop', 0)
+    if (this.state.backdrop === 0 && this.state.rightMenuOpen) {
+      this.commit('setBackdrop', 1)
+    } else {
+      this.commit('setBackdrop', 0)
+    }
   }
 
   toggleMenuOpen() {

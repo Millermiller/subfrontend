@@ -7,11 +7,11 @@ export namespace API {
   @Service()
   export class PuzzleAPI {
     getPuzzles(): Promise<AxiosResponse<Puzzle[]>> {
-      return request.get('/puzzle')
+      return request.get('/puzzle/user')
     }
 
     processPuzzle(puzzle: Puzzle): Promise<AxiosResponse> {
-      return request.put(`/puzzle/${puzzle.id}`)
+      return request.put(`/puzzle/${puzzle.id}/complete`)
     }
 
     /*

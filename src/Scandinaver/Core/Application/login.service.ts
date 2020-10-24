@@ -2,17 +2,22 @@ import { AxiosResponse } from 'axios'
 import { API, ILoginData } from '@/Scandinaver/Core/Infrastructure/api/userAPI'
 import Vue from 'vue'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import IntroService from '@/Scandinaver/Intro/Application/intro.service'
+import { Inject, Service } from 'vue-typedi'
 import UserAPI = API.UserAPI
 
+@Service()
 export class LoginService {
-  public static login(payload: any): Promise<AxiosResponse<ILoginData>> {
+  @Inject()
+  private introService: IntroService
+
+  public login(payload: any): Promise<AxiosResponse<ILoginData>> {
     return new Promise((resolve, reject) => {
       UserAPI.login(payload).then(
         (response) => {
           if (response.status === 200) {
             const token = `Bearer ${response.data.access_token}`
-            const cookieName = (process.env.VUE_APP_COOKIE_NAME as string)
-              || 'authfrontend._token.local'
+            const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token.local'
             Vue.$cookies.set(
               cookieName,
               token,
@@ -33,7 +38,7 @@ export class LoginService {
     })
   }
 
-  public static checkAuth() {
+  public checkAuth() {
     return new Promise((resolve, reject) => {
       const cookieName = (process.env.VUE_APP_COOKIE_NAME as string)
         || 'authfrontend._token.local'
@@ -55,7 +60,7 @@ export class LoginService {
     })
   }
 
-  public static logout() {
+  public logout() {
     const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token.local'
     const token = Vue.$cookies.get(cookieName)
     return UserAPI.logout(token).then((response) => {
@@ -69,7 +74,8 @@ export class LoginService {
     })
   }
 
-  private static fetchUser(token: string) {
+  private fetchUser(token: string) {
+    const self = this
     return new Promise((resolve, reject) => {
       store.commit('setFullscreenLoading', true)
       UserAPI.fetch(token)
@@ -85,7 +91,10 @@ export class LoginService {
           },
           () => reject(),
         )
-        .finally(() => store.commit('setFullscreenLoading', false))
+        .finally(() => {
+          store.commit('setFullscreenLoading', false)
+          this.introService.stream.next(true)
+        })
     })
   }
 }

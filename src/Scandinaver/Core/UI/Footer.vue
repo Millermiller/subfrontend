@@ -32,6 +32,7 @@
         <el-button type="primary" @click="submit">Отправить</el-button>
       </span>
     </el-dialog>
+    <!-- <v-tour name="myTour" :steps="steps"></v-tour> -->
   </el-footer>
 </template>
 
@@ -43,12 +44,19 @@ import IFeedbackForm, {
 } from '@/Scandinaver/Core/Domain/Contract/IFeedbackForm'
 import FeedbackService from '@/Scandinaver/Core/Application/feedback.service'
 import { Inject } from 'vue-typedi'
+import IntroService from '@/Scandinaver/Intro/Application/intro.service'
+import Intro from '@/Scandinaver/Intro/Domain/Intro'
+import { Watch } from 'vue-property-decorator'
 import { version } from '../../../../package.json'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({ name: 'Footer' })
 export default class Footer extends Vue {
   @Inject()
   private service: FeedbackService
+
+  @Inject()
+  private introService: IntroService
 
   private version: string = `v.${version}`
 
@@ -56,6 +64,8 @@ export default class Footer extends Vue {
   copy: string = 'scandinaver.org © 2020'
   introVisible: boolean = false
   form: IFeedbackForm = new FeedbackForm()
+
+  steps: Intro[] = store.getters.intro
 
   rules: {} = {
     message: [
@@ -82,35 +92,52 @@ export default class Footer extends Vue {
       }
     })
   }
-  /*
-    showIntro() {
-      this.$store.commit('setIntroVisibility', {page: this.$route.name, visible: true})
-    }
 
-    startIntro(name) {
-      this.$store.commit('setIntroVisibility', {page: name, visible: false})
-    }
+  showIntro() {
+    this.$store.commit('setIntroVisibility', {
+      page: this.$route.name,
+      visible: true,
+    })
+  }
 
-    mounted() {
-      let self = this;
+  startIntro(name: string) {
+    this.$store.commit('setIntroVisibility', { page: name, visible: false })
+  }
 
-      this.$store.watch(function (state) {
-          return state.introNeed
-        },
-        function (val) {
-          if (val.main && self.$route.name === 'main') self.startIntro('main')
-          if (val.learnHome && self.$route.name === 'learnHome') self.startIntro('learnHome')
-          if (val.learn && self.$route.name === 'learn') self.startIntro('learn')
-          if (val.testHome && self.$route.name === 'testHome') self.startIntro('testHome')
-          if (val.test && self.$route.name === 'test') self.startIntro('test')
-          if (val.cards && self.$route.name === 'cards') self.startIntro('cards')
-          if (val.texts && self.$route.name === 'texts') self.startIntro('texts')
-          if (val.text && self.$route.name === 'text') self.startIntro('text')
-        },
-        {deep: true}
-      )
-    }
-    */
+  @Watch('$route')
+  private onRouteChange(route: any) {
+    this.steps = this.introService.getForPage(route.name)
+  }
+
+  async mounted() {
+    this.introService.stream.subscribe((data) => {
+      const page = this.$route
+      console.log(this.introService.getForPage(page))
+      // this.$tours.myTour.start()
+    })
+
+    const self = this
+
+    this.$store.watch(
+      state => state.introNeed,
+      (val) => {
+        if (val.main && self.$route.name === 'main') self.startIntro('main')
+        if (val.learnHome && self.$route.name === 'learnHome') {
+          self.startIntro('learnHome')
+        }
+        if (val.learn && self.$route.name === 'learn') self.startIntro('learn')
+        if (val.testHome && self.$route.name === 'testHome') {
+          self.startIntro('testHome')
+        }
+        if (val.test && self.$route.name === 'test') self.startIntro('test')
+        if (val.cards && self.$route.name === 'cards') self.startIntro('cards')
+        if (val.texts && self.$route.name === 'texts') self.startIntro('texts')
+        if (val.text && self.$route.name === 'text') self.startIntro('text')
+      },
+      { deep: true },
+    )
+    // this.$tours.myTour.start()
+  }
 }
 </script>
 <style lang="scss" scoped>

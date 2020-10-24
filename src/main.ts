@@ -5,6 +5,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueProgressBar from 'vue-progressbar'
 import VueCookies from 'vue-cookies'
 import VueI18n from 'vue-i18n'
+import VueTour from 'vue-tour'
 import { messages } from '@/locales/ru'
 import Meta from 'vue-meta'
 //  import 'element-ui/types/notification'
@@ -20,6 +21,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import 'swiper/css/swiper.css'
 import '@/assets/css/style.scss'
+require('vue-tour/dist/vue-tour.css')
 
 const progressBarConfig = {
   color: '#20A0FF',
@@ -43,6 +45,7 @@ Vue.use(VueRouter)
 Vue.use(Meta)
 Vue.use(VueDragDrop)
 Vue.use(VueRx)
+Vue.use(VueTour)
 
 Component.registerHooks(['metaInfo'])
 
