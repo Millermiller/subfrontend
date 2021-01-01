@@ -11,11 +11,15 @@
 
           <SentenceWidgetComponent></SentenceWidgetComponent>
 
-          <TextWidgetComponent></TextWidgetComponent>
+          <Can :do="permissions.VIEW_PAGE_TEXTS">
+            <TextWidgetComponent></TextWidgetComponent>
+          </Can>
 
           <PersonalWidgetComponent></PersonalWidgetComponent>
 
-          <PuzzleWidgetComponent></PuzzleWidgetComponent>
+          <Can :do="permissions.VIEW_PAGE_PUZZLE">
+            <PuzzleWidgetComponent></PuzzleWidgetComponent>
+          </Can>
         </el-row>
       </el-col>
     </el-row>

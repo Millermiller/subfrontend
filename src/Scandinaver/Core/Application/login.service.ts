@@ -75,7 +75,6 @@ export class LoginService {
   }
 
   private fetchUser(token: string) {
-    const self = this
     return new Promise((resolve, reject) => {
       store.commit('setFullscreenLoading', true)
       UserAPI.fetch(token)
@@ -84,9 +83,10 @@ export class LoginService {
             store.commit('setUser', response.data)
             store.commit('setAuth', true)
             store.commit('setActive', response.data.active)
-            // store.commit(SET_SELECTION, 0)
-            store.dispatch('reloadStore').then((response) => {
-              resolve()
+            store.dispatch('reloadStore').then((r) => {
+              store.dispatch('initialiseRBAC', response.data).then(() => {
+                resolve()
+              })
             })
           },
           () => reject(),

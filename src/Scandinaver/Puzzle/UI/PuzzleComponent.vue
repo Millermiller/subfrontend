@@ -2,7 +2,8 @@
   <el-container>
     <el-main>
       <RightMenuButton></RightMenuButton>
-      <el-row :gutter="20" type="flex" justify="center">
+      <template v-if="!access">Forbidden</template>
+      <el-row v-if="access" :gutter="20" type="flex" justify="center">
         <el-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
           <el-card class="box-card" :style="{ position: 'relative' }">
             <vue-progress-bar></vue-progress-bar>
@@ -99,6 +100,8 @@ import * as events from '@/events/events.type'
 import PuzzleListComponent from '@/Scandinaver/Puzzle/UI/PuzzleListComponent.vue'
 import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 import PieceCollection from '@/Scandinaver/Puzzle/Domain/PieceCollection'
+import { Route } from 'vue-router'
+import { Watch } from 'vue-property-decorator'
 
 @Component({
   name: 'PuzzleComponent',
@@ -108,6 +111,7 @@ export default class PuzzleComponent extends Vue {
   @Inject()
   private service: PuzzleService
 
+  private access: boolean = false
   public puzzle: Puzzle = new Puzzle()
   public words: string[] = []
   public dropZones: {}[] = []
@@ -116,7 +120,13 @@ export default class PuzzleComponent extends Vue {
   private wordsCount: number = 0
 
   created() {
+    this.access = this.$ability.can(this.$route.meta.permission)
     this.$eventHub.$on(events.PUZZLE_SELECTED, this.createPuzzle)
+  }
+
+  @Watch('$route')
+  private onRouteChange(route: Route) {
+    this.access = this.$ability.can(route.meta.permission)
   }
 
   async createPuzzle(puzzle: Puzzle) {

@@ -16,6 +16,7 @@ import VueDragDrop from 'vue-drag-drop'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import VueRx from 'vue-rx'
 import router from './router'
+import { abilitiesPlugin, Can } from '@casl/vue'
 import App from './Scandinaver/Core/UI/App.vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
@@ -46,6 +47,8 @@ Vue.use(Meta)
 Vue.use(VueDragDrop)
 Vue.use(VueRx)
 Vue.use(VueTour)
+Vue.use(abilitiesPlugin, store.getters.ability)
+Vue.component('Can', Can)
 
 Component.registerHooks(['metaInfo'])
 

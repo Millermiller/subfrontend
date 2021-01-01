@@ -42,7 +42,7 @@ export namespace API {
           },
         },
       })
-      return request.get('/user')
+      return request.get('/me')
     }
   }
 }

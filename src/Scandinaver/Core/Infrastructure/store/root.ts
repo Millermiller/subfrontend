@@ -5,6 +5,7 @@ import { user } from '@/Scandinaver/Core/Infrastructure/store/user'
 import { test } from '@/Scandinaver/Asset/Infrastructure/store/test'
 import { assetModule } from '@/Scandinaver/Asset/Infrastructure/store/asset'
 import { puzzleModule } from '@/Scandinaver/Puzzle/Infrastructure/store'
+import { rbacModule } from '@/Scandinaver/RBAC/Infrastructure/store'
 import {
   SET_FAVOURITES,
   SET_PERSONAL,
@@ -196,5 +197,6 @@ export const root = new Module({
     text,
     test,
     puzzleModule,
+    rbacModule,
   },
 })

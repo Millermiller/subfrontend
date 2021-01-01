@@ -112,7 +112,7 @@ export default class Footer extends Vue {
   async mounted() {
     this.introService.stream.subscribe((data) => {
       const page = this.$route
-      console.log(this.introService.getForPage(page))
+      // console.log(this.introService.getForPage(page))
       // this.$tours.myTour.start()
     })
 

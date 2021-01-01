@@ -9,7 +9,6 @@ export default class IntroService {
 
   public getForPage(page: any): Intro[] {
     // return store.getters.intro.filter((el: Intro) => el.page === page)
-    console.log(store.getters.intro)
     return store.getters.intro
   }
 }

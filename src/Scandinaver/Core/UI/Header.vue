@@ -13,6 +13,7 @@
       <router-link
         class="el-menu-item learn"
         tag="li"
+        v-if="$can(permissions.VIEW_PAGE_CARDS)"
         :to="{ name: 'defaultAsset', params: { language: currentLanguage } }"
         >
         {{ $t('assets') }}
@@ -20,6 +21,7 @@
       <router-link
         class="el-menu-item test"
         tag="li"
+        v-if="$can(permissions.VIEW_PAGE_TESTS)"
         :to="{ name: 'defaultTest', params: { language: currentLanguage } }"
         >
         {{ $t('tests') }}
@@ -27,6 +29,7 @@
       <router-link
         class="el-menu-item cards"
         tag="li"
+        v-if="$can(permissions.VIEW_PAGE_CARDS)"
         :to="{ name: 'CardsPage', params: { id: favouriteId, language: currentLanguage } }"
         exact="exact"
         >
@@ -35,12 +38,14 @@
       <router-link
         class="el-menu-item translates"
         tag="li"
+        v-if="$can(permissions.VIEW_PAGE_TEXTS)"
         :to="{ name: 'TextPage', params: { language: currentLanguage } }"
         >{{ $t('texts') }}
       </router-link>
       <router-link
         class="el-menu-item puzzle"
         tag="li"
+        v-if="$can(permissions.VIEW_PAGE_PUZZLE)"
         :to="{ name: 'PuzzlePage', params: { language: currentLanguage } }"
         >{{ $t('puzzles') }}
       </router-link>
@@ -79,6 +84,7 @@ import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import LeftMenuButton from '@/Scandinaver/Core/UI/LeftMenuButton.vue'
 import { Inject } from 'vue-typedi'
+import { permissions } from '@/permissions/permission.type'
 
 @Component({
   name: 'Header',
@@ -92,6 +98,12 @@ export default class Header extends Vue {
   width: number = 60
   private observer?: MutationObserver
   private title: string = 'Исландский'
+  private permissions: {}
+
+  constructor() {
+    super();
+    this.permissions = permissions;
+  }
 
   url: any = {
     value: 'https://is.scandinaver.local',

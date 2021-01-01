@@ -6,6 +6,7 @@ import TextWidgetComponent from './components/text-widget.component/text-widget.
 import PersonalWidgetComponent from './components/personal-widget.component/personal-widget.component.vue'
 import SentenceWidgetComponent from './components/sentence-widget.component/sentence-widget.component.vue'
 import PuzzleWidgetComponent from './components/puzzle-widget.component/puzzle-widget.component.vue'
+import { permissions } from '@/permissions/permission.type'
 
 @Component<HomeModule>({
   name: 'HomeModule',
@@ -27,7 +28,12 @@ import PuzzleWidgetComponent from './components/puzzle-widget.component/puzzle-w
 export default class HomeModule extends Vue {
   dialogVisible: boolean = false
   greetingVisible: boolean = false
+  private permissions: {}
 
+  constructor() {
+    super();
+    this.permissions = permissions;
+  }
   metaInfo() {
     return {
       title: 'Scandinaver',
