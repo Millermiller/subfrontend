@@ -14,7 +14,6 @@ import CardService from '@/Scandinaver/Asset/Application/card.service'
 import * as events from '@/events/events.type'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { Watch } from 'vue-property-decorator'
-import { SET_ACTIVE_PERSONAL_ASSET } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 
 @Component({
   name: 'PersonalComponent',
@@ -55,7 +54,6 @@ export default class PersonalComponent extends Vue {
   async load(id: number) {
     this.loading = true
     this.asset = await this.assetService.getAsset(id)
-    this.$store.commit(SET_ACTIVE_PERSONAL_ASSET, this.asset)
     this.loading = false
   }
 
