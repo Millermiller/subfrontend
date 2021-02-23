@@ -1,3 +1,1 @@
-export default class CollectionException extends Error {
-
-}
+export default class CollectionException extends Error {}

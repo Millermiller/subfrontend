@@ -4,9 +4,7 @@ import Component from 'vue-class-component'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueProgressBar from 'vue-progressbar'
 import VueCookies from 'vue-cookies'
-import VueI18n from 'vue-i18n'
 import VueTour from 'vue-tour'
-import { messages } from '@/locales/ru'
 import Meta from 'vue-meta'
 //  import 'element-ui/types/notification'
 import ElementUI from 'element-ui'
@@ -21,7 +19,8 @@ import App from './Scandinaver/Core/UI/App.vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import 'swiper/css/swiper.css'
-import '@/assets/css/style.scss'
+import '@/assets/scss/style.scss'
+import i18n from '@/utils/i18n'
 require('vue-tour/dist/vue-tour.css')
 
 const progressBarConfig = {
@@ -37,7 +36,6 @@ const progressBarConfig = {
 Vue.use(ElementUI)
 Vue.use(VueTypedi)
 Vue.use(VueCookies)
-Vue.use(VueI18n)
 Vue.use(VueProgressBar, progressBarConfig)
 Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
@@ -51,13 +49,6 @@ Vue.use(abilitiesPlugin, store.getters.ability)
 Vue.component('Can', Can)
 
 Component.registerHooks(['metaInfo'])
-
-const i18n = new VueI18n({
-  locale: 'ru',
-  messages: {
-    ru: messages,
-  },
-})
 
 new Vue({
   i18n,

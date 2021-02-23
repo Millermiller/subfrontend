@@ -1,0 +1,62 @@
+<el-col
+  class="right-panel"
+  id="cardsblock"
+  :span="8"
+  :xs="{span: 24, offset: 0}"
+>
+  <el-card class="box-card tab-navigation">
+    <el-tabs @tab-click="handleClick" :value="active">
+      <el-tab-pane :label="$t('words')" :name="wordTabName">
+        <section data-scrollbar="data-scrollbar">
+          <ul class="nav nav-list">
+            <TabItemComponent
+              v-for="(word, index) in words"
+              :asset="word"
+              :index="index"
+              :key="word.id"
+              :showLearnButton="showLearnButton"
+              :showTestButton="showTestButton"
+              :showEditButton="false"
+              :loadAction="loadAction"
+              type="asset"
+            ></TabItemComponent>
+          </ul>
+        </section>
+      </el-tab-pane>
+      <el-tab-pane :label="$t('sentences')" :name="sentencesTabName">
+        <section data-scrollbar="data-scrollbar">
+          <ul class="nav nav-list">
+            <TabItemComponent
+              v-for="(sentence, index) in sentences"
+              :asset="sentence"
+              :index="index"
+              :key="sentence.id"
+              :showLearnButton="showLearnButton"
+              :showTestButton="showTestButton"
+              :showEditButton="false"
+              :loadAction="loadAction"
+              type="asset"
+            ></TabItemComponent>
+          </ul>
+        </section>
+      </el-tab-pane>
+      <el-tab-pane :label="$t('personals')" :name="personalTabName">
+        <section data-scrollbar="data-scrollbar">
+          <ul class="nav nav-list">
+            <TabItemComponent
+              v-for="(personal, index) in personals"
+              :asset="personal"
+              :index="index"
+              :key="personal.id"
+              :showLearnButton="showLearnButton"
+              :showTestButton="showTestButton"
+              :showEditButton="true"
+              :loadAction="loadAction"
+              type="personal"
+            ></TabItemComponent>
+          </ul>
+        </section>
+      </el-tab-pane>
+    </el-tabs>
+  </el-card>
+</el-col>

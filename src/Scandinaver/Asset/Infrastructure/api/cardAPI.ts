@@ -8,10 +8,8 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 export namespace API {
   @Service()
   export class CardApi {
-    addCardToAsset(card: Card): Promise<AxiosResponse<Card>> {
-      return request.post(
-        `/card/${card.getId()}/${card.asset.getId()}`,
-      )
+    addCardToAsset(cardId: number, assetId: number): Promise<AxiosResponse<Card>> {
+      return request.post(`/card/${cardId}/${assetId}`)
     }
 
     createCard(card: Card): Promise<AxiosResponse<Card>> {

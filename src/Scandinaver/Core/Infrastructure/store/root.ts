@@ -22,7 +22,7 @@ import CommonAPI = API.CommonAPI
 // State
 class State {
   fullscreenLoading: boolean = false
-  sites = []
+  sites: [] = []
   currentsite = {}
   domain = ''
   info = {}
@@ -94,7 +94,7 @@ class CommonMutations extends Mutations<State> {
     this.state.fullscreenLoading = loading
   }
 
-  setIntroVisibility(data: { page: string, visible: boolean }): void {
+  setIntroVisibility(data: { page: string; visible: boolean }): void {
     // @ts-ignore
     this.state.introNeed[data.page] = data.visible
   }
@@ -155,10 +155,10 @@ class CommonActions extends Actions<
 
       personalAssets.unshift(favouriteAsset)
 
-      this.assetstore.commit(SET_WORDS, response.data.words)
-      this.assetstore.commit(SET_SENTENCES, response.data.sentences)
-      this.assetstore.commit(SET_FAVOURITES, response.data.favourites)
-      this.assetstore.commit(SET_PERSONAL, personalAssets)
+      this.assetstore.commit(SET_WORDS, plainToClass(Asset, response.data.words))
+      this.assetstore.commit(SET_SENTENCES, plainToClass(Asset, response.data.sentences))
+      this.assetstore.commit(SET_FAVOURITES, plainToClass(Asset, response.data.favourites))
+      this.assetstore.commit(SET_PERSONAL, plainToClass(Asset, personalAssets))
       this.textstore.commit(
         'setTexts',
         plainToClass(Translate, response.data.texts),

@@ -31,8 +31,8 @@ export default class HomeModule extends Vue {
   private permissions: {}
 
   constructor() {
-    super();
-    this.permissions = permissions;
+    super()
+    this.permissions = permissions
   }
   metaInfo() {
     return {

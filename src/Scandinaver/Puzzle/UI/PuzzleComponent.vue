@@ -100,8 +100,8 @@ import * as events from '@/events/events.type'
 import PuzzleListComponent from '@/Scandinaver/Puzzle/UI/PuzzleListComponent.vue'
 import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 import PieceCollection from '@/Scandinaver/Puzzle/Domain/PieceCollection'
-import { Route } from 'vue-router'
 import { Watch } from 'vue-property-decorator'
+import { Route } from 'vue-router'
 
 @Component({
   name: 'PuzzleComponent',

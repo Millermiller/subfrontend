@@ -15,11 +15,15 @@ export default class AssetRepository extends BaseRepository<Asset> {
   }
 
   public async one(assetId: number): Promise<Asset> {
-    return this.api.getAsset(assetId).then(response => plainToClass(Asset, response.data))
+    return this.api
+      .getAsset(assetId)
+      .then(response => plainToClass(Asset, response.data))
   }
 
   public async update(asset: Asset, data: any) {
-    return this.api.updateAsset(asset, data).then(response => plainToClass(Asset, response.data))
+    return this.api
+      .updateAsset(asset, data)
+      .then(response => plainToClass(Asset, response.data))
   }
 
   public async delete(asset: Asset): Promise<any> {

@@ -59,14 +59,14 @@ export abstract class BaseCollection<T extends Entity> implements Iterable<T> {
 
   public next(): T {
     this.index++
-    if (this.count() >= this.index) {
+    if (this.count() > this.index) {
       return this.get(this.index)
     }
     throw new CollectionException('item not fount')
   }
 
-  public current(key: number): T {
-    return this.data[key]
+  public current(): T {
+    return this.get(this.index)
   }
 
   public valid(key: number): boolean {

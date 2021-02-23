@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import Vue from 'vue'
+import i18n from '@/utils/i18n'
+import { Notification } from 'element-ui'
 
 const requestBuffer = axios.create({
   baseURL: process.env.NODE_ENV === 'development'
@@ -15,7 +17,8 @@ requestBuffer.interceptors.request.use(
   (config) => {
     config.responseType = 'arraybuffer'
     config.baseURL += `/${store.getters.language}`
-    config.headers.common.Authorization = Vue.$cookies.get('authfrontend._token.local')
+    const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token'
+    config.headers.common.Authorization = Vue.$cookies.get(cookieName)
     return config
   },
   (error) => {
@@ -25,8 +28,8 @@ requestBuffer.interceptors.request.use(
 
 requestBuffer.interceptors.response.use(undefined, (error) => {
   if (error.response) {
-    Vue.$notify.error({
-      title: Vue.$tc('error'),
+    Notification.error({
+      title: i18n.tc('error'),
       message: error.response.data.message,
       duration: 4000,
     })

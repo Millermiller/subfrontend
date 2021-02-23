@@ -1,0 +1,44 @@
+<el-dialog
+  title="Результаты:"
+  v-if="test !== null"
+  :visible.sync="visible"
+  :before-close='close'
+>
+  <el-row type="flex" align="middle">
+    <el-col :md="18">
+      <p class="success" v-if="test.percent >= 80">{{ $t('newLevel') }}</p>
+      <p class="text-danger" v-if="test.percent < 80">
+        {{ $t('testFail') }}
+      </p>
+      <p>
+        {{
+          $t('correctAnswers', {
+            success: test.success,
+            all: test.quantity,
+          })
+        }}
+      </p>
+    </el-col>
+    <el-col :md="6">
+          <span :class="['percentage', test.percent < 80 ? 'warning' : 'success']">
+            {{ test.percent }}%
+          </span>
+    </el-col>
+  </el-row>
+  <template v-if="test.fail > 0">
+    <el-row>
+      <p>{{ $t('errors') }}:</p>
+      <p v-for="(error, index) in test.errors" :key="index">
+        {{ error.value }} - {{ error.subject }}
+      </p>
+    </el-row>
+  </template>
+  <span class="dialog-footer" slot="footer">
+        <el-button v-if="test.percent < 80" @click="reload()">
+          {{ $t('repeat') }}
+        </el-button>
+        <el-button @click="close()">
+          {{ $t('close') }}
+        </el-button>
+      </span>
+</el-dialog>

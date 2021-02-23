@@ -1,0 +1,35 @@
+<el-col id='testblock' :span='8' :xs='24'>
+  <el-card class='box-card' v-loading.body='loading'>
+    <div class='clearfix text-center' slot='header'>
+      <vue-progress-bar></vue-progress-bar>
+      <h3 style='height: 50px'>
+        <template v-if='isTestLoaded'>
+          {{ question.value }}
+        </template>
+        <template v-else>
+          {{ $t('selectAsset') }}
+        </template>
+      </h3>
+      <i
+        @click="reload()"
+        v-if="!isTestEnabled"
+        :class="[
+                  'el-icon-refresh-right',
+                  'pointer',
+                  { rotating: isRotate },
+                ]"
+      ></i>
+    </div>
+    <div :class="['variants', {'disabled': !isTestEnabled} ]" v-if='isTestLoaded && question !== undefined'>
+      <p
+        class='pointer'
+        v-for='(variant, index) of question.variants.all()'
+        @click='check(variant)'
+        :key='index'
+      >
+        {{ variant.value }}
+      </p>
+    </div>
+  </el-card>
+  <ResultModalComponent v-if='test !== null' :visible='dialogVisible' :test='test'></ResultModalComponent>
+</el-col>

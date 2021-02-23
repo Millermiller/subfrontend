@@ -3,7 +3,7 @@ import { requireAuth } from '@/router'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 import { Container } from 'typedi'
 
-const loginService = Container.get(LoginService);
+const loginService = Container.get(LoginService)
 
 const routes = [
   {
@@ -11,7 +11,8 @@ const routes = [
     name: 'login',
     component: Login,
     beforeEnter(to: any, from: any, next: any) {
-      loginService.checkAuth()
+      loginService
+        .checkAuth()
         .then(
           () => next({ name: 'MainPage', params: { language: 'is' } }),
           () => next(),

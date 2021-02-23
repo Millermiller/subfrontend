@@ -14,10 +14,10 @@ export default class ReaderService {
     const context = new AudioContext()
 
     await context.decodeAudioData(data, (decodedData) => {
-      const smp = context.createBufferSource();
-      smp.buffer = decodedData;
-      smp.connect(context.destination);
-      smp.start(0, 0, decodedData.duration);
+      const smp = context.createBufferSource()
+      smp.buffer = decodedData
+      smp.connect(context.destination)
+      smp.start(0, 0, decodedData.duration)
     })
   }
 }

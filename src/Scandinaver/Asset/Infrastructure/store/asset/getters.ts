@@ -1,9 +1,7 @@
 import { Getters } from 'vuex-smart-module'
 import State from '@/Scandinaver/Asset/Infrastructure/store/asset/state'
-import { Word } from '@/Scandinaver/Asset/Domain/Word'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
-import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 
 export default class AssetGetters extends Getters<State> {
@@ -12,7 +10,9 @@ export default class AssetGetters extends Getters<State> {
   }
 
   get activeAssetName() {
-    return this.state.activePersonalAssetName !== '' ? this.state.activePersonalAssetName : ''
+    return this.state.activePersonalAssetName !== ''
+      ? this.state.activePersonalAssetName
+      : ''
   }
 
   get activePersonalAssetEdit() {
@@ -22,7 +22,7 @@ export default class AssetGetters extends Getters<State> {
   get activeWords() {
     let count = 0
 
-    this.state.words.forEach((element: Word, index: number, array: Word[]) => {
+    this.state.words.forEach((element: Asset, index: number, array: Asset[]) => {
       if (element.active) count++
     })
 
@@ -32,9 +32,11 @@ export default class AssetGetters extends Getters<State> {
   get activeSentences() {
     let count = 0
 
-    this.state.sentences.forEach((element: ISentence, index: number, array: ISentence[]) => {
-      if (element.active) count++
-    })
+    this.state.sentences.forEach(
+      (element: ISentence, index: number, array: ISentence[]) => {
+        if (element.active) count++
+      },
+    )
 
     return count
   }
@@ -52,14 +54,13 @@ export default class AssetGetters extends Getters<State> {
   }
 
   get cards(): Card[] | null {
-    if (typeof this.state.personal[this.state.activePersonalAssetIndex] !== 'undefined') {
+    if (
+      typeof this.state.personal[this.state.activePersonalAssetIndex]
+      !== 'undefined'
+    ) {
       return this.state.personal[this.state.activePersonalAssetIndex].cards
     }
     return null
-  }
-
-  get activeAsset() {
-    return this.state.activePersonalAsset
   }
 
   getPersonalAssetById(id: number) {
@@ -68,5 +69,9 @@ export default class AssetGetters extends Getters<State> {
 
   get favouriteAsset(): Asset {
     return this.state.favourites
+  }
+
+  get activeAssetId(): number {
+    return this.state.activeAssetId;
   }
 }

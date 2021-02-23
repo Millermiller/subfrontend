@@ -59,6 +59,7 @@ export const messages = {
   repeat: 'Попробовать еще раз',
   questionsCount: 'вопросов: {quantity}',
   bestResult: 'Лучший результат: {result}%',
+  time: 'Время: {time}',
   removeAssetConfirm: 'Удалить словарь?',
   notAvailable: 'Недоступно базовым аккаунтам',
   errors: 'Ошибки:',

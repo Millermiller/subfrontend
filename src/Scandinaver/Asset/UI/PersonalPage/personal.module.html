@@ -1,0 +1,13 @@
+<el-container>
+  <el-main>
+    <el-row :gutter="20">
+      <AssetsListComponent></AssetsListComponent>
+      <CardsListComponent
+        :cards="asset.cards"
+        :name="asset.title"
+        :loading="loading"
+      ></CardsListComponent>
+      <SearchComponent></SearchComponent>
+    </el-row>
+  </el-main>
+</el-container>

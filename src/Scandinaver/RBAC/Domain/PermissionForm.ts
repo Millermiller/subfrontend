@@ -1,4 +1,3 @@
-
 export interface PermissionForm {
   id: number | null
   name: string

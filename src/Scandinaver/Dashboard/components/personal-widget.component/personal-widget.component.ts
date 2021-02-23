@@ -12,7 +12,7 @@ export default class PersonalWidgetComponent extends BaseWidgetComponent {
 
   personal() {
     this.$router.push({
-      name: 'CardsPage',
+      name: 'PersonalPage',
       params: { language: this.currentLanguage, id: this.favouriteId },
     })
   }

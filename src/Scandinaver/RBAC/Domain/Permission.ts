@@ -11,7 +11,7 @@ export default class Permission extends Entity {
   private _group: PermissionGroup | null
 
   constructor() {
-    super();
+    super()
     this._group = null
   }
 

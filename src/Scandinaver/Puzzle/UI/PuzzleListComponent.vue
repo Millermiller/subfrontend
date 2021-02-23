@@ -2,10 +2,12 @@
   <el-col class="right-panel" :span="8" :xs="{ span: 24, offset: 0 }">
     <el-card class="box-card puzzle-wrapper" v-loading.body="loading">
       <template>
-        <PuzzleItemComponent v-for="(puzzle, index) in puzzles"
-                             :key="index"
-                             :index="index"
-                             :puzzle="puzzle">
+        <PuzzleItemComponent
+          v-for="(puzzle, index) in puzzles"
+          :key="index"
+          :index="index"
+          :puzzle="puzzle"
+        >
         </PuzzleItemComponent>
       </template>
     </el-card>
@@ -18,7 +20,10 @@ import Component from 'vue-class-component'
 import PuzzleItemComponent from '@/Scandinaver/Puzzle/UI/PuzzleItemComponent.vue'
 import { Inject } from 'vue-typedi'
 import PuzzleService from '@/Scandinaver/Puzzle/Application/puzzle.service'
-import { ON_BEFORE_PUZZLE_SELECTED, PUZZLE_SELECTED } from '@/events/events.type'
+import {
+  ON_BEFORE_PUZZLE_SELECTED,
+  PUZZLE_SELECTED,
+} from '@/events/events.type'
 import { Puzzle } from '../Domain/Puzzle'
 
 @Component({

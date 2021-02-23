@@ -5,12 +5,12 @@
         <span class="copyright">{{ copy }} | {{ version }}</span>
       </el-col>
       <el-col :md="{ span: 4, offset: 8 }" :xs="{ span: 12 }">
-        <el-button type="text" style="color: #606266;" @click="showIntro()"
+        <el-button type="text" style="color: #606266" @click="showIntro()"
           >Помощь</el-button
         >
         <el-button
           type="text"
-          style="color: #606266;"
+          style="color: #606266"
           @click="dialogFormVisible = true"
           >Обратная связь</el-button
         >

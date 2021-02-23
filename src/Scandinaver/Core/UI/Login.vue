@@ -8,7 +8,7 @@
           :rules="rules"
           @submit.native.prevent="submit"
         >
-          <small v-if="error" style="color:#ff4949">
+          <small v-if="error" style="color: #ff4949">
             {{ error }}
           </small>
           <el-form-item prop="login">
@@ -66,7 +66,8 @@ export default class Login extends Vue {
     this.$refs.loginform.validate((valid) => {
       if (valid) {
         v.loading = true
-        this.loginService.login(v.form)
+        this.loginService
+          .login(v.form)
           .then(() => this.$router.push('/'))
           .catch((error: any) => {
             v.error = error

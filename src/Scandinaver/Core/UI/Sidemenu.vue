@@ -8,7 +8,7 @@
       <div class="sidemenu" v-show="visible">
         <div class="sidemenu-toolbar">
           <div class="avatar-wrapper-small pull-left">
-            <img class="avatar-small" :src="avatar"  alt=""/>
+            <img class="avatar-small" :src="avatar" alt="" />
           </div>
           <div class="userinfo pull-left">
             <p class="userlogin">{{ login }}</p>

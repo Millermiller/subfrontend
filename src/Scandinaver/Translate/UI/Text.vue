@@ -82,7 +82,9 @@ export default class TextItem extends Vue {
   }[] = [{ text: '', selected: false, progress: 0 }]
   private inputSequence: string[] = []
   private inputObservables: Subject<{ index: number; parts: string[] }>[] = []
-  private currentSentenceSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0)
+  private currentSentenceSubject: BehaviorSubject<number> = new BehaviorSubject<number>(
+    0,
+  )
   private showedExtra: string = ''
   private length: number = 0
   private dictionary: any = []
@@ -207,6 +209,7 @@ export default class TextItem extends Vue {
     })
 
     const searchString: string = origparts.join('|')
+
     this.textSequence[data.index].text = this.text.text
       .split('.')[data.index].replace(
         new RegExp(searchString, 'gi'),
@@ -247,7 +250,7 @@ export default class TextItem extends Vue {
 }
 </script>
 <style lang="scss">
-@import '../../../assets/css/variables';
+@import '../../../assets/scss/variables';
 
 .active-sentence {
   background-color: rgba(238, 195, 115, 0.86);

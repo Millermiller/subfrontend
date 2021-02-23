@@ -1,4 +1,4 @@
-import { Mutations } from 'vuex-smart-module';
+import { Mutations } from 'vuex-smart-module'
 import RBACState from '@/Scandinaver/RBAC/Infrastructure/store/state'
 import Role from '@/Scandinaver/RBAC/Domain/Role'
 import Permission from '@/Scandinaver/RBAC/Domain/Permission'
@@ -13,10 +13,10 @@ export default class RBACMutations extends Mutations<RBACState> {
   }
 
   clearAbility(): void {
-    this.state.ability.update([]);
+    this.state.ability.update([])
   }
 
   updateAbility(data: any): void {
-    this.state.ability.update(data);
+    this.state.ability.update(data)
   }
 }

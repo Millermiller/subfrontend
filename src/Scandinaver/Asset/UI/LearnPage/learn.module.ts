@@ -1,9 +1,9 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import RightMenuButtonComponent from '@/Scandinaver/Core/UI/RightMenuButton.vue';
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import RightMenuButtonComponent from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 import * as events from '@/events/events.type'
-import TabsComponent from './tabs.component/tabs.component.vue';
-import SliderComponent from './slider.component/slider.component.vue';
+import TabsComponent from '../../../Core/UI/tabs.component/index.vue'
+import SliderComponent from './components/slider.component/index.vue'
 
 @Component({
   name: 'LearnModule',
@@ -18,8 +18,8 @@ export default class LearnModule extends Vue {
   visible: boolean = false
 
   created() {
-    this.$eventHub.$on(events.TOGGLE_RIGHT_MENU, this.toggleRightMenuR());
-    this.$eventHub.$on(events.OPEN_PAID_MODAL, this.modal);
+    this.$eventHub.$on(events.TOGGLE_RIGHT_MENU, this.toggleRightMenuR())
+    this.$eventHub.$on(events.OPEN_PAID_MODAL, this.modal)
   }
 
   modal() {
@@ -27,7 +27,7 @@ export default class LearnModule extends Vue {
   }
 
   async toggleRightMenuR() {
-    this.visible = !this.visible;
+    this.visible = !this.visible
     await this.$store.dispatch('toggleMenuOpen')
     await this.$store.dispatch('toggleBackdrop')
   }
@@ -38,7 +38,7 @@ export default class LearnModule extends Vue {
 
   beforeDestroy() {
     // this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
-    this.$eventHub.$off(events.CLOSE_MENU);
-    this.$eventHub.$off(events.OPEN_PAID_MODAL);
+    this.$eventHub.$off(events.CLOSE_MENU)
+    this.$eventHub.$off(events.OPEN_PAID_MODAL)
   }
 }

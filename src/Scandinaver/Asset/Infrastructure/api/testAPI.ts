@@ -10,8 +10,8 @@ export namespace API {
       return request.post(`/result/${test.id}`, { result: percent })
     }
 
-    nextLevel(test: Test): Promise<AxiosResponse<Test>> {
-      return request.post(`/complete/${test.id}`)
+    complete(test: Test): Promise<AxiosResponse<Test>> {
+      return request.post(`/complete/${test.id}`, test.toDTO())
     }
   }
 }

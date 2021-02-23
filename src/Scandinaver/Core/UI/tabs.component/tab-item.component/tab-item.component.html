@@ -1,0 +1,79 @@
+<el-row
+  :type="'flex'"
+  :class="[
+      'list-item',
+      'pointer',
+      {
+        'open': asset.active || isPersonal,
+        'tested': asset.canopen,
+        'not-available': !asset.available && !isPersonal,
+        'selected': selected,
+      },
+    ]"
+  @click.native="load()"
+>
+  <el-row :type="'flex'" :justify="'space-between'">
+    <p class="asset-title">{{ asset.title }}</p>
+    <p class="asset-description">{{ asset.description }}</p>
+  </el-row>
+  <el-row :type="'flex'" :justify="'space-between'">
+    <el-col v-if="!isPersonal">
+      <span class="small text-muted">
+        {{ $t('level', { level: asset.level }) }}
+      </span>
+    </el-col>
+    <el-col>
+      <span class="text-muted small">
+        <i class="el-icon-odometer tab-icon"></i>
+      </span>
+      <span
+        :class="['small', {
+            success: asset.result > 80,
+            warning: (asset.result > 50 && asset.result < 80),
+            danger: asset.result > 50}]"
+        >{{ asset.result }}%
+      </span>
+      <span class="text-muted small" style="padding-left: 15px">
+        <i class="el-icon-document-copy tab-icon"></i>
+      </span>
+      <span>{{ asset.count }}</span>
+    </el-col>
+    <el-col class="text-right">
+      <template v-if="asset.active || isPersonal">
+        <el-button
+          v-if="showTestButton"
+          type="danger"
+          size="mini"
+          icon="el-icon-data-analysis"
+          @click.stop="test()"
+        >
+          {{ $t('test') }}
+          <i class="el-icon-arrow-righ el-icon-right"></i>
+        </el-button>
+        <el-button
+          v-if="showLearnButton"
+          type="primary"
+          size="mini"
+          icon="el-icon-data-analysis"
+          @click.stop="learn()"
+        >
+          {{ $t('learn') }}
+          <i class="el-icon-arrow-righ el-icon-right"></i>
+        </el-button>
+        <el-button
+          v-if="showEditButton"
+          type="warning"
+          size="mini"
+          icon="el-icon-document-checked"
+          @click.stop="update()"
+        >{{ $t('edit') }}
+          <i class="el-icon-arrow-righ el-icon-right"></i>
+        </el-button>
+      </template>
+      <template v-else>
+        <span class="small text-muted">{{ $t('closed') }}</span>
+      </template>
+    </el-col>
+    <i class="el-icon-lock" @click="showModal" v-if="!asset.available && !isPersonal"></i>
+  </el-row>
+</el-row>

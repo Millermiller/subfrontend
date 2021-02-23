@@ -5,15 +5,15 @@ import AssetGetters from '@/Scandinaver/Asset/Infrastructure/store/asset/getters
 import AssetMutations from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations'
 import { RELOAD_PERSONAL_ASSETS } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import {
+  SET_ACTIVE_ASSET_ID,
   SET_ACTIVE_ASSET_TYPE,
   SET_ACTIVE_PERSONAL_ASSET_EDIT,
   SET_PERSONAL,
-  SET_SELECTION,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
-import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 import { plainToClass } from 'class-transformer'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { AxiosResponse } from 'axios'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 
 export default class AssetActions extends Actions<
   State,
@@ -41,12 +41,15 @@ export default class AssetActions extends Actions<
 
   reload_personal_assets() {
     return new Promise((resolve, reject) => {
-      request.get<Asset[], AxiosResponse<Asset[]>>('/personal').then(
-        async (response: AxiosResponse<Asset[]>) => {
-          this.commit(SET_PERSONAL, await plainToClass<Asset, Asset>(Asset, response.data))
+      request
+        .get<Asset[], AxiosResponse<Asset[]>>('/personal')
+        .then(async (response: AxiosResponse<Asset[]>) => {
+          this.commit(
+            SET_PERSONAL,
+            await plainToClass<Asset, Asset>(Asset, response.data),
+          )
           resolve(response)
-        },
-      )
+        })
     })
   }
 
@@ -59,14 +62,15 @@ export default class AssetActions extends Actions<
   }
 
   onCardsPageClose() {
-    this.commit(SET_SELECTION, this.getters.favouriteAsset)
     this.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, false)
   }
 
   onCardsPageOpen() {
-    const asset = { type: 3 }
-    if (!this.state.activePersonalAssetEdit) {
-      this.commit(SET_SELECTION, this.getters.favouriteAsset)
-    }
+
+  }
+
+  resetActiveAsset() {
+    this.commit(SET_ACTIVE_ASSET_ID, 0)
+    this.commit(SET_ACTIVE_ASSET_TYPE, AssetType.WORDS)
   }
 }

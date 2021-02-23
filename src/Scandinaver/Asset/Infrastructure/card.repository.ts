@@ -34,9 +34,9 @@ export default class CardRepository extends BaseRepository<Card> {
       .then(response => plainToClass(Card, response.data))
   }
 
-  public async add(card: Card): Promise<Card> {
+  public async add(card: Card, asset: Asset): Promise<Card> {
     return this.api
-      .addCardToAsset(card)
+      .addCardToAsset(card.getId(), asset.getId())
       .then(response => plainToClass(Card, response.data))
   }
 

@@ -31,7 +31,9 @@ export default class TestRepository extends BaseRepository<Test> {
     this.api.saveResult(test, result).then(response => response)
   }
 
-  async getNextLevel(test: Test): Promise<Test> {
-    return this.api.nextLevel(test).then(response => plainToClass(Test, response.data))
+  async complete(test: Test): Promise<Test> {
+    return this.api
+      .complete(test)
+      .then(response => plainToClass(Test, response.data))
   }
 }

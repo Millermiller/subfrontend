@@ -9,13 +9,13 @@ export class Asset extends Entity {
   type: AssetType
   level: number
   result: number
-  selected?: boolean
   count: number
+  active: boolean
 
   @Type(() => Card)
   cards: Card[]
 
-  getId(): number | string {
+  getId(): number {
     return this.id
   }
 }

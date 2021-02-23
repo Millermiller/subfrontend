@@ -1,4 +1,4 @@
-import { Module } from 'vuex-smart-module';
+import { Module } from 'vuex-smart-module'
 import RBACState from '@/Scandinaver/RBAC/Infrastructure/store/state'
 import RBACMutations from '@/Scandinaver/RBAC/Infrastructure/store/mutations'
 import RBACGetters from '@/Scandinaver/RBAC/Infrastructure/store/getters'

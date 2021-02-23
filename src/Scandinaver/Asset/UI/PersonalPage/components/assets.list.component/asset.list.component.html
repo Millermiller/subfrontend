@@ -1,0 +1,37 @@
+<el-col id="assetsblock" :span="8" :xs="24">
+  <el-card class="box-card">
+    <div class="clearfix" slot="header">
+      <el-row type="flex" justify="space-between">
+        <span class="h3">{{ $t('myAssets') }}</span>
+        <el-popover
+          placement="top-start"
+          width="200"
+          trigger="click"
+          :disabled="isActive"
+          popper-class="text-left"
+          content="Создание словарей недоступно базовым аккаунтам"
+        >
+          <el-button slot="reference" @click="add">
+            {{ $t('create') }}
+          </el-button>
+        </el-popover>
+      </el-row>
+    </div>
+    <section
+      data-scrollbar="data-scrollbar"
+      style="height: 65vh; overflow: visible !important"
+      v-loading.body="loading"
+    >
+      <transition-group name="splash" tag="div">
+        <AssetComponent
+          v-for="(asset, index) in assets"
+          :asset="asset"
+          :index="index"
+          :showLearnButton='true'
+          :showTestButton='true'
+          :key="asset.id"
+        ></AssetComponent>
+      </transition-group>
+    </section>
+  </el-card>
+</el-col>

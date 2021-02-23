@@ -26,4 +26,8 @@ export default class Question extends Entity {
   get subject(): string {
     return this.card.subject
   }
+
+  get value(): string {
+    return this.card.value
+  }
 }

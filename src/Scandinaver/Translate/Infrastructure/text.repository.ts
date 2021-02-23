@@ -15,7 +15,9 @@ export default class TextRepository extends BaseRepository<Translate> {
   }
 
   async one(id: number): Promise<Translate> {
-    return this.api.getText(id).then(response => plainToClass(Translate, response.data))
+    return this.api
+      .getText(id)
+      .then(response => plainToClass(Translate, response.data))
   }
 
   async save(entity: Translate): Promise<Translate> {
@@ -27,6 +29,8 @@ export default class TextRepository extends BaseRepository<Translate> {
   }
 
   nextLevel(text: Translate) {
-    return this.api.nextLevel(text).then(response => plainToClass<Translate, Translate>(Translate, response.data))
+    return this.api
+      .nextLevel(text)
+      .then(response => plainToClass<Translate, Translate>(Translate, response.data))
   }
 }

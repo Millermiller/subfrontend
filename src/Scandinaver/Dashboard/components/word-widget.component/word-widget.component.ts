@@ -16,11 +16,13 @@ export default class WordWidgetComponent extends BaseWidgetComponent {
   }
 
   goto(routeName: string) {
-    this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.WORDS).then((r) => {
-      this.$router.push({
-        name: routeName,
-        params: { language: this.currentLanguage },
+    this.$store
+      .dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.WORDS)
+      .then((r) => {
+        this.$router.push({
+          name: routeName,
+          params: { language: this.currentLanguage },
+        })
       })
-    })
   }
 }

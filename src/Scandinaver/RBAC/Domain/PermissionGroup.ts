@@ -28,7 +28,7 @@ export default class PermissionGroup extends Entity {
   }
 
   getId(): number {
-    return this._id;
+    return this._id
   }
 
   get name(): string {

@@ -3,8 +3,7 @@
     <button class="navbar-toggle collapsed">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button
+      <span class="icon-bar"></span></button
   ></a>
 </template>
 

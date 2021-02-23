@@ -1,0 +1,109 @@
+<el-row
+  :type="'flex'"
+  @click.native="load"
+  v-loading.body="loading"
+  :class="['list-item',
+  'pointer',
+  'open', {
+    'selected': selected,
+    'muted': (!isActive && isFavourite)
+  }]"
+  >
+  <el-row :type="'flex'" :justify="'space-between'">
+    <p class="asset-title">
+      <span v-if="edited === false">{{ assetName }}</span>
+    </p>
+    <el-row :type="'flex'" :justify="'end'">
+      <el-input
+        v-if="edited === true"
+        size="small"
+        :placeholder="$t('assetName')"
+        v-model="assetName"
+        @click.native="showResponder($event)"
+      >
+        <el-button
+          slot="append"
+          type="danger"
+          icon="el-icon-close"
+          size="mini"
+          @click.stop="closeedit"
+          plain="plain"
+        ></el-button>
+        <el-button
+          slot="append"
+          type="success"
+          icon="el-icon-check"
+          size="mini"
+          @click.stop="applyedit"
+          plain="plain"
+        ></el-button>
+      </el-input>
+      <el-button
+        v-if="asset.title !== $t('favourite') &amp;&amp; edited === false"
+        type="default"
+        icon="el-icon-edit"
+        size="mini"
+        @click.stop="openedit"
+        :disabled="!isActive"
+        plain="plain"
+      ></el-button>
+      <el-button
+        v-if="asset.title !== $t('favourite')"
+        type="danger"
+        icon="el-icon-close"
+        size="mini"
+        @click.stop="confirm(asset)"
+        :disabled="!isActive"
+        plain
+      >
+      </el-button>
+    </el-row>
+  </el-row>
+  <el-row :type="'flex'" :justify="'space-between'">
+    <el-col>
+      <span class="text-muted small">
+        <i class="el-icon-odometer tab-icon"></i>
+      </span>
+      <span
+        :class="['small', {
+          'success': asset.result > 80,
+          'warning': (asset.result > 50 && asset.result < 80),
+          'danger': asset.result < 50
+        }]"
+      >
+        {{ asset.result }}%
+      </span>
+      <span class="text-muted small" style="padding-left: 15px">
+        <i class="el-icon-document-copy tab-icon"></i>
+      </span>
+      <span>{{ asset.count }}</span>
+    </el-col>
+    <el-col class="text-right">
+      <template v-if="asset.active || isFavourite">
+        <el-button
+          v-if="showTestButton"
+          type="danger"
+          size="mini"
+          icon="el-icon-data-analysis"
+          @click.stop="test()"
+        >
+          {{ $t('test') }}
+          <i class="el-icon-arrow-righ el-icon-right"></i>
+        </el-button>
+        <el-button
+          v-if="showLearnButton"
+          type="primary"
+          size="mini"
+          icon="el-icon-data-analysis"
+          @click.stop="learn()"
+        >
+          {{ $t('learn') }}
+          <i class="el-icon-arrow-righ el-icon-right"></i>
+        </el-button>
+      </template>
+      <template v-else>
+        <span class="small text-muted">{{ $t('closed') }}</span>
+      </template>
+    </el-col>
+  </el-row>
+</el-row>

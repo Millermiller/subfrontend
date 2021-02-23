@@ -1,13 +1,16 @@
 <template>
   <header class="el-header" ref="menu">
     <LeftMenuButton></LeftMenuButton>
-    <el-menu class="el-menu-demo main-menu hidden-sm-and-down" mode="horizontal">
+    <el-menu
+      class="el-menu-demo main-menu hidden-sm-and-down"
+      mode="horizontal"
+    >
       <router-link
         class="el-menu-item home"
         tag="li"
         :to="{ name: 'MainPage', params: { language: currentLanguage } }"
         exact="exact"
-        >
+      >
         <i class="el-icon-s-home"></i>
       </router-link>
       <router-link
@@ -15,7 +18,7 @@
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_CARDS)"
         :to="{ name: 'defaultAsset', params: { language: currentLanguage } }"
-        >
+      >
         {{ $t('assets') }}
       </router-link>
       <router-link
@@ -23,16 +26,19 @@
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TESTS)"
         :to="{ name: 'defaultTest', params: { language: currentLanguage } }"
-        >
+      >
         {{ $t('tests') }}
       </router-link>
       <router-link
         class="el-menu-item cards"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_CARDS)"
-        :to="{ name: 'CardsPage', params: { id: favouriteId, language: currentLanguage } }"
+        :to="{
+          name: 'PersonalPage',
+          params: { id: favouriteId, language: currentLanguage },
+        }"
         exact="exact"
-        >
+      >
         {{ $t('personals') }}
       </router-link>
       <router-link
@@ -55,7 +61,7 @@
       <li class="el-menu-item pull-right userblock">
         <div class="avatar-wrapper-small pull-left">
           <div class="avatar">
-            <img class="avatar-small" :src="user.avatar"  alt=""/>
+            <img class="avatar-small" :src="user.avatar" alt="" />
           </div>
         </div>
         <span>{{ user.login }}</span>
@@ -67,8 +73,16 @@
           size="small"
           :placeholder="sites.length ? sites[0].label : ''"
         >
-          <el-option v-for="item in sites" :key="item.value" :label="item.label" :value="item.letter">
-            <img style="float: left" :src="item.flag"  alt=""/><span style="float: left">{{ item.label }}</span>
+          <el-option
+            v-for="item in sites"
+            :key="item.value"
+            :label="item.label"
+            :value="item.letter"
+          >
+            <img style="float: left" :src="item.flag" alt="" /><span
+              style="float: left"
+              >{{ item.label }}</span
+            >
           </el-option>
         </el-select>
       </li>
@@ -101,8 +115,8 @@ export default class Header extends Vue {
   private permissions: {}
 
   constructor() {
-    super();
-    this.permissions = permissions;
+    super()
+    this.permissions = permissions
   }
 
   url: any = {
@@ -179,9 +193,8 @@ export default class Header extends Vue {
 }
 </script>
 <style lang="scss">
-
 .el-header {
-  background-color: #FFF;
+  background-color: #fff;
   border-bottom: solid 1px #e6e6e6;
   box-shadow: 0 2px 3px hsla(0, 0%, 7%, 0.1), 0 0 0 1px hsla(0, 0%, 7%, 0.1);
   padding: 0 20px;
@@ -284,14 +297,13 @@ ul.el-menu.el-menu-vertical {
   }
 }
 
-
 .el-menu-item.is-active {
   color: #48576a;
 }
 
 .nav {
-  >li {
-    >a.router-link-active {
+  > li {
+    > a.router-link-active {
       outline-offset: -2px;
     }
   }
@@ -315,7 +327,7 @@ ul.el-menu.el-menu-vertical {
       background: none;
       color: #20a0ff !important;
       border-bottom: none;
-      >i {
+      > i {
         background: none;
         color: #20a0ff !important;
         border-bottom: none;
@@ -418,10 +430,9 @@ ul.el-menu.el-menu-vertical {
     overflow-y: auto;
   }
   .el-menu--horizontal {
-    >.el-menu-item {
+    > .el-menu-item {
       border-bottom: none !important;
     }
   }
 }
-
 </style>

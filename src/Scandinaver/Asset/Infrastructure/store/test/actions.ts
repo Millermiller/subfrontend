@@ -4,7 +4,12 @@ import { Test } from '@/Scandinaver/Asset/Domain/Test'
 import TestGetters from '@/Scandinaver/Asset/Infrastructure/store/test/getters'
 import TestMutations from '@/Scandinaver/Asset/Infrastructure/store/test/mutations'
 
-export default class TestActions extends Actions<State, TestGetters, TestMutations, TestActions> {
+export default class TestActions extends Actions<
+  State,
+  TestGetters,
+  TestMutations,
+  TestActions
+> {
   resetTest(test: Test) {
     this.commit('setQuantity', test.quantity)
     this.commit('resetError')

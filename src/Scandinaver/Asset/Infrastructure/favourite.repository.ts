@@ -19,7 +19,9 @@ export default class FavouriteRepository extends BaseRepository<Card> {
   }
 
   async save(card: Card): Promise<Card> {
-    return this.api.addFavourite(card).then(response => plainToClass(Card, response.data))
+    return this.api
+      .addFavourite(card)
+      .then(response => plainToClass(Card, response.data))
   }
 
   async delete(card: Card): Promise<any> {

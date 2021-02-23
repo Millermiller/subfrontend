@@ -10,9 +10,11 @@ export default class PuzzleGetters extends Getters<State> {
   get active() {
     let count = 0
 
-    this.state.puzzles.forEach((element: Puzzle, index: number, array: Puzzle[]) => {
-      if (element.success) count++
-    })
+    this.state.puzzles.forEach(
+      (element: Puzzle, index: number, array: Puzzle[]) => {
+        if (element.success) count++
+      },
+    )
 
     return count
   }

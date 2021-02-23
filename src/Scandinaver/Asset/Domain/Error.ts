@@ -1,3 +1,1 @@
-export default class Error {
-
-}
+export default class Error {}

@@ -37,4 +37,8 @@ export default class TestMutations extends Mutations<State> {
   resetPercent(): void {
     this.state.percent = 0
   }
+
+  setTime(data: number) {
+    this.state.time = data
+  }
 }

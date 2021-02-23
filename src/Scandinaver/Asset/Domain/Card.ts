@@ -8,7 +8,6 @@ import Example from '@/Scandinaver/Asset/Domain/Example'
 
 export class Card extends Entity {
   id!: number
-  asset_id!: number
   nocontrols?: boolean
   audio: string
   favourite?: boolean
@@ -24,7 +23,7 @@ export class Card extends Entity {
   @Type(() => Example)
   examples: Example[]
 
-  getId(): number | string {
+  getId(): number {
     return this.id
   }
 

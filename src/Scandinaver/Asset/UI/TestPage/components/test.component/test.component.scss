@@ -1,0 +1,37 @@
+@import '../../../../../../assets/scss/variables';
+
+@keyframes loading-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.variants {
+  p {
+    text-align: center;
+    padding: 16px 10px;
+    margin: 0;
+
+    &:hover {
+      color: #20a0ff;
+    }
+  }
+
+  &.disabled {
+    background-color: $muted-color-light;
+    pointer-events: none;
+    cursor: default;
+
+    p {
+      color: $muted-color;
+    }
+  }
+}
+
+.el-icon-refresh-right {
+  font-size: 36px;
+
+  &.rotating {
+    animation: loading-rotate 0.5s linear 1;
+  }
+}

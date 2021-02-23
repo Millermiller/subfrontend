@@ -1,6 +1,6 @@
 export abstract class BaseRepository<D> {
-  public async abstract all(): Promise<D[]>
-  public async abstract one(id: number): Promise<D>
-  public async abstract save(entity: D): Promise<D>
-  public async abstract delete(entity: D): Promise<any>
+  public abstract async all(): Promise<D[]>
+  public abstract async one(id: number): Promise<D>
+  public abstract async save(entity: D): Promise<D>
+  public abstract async delete(entity: D): Promise<any>
 }

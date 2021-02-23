@@ -1,6 +1,8 @@
 import { Inject, Service } from 'typedi'
 import FeedbackRepository from '@/Scandinaver/Core/Infrastructure/feedback.repository'
-import IFeedbackForm, { FeedbackForm } from '@/Scandinaver/Core/Domain/Contract/IFeedbackForm'
+import IFeedbackForm, {
+  FeedbackForm,
+} from '@/Scandinaver/Core/Domain/Contract/IFeedbackForm'
 
 @Service()
 export default class FeedbackService {

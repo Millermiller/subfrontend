@@ -8,7 +8,10 @@
         enter-active-class="animated slideInRight"
         leave-active-class="animated slideOutRight"
       >
-        <TabsComponent></TabsComponent>
+        <TabsComponent :showLearnButton="false"
+                       :showTestButton="true"
+                       :loadAction="'learn'"
+        ></TabsComponent>
       </transition>
     </el-row>
   </el-main>

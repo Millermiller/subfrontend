@@ -4,8 +4,10 @@ import CardRepository from '@/Scandinaver/Asset/Infrastructure/card.repository'
 import FavouriteRepository from '@/Scandinaver/Asset/Infrastructure/favourite.repository'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import {
-  DECREMENT_FAVOURITE_COUNTER, DECREMENT_PERSONAL_COUNTER,
-  INCREMENT_FAVOURITE_COUNTER, INCREMENT_PERSONAL_COUNTER,
+  DECREMENT_FAVOURITE_COUNTER,
+  DECREMENT_PERSONAL_COUNTER,
+  INCREMENT_FAVOURITE_COUNTER,
+  INCREMENT_PERSONAL_COUNTER,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
@@ -33,8 +35,8 @@ export default class CardService extends BaseService<Card> {
     return card
   }
 
-  public async addCardToAsset(card: Card): Promise<Card> {
-    await this.cardRepository.add(card)
+  public async addCardToAsset(card: Card, asset: Asset): Promise<Card> {
+    await this.cardRepository.add(card, asset)
     store.commit(INCREMENT_PERSONAL_COUNTER, card)
     return card
   }

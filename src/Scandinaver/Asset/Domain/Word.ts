@@ -13,7 +13,7 @@ export class Word extends Entity {
   }
 
   getId(): number | string {
-    return this.id;
+    return this.id
   }
 
   getValue(): string {

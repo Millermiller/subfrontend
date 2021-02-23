@@ -1,0 +1,24 @@
+<el-col id="cardsblock" :span="8" :xs="24" v-loading.body="loading">
+  <el-card class="box-card">
+    <div class="clearfix" slot="header">
+      <span class="h3" style="line-height: 38px">
+        {{ $t('cardsOfAssets') }}
+      </span>
+      <el-tag v-if="name" type="info">{{ name }}</el-tag>
+    </div>
+    <section
+      data-scrollbar="data-scrollbar"
+      style="height: 65vh"
+      v-loading.body="loadingbody"
+    >
+      <transition-group name="cards" tag="div">
+        <CardComponent
+          v-for="(card, index) in cards"
+          :card="card"
+          :index="index"
+          :key="card.id"
+        ></CardComponent>
+      </transition-group>
+    </section>
+  </el-card>
+</el-col>

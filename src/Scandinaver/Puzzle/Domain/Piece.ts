@@ -4,7 +4,7 @@ export default class Piece extends Entity {
   word: string
 
   constructor(word: string) {
-    super();
+    super()
     this.word = word
   }
 
