@@ -20,7 +20,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.13.1",
     "moment": "^2.29.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "pug-load": "^2.0.12",
     "pug-plain-loader": "^1.0.0",
     "reflect-metadata": "^0.1.13",
