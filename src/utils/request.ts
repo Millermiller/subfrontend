@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import Vue from 'vue'
 import { Notification } from 'element-ui';
 import i18n from '@/utils/i18n'
@@ -15,7 +14,6 @@ const request = axios.create({
 // Request interceptors
 request.interceptors.request.use(
   (config) => {
-    config.baseURL += `/${store.getters.language}`
     const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token'
     config.headers.common.Authorization = Vue.$cookies.get(cookieName)
     return config

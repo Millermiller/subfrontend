@@ -31,7 +31,6 @@ export default class TabsComponent extends Vue {
   sentencesTabName = AssetType.SENTENCES.toString()
   personalTabName = AssetType.PERSONAL.toString()
 
-
   get personals() {
     return this.$store.getters.personal
   }

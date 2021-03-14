@@ -85,7 +85,7 @@ export default class TestComponent extends Vue {
     this.isTestEnabled = true
   }
 
-  check(variant: Variant) {
+  async check(variant: Variant) {
     this.test.answers++
     this.$Progress.set(
       Math.floor((this.test.answers * 100) / this.test.quantity),
@@ -102,10 +102,10 @@ export default class TestComponent extends Vue {
       }
       this.$store.commit('setError', this.question)
     }
-    this.next()
+    await this.next()
   }
 
-  next() {
+  async next() {
     try {
       this.question = this.test.questions.next()
     } catch (e) {
@@ -113,7 +113,7 @@ export default class TestComponent extends Vue {
         this.subscriptions.unsubscribe()
         this.test.time = this.$store.getters.time
         this.dialogVisible = true
-        this.testService.complete(this.test)
+        await this.testService.complete(this.test)
       }
     }
   }
@@ -127,5 +127,6 @@ export default class TestComponent extends Vue {
     this.$eventHub.$off(RELOAD_TEST)
     this.$eventHub.$off(CLOSE_RESULT_MODAL)
     this.subscriptions.unsubscribe()
+    this.$store.commit(SET_TIME, 0)
   }
 }

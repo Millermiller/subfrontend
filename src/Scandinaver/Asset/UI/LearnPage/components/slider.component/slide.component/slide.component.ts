@@ -47,7 +47,7 @@ export default class SlideComponent extends Vue {
       if (!this.item.favourite) {
         await this.service.addToFavourite(this.item)
         this.$notify.success({
-          title: this.item.word!.getValue(),
+          title: this.item.value,
           message: this.$tc('addToFavourite'),
           duration: 2000,
         })
@@ -55,7 +55,7 @@ export default class SlideComponent extends Vue {
       } else {
         this.item = await this.service.removeFromFavourite(this.item)
         this.$notify.success({
-          title: this.item.word!.getValue(),
+          title: this.item.value,
           message: this.$tc('removedFromFavourite'),
           duration: 2000,
         })

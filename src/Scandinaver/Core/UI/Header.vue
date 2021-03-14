@@ -32,12 +32,9 @@
       <router-link
         class="el-menu-item cards"
         tag="li"
-        v-if="$can(permissions.VIEW_PAGE_CARDS)"
-        :to="{
-          name: 'PersonalPage',
-          params: { id: favouriteId, language: currentLanguage },
-        }"
         exact="exact"
+        v-if="$can(permissions.VIEW_PAGE_CARDS)"
+        :to="{ name: 'PersonalPage', params: { id: favouriteId, language: currentLanguage } }"
       >
         {{ $t('personals') }}
       </router-link>

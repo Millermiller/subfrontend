@@ -1,9 +1,8 @@
 import { Inject, Service } from 'typedi'
-import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { API } from '@/Scandinaver/Asset/Infrastructure/api/testAPI'
 import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
 import { Test } from '@/Scandinaver/Asset/Domain/Test'
-import { plainToClass } from 'class-transformer'
+import { TestPayload } from '@/Scandinaver/Asset/Domain/TestPayload'
 import TestAPI = API.TestAPI
 
 @Service()
@@ -31,9 +30,9 @@ export default class TestRepository extends BaseRepository<Test> {
     this.api.saveResult(test, result).then(response => response)
   }
 
-  async complete(test: Test): Promise<Test> {
+  async complete(test: Test, payload: TestPayload): Promise<any> {
     return this.api
-      .complete(test)
-      .then(response => plainToClass(Test, response.data))
+      .complete(test.getId(), payload.toDTO())
+      .then(response => response)
   }
 }

@@ -1,7 +1,7 @@
 import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 import CollectionException from '@/Scandinaver/Core/Domain/CollectionException'
 
-export abstract class BaseCollection<T extends Entity> implements Iterable<T> {
+export class Collection<T extends Entity> implements Iterable<T> {
   private readonly data: T[]
   private index: number = 0
   private counter = 0

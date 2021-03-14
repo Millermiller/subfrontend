@@ -5,15 +5,12 @@ import FavouriteRepository from '@/Scandinaver/Asset/Infrastructure/favourite.re
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import {
   DECREMENT_FAVOURITE_COUNTER,
-  DECREMENT_PERSONAL_COUNTER,
   INCREMENT_FAVOURITE_COUNTER,
-  INCREMENT_PERSONAL_COUNTER,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
 import { Word } from '@/Scandinaver/Asset/Domain/Word'
 import Translate from '@/Scandinaver/Asset/Domain/Translate'
-import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 @Service()
 export default class CardService extends BaseService<Card> {
@@ -35,12 +32,6 @@ export default class CardService extends BaseService<Card> {
     return card
   }
 
-  public async addCardToAsset(card: Card, asset: Asset): Promise<Card> {
-    await this.cardRepository.add(card, asset)
-    store.commit(INCREMENT_PERSONAL_COUNTER, card)
-    return card
-  }
-
   public async addToFavourite(card: Card): Promise<Card> {
     await this.favouriteRepository.save(card)
     store.commit(INCREMENT_FAVOURITE_COUNTER)
@@ -52,12 +43,6 @@ export default class CardService extends BaseService<Card> {
     await this.favouriteRepository.delete(card)
     store.commit(DECREMENT_FAVOURITE_COUNTER)
     card.favourite = false
-    return card
-  }
-
-  public async removeFromAsset(card: Card, asset: Asset): Promise<Card> {
-    await this.cardRepository.removeFromAsset(card, asset)
-    await store.commit(DECREMENT_PERSONAL_COUNTER, asset)
     return card
   }
 

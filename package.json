@@ -92,6 +92,7 @@
       "@vue/typescript"
     ],
     "rules": {
+      "no-underscore-dangle": "off",
       "comma-dangle": "off",
       "import/order": "off",
       "object-curly-newline": "off",

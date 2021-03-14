@@ -24,11 +24,11 @@
         </el-col>
         <el-col :span="18">
           <p class="text-danger">{{ card.word.user.login }}</p>
-          <p>Создано карточек: {{ card.word.user.cardsCreated }}</p>
+          <p>{{ $t('cardsCreated', {quantity: card.word.user.cardsCreated}) }}</p>
         </el-col>
       </el-row>
       <span class="no-margin danger pull-right small" slot="reference">
-          Добавлено: {{ card.word.user.login }}
+        {{ $t('added', {login:  card.word.user.login}) }}
         </span>
     </el-popover>
     <template v-if="user.id === card.word.user.id">
@@ -38,7 +38,7 @@
         effect="light"
         placement="top-start"
       >
-        <div slot="content">Эта карточка видна всем пользователям</div>
+        <div slot="content">{{$t('isPublicCard')}}</div>
         <i class="ion-ios-people ion-small"></i>
       </el-tooltip>
       <el-tooltip
@@ -47,7 +47,7 @@
         effect="light"
         placement="top-start"
       >
-        <div slot="content">Эта карточка видна только вам</div>
+        <div slot="content">{{$t('isPrivateCard')}}</div>
         <i class="ion-ios-person ion-small"></i>
       </el-tooltip>
     </template>

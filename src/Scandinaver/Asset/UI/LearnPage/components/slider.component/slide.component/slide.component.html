@@ -29,11 +29,11 @@
               </el-col>
               <el-col :span="18">
                 <p class="text-danger">{{ item.word.user.login }}</p>
-                <p>Создано карточек: {{ item.word.user.cardsCreated }}</p>
+                <p>{{ $t('cardsCreated', {quantity: item.word.user.cardsCreated}) }}</p>
               </el-col>
             </el-row>
             <span class="no-margin danger pull-right small" slot="reference">
-              Добавлено: {{ item.word.user.login }}
+              {{ $t('added', {login: item.word.user.login}) }}
             </span>
           </el-popover>
         </el-row>

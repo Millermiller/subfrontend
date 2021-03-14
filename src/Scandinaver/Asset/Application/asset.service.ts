@@ -4,14 +4,27 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import * as types from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import {
+  DECREMENT_PERSONAL_COUNTER,
+  INCREMENT_PERSONAL_COUNTER,
   PATCH_PERSONAL, SET_ACTIVE_ASSET_ID,
-  SET_ACTIVE_PERSONAL_ASSET_NAME
+  SET_ACTIVE_PERSONAL_ASSET_NAME, SET_PERSONAL,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
+import { BaseService } from '@/Scandinaver/Core/Application/base.service'
+import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
+import { Card } from '@/Scandinaver/Asset/Domain/Card'
+import CardRepository from '@/Scandinaver/Asset/Infrastructure/card.repository'
 
 @Service()
-export default class AssetService {
+export default class AssetService extends BaseService<Asset> {
   @Inject()
   private repository: AssetRepository
+
+  @Inject()
+  private cardRepository: CardRepository
+
+  async create(data: AssetDTO): Promise<Asset> {
+    return this.repository.create(data)
+  }
 
   public async getAsset(assetId: number): Promise<Asset> {
     const asset = await this.repository.one(assetId)
@@ -21,6 +34,11 @@ export default class AssetService {
     return asset
   }
 
+  async reloadPersonalAssets() {
+    const assets = await this.repository.getPersonalAssets()
+    store.commit(SET_PERSONAL, assets)
+  }
+
   public async updateAsset(asset: Asset, data: any) {
     const response = await this.repository.update(asset, data)
     store.commit(PATCH_PERSONAL, response)
@@ -28,6 +46,19 @@ export default class AssetService {
 
   public async destroyAsset(asset: Asset) {
     await this.repository.delete(asset)
-    await store.dispatch(types.RELOAD_PERSONAL_ASSETS)
+  }
+
+  public async addCardToAsset(card: Card, asset: Asset): Promise<Card> {
+    await this.repository.addCard(card, asset)
+    asset.cards.add(card)
+    store.commit(INCREMENT_PERSONAL_COUNTER, card)
+    return card
+  }
+
+  public async removeCardFromAsset(card: Card, asset: Asset): Promise<Card> {
+    await this.repository.removeCard(card, asset)
+    asset.cards.remove(card)
+    await store.commit(DECREMENT_PERSONAL_COUNTER, asset)
+    return card
   }
 }

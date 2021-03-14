@@ -58,7 +58,7 @@ export default class AssetGetters extends Getters<State> {
       typeof this.state.personal[this.state.activePersonalAssetIndex]
       !== 'undefined'
     ) {
-      return this.state.personal[this.state.activePersonalAssetIndex].cards
+      return this.state.personal[this.state.activePersonalAssetIndex].cards.all()
     }
     return null
   }

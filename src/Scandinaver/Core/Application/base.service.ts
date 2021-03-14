@@ -1,3 +1,3 @@
 export abstract class BaseService<D> {
-  abstract create(input: any): D
+  abstract create(input: any): D | Promise<D>
 }
