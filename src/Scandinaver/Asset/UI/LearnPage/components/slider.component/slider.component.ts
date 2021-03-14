@@ -44,7 +44,7 @@ export default class SliderComponent extends Vue {
   async getAsset(id: number) {
     this.loading = true
     const asset = await this.assetService.getAsset(id)
-    this.cards = asset.cards
+    this.cards = asset.cards.all()
     this.swiper.slideTo(0)
     this.loading = false
     this.title = asset.title

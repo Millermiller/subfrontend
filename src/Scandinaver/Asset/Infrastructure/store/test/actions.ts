@@ -15,7 +15,7 @@ export default class TestActions extends Actions<
     this.commit('resetError')
     this.commit('resetPercent')
     this.commit('setTitle', test.asset.title)
-    this.commit('setResult', test.asset.result)
+    // commit('setResult', test.asset.result)
     this.commit('setLevel', test.asset.level)
   }
 }

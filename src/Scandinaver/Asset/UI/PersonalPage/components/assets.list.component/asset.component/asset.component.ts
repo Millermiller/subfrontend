@@ -7,6 +7,7 @@ import * as events from '@/events/events.type'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
 
 @Component({
   name: 'AssetComponent',
@@ -116,7 +117,9 @@ export default class AssetComponent extends Vue {
 
   async applyedit() {
     this.loading = true
-    await this.assetService.updateAsset(this.asset, this.assetName)
+    const dto: AssetDTO = this.asset.toDTO()
+    dto.title = this.assetName
+    await this.assetService.updateAsset(this.asset, dto)
     this.edited = false
     this.loading = false
   }

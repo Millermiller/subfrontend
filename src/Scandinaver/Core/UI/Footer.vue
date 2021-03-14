@@ -5,15 +5,15 @@
         <span class="copyright">{{ copy }} | {{ version }}</span>
       </el-col>
       <el-col :md="{ span: 4, offset: 8 }" :xs="{ span: 12 }">
-        <el-button type="text" style="color: #606266" @click="showIntro()"
-          >Помощь</el-button
-        >
+        <el-button type="text" style="color: #606266" @click="showIntro()">
+          {{ $t('help') }}
+        </el-button>
         <el-button
           type="text"
           style="color: #606266"
-          @click="dialogFormVisible = true"
-          >Обратная связь</el-button
-        >
+          @click="dialogFormVisible = true">
+          {{ $t('feedback') }}
+        </el-button>
       </el-col>
     </el-row>
     <el-dialog title="Ваше сообщение:" :visible.sync="dialogFormVisible">
@@ -23,13 +23,13 @@
             id="feedback_message"
             type="textarea"
             v-model="form.message"
-            placeholder="Сообщение"
+            :placeholder="$t('message')"
           ></el-input>
         </el-form-item>
       </el-form>
       <span class="dialog-footer" slot="footer">
-        <el-button @click="dialogFormVisible = false">Отмена</el-button>
-        <el-button type="primary" @click="submit">Отправить</el-button>
+        <el-button @click="dialogFormVisible = false">{{$t('cancel')}}</el-button>
+        <el-button type="primary" @click="submit">{{$t('send')}}</el-button>
       </span>
     </el-dialog>
     <!-- <v-tour name="myTour" :steps="steps"></v-tour> -->

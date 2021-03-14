@@ -1,36 +1,27 @@
 import { Inject, Service } from 'typedi'
-import { plainToClass } from 'class-transformer'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { API } from '@/Scandinaver/Asset/Infrastructure/api/assetAPI'
-import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
+import { CommonRepository } from '@/Scandinaver/Core/Infrastructure/common.repository'
+import { plainToClass } from 'class-transformer'
+import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import AssetApi = API.AssetApi
 
 @Service()
-export default class AssetRepository extends BaseRepository<Asset> {
+export default class AssetRepository extends CommonRepository<Asset> {
   @Inject()
-  private api: AssetApi
+  protected api: AssetApi
 
-  public async all(): Promise<Asset[]> {
-    throw new Error('method not implemented')
+  async getPersonalAssets(): Promise<Asset[]> {
+    return this.api.personal().then(response => plainToClass(Asset, response.data))
   }
 
-  public async one(assetId: number): Promise<Asset> {
+  async removeCard(card: Card, asset: Asset): Promise<any> {
+    return this.api.removeCard(asset.getId(), card.getId()).then(response => response)
+  }
+
+  async addCard(card: Card, asset: Asset): Promise<Card> {
     return this.api
-      .getAsset(assetId)
-      .then(response => plainToClass(Asset, response.data))
-  }
-
-  public async update(asset: Asset, data: any) {
-    return this.api
-      .updateAsset(asset, data)
-      .then(response => plainToClass(Asset, response.data))
-  }
-
-  public async delete(asset: Asset): Promise<any> {
-    return this.api.destroyAsset(asset).then(response => response)
-  }
-
-  public async save(entity: Asset): Promise<Asset> {
-    return Promise.resolve(new Asset())
+      .addCard(card.getId(), asset.getId())
+      .then(response => plainToClass(Card, response.data))
   }
 }

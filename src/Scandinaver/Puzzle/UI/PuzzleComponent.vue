@@ -99,9 +99,10 @@ import { PUZZLE_SELECTED } from '@/events/events.type'
 import * as events from '@/events/events.type'
 import PuzzleListComponent from '@/Scandinaver/Puzzle/UI/PuzzleListComponent.vue'
 import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
-import PieceCollection from '@/Scandinaver/Puzzle/Domain/PieceCollection'
 import { Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
+import { Collection } from '@/Scandinaver/Core/Domain/Collection'
+import Piece from '@/Scandinaver/Puzzle/Domain/Piece'
 
 @Component({
   name: 'PuzzleComponent',
@@ -171,7 +172,7 @@ export default class PuzzleComponent extends Vue {
     }
   }
 
-  handleBackDrop(toList: PieceCollection, data: any) {
+  handleBackDrop(toList: Collection<Piece>, data: any) {
     const fromList = data.list
     if (data.zone) {
       toList.add(data.item)

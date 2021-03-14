@@ -7,7 +7,6 @@ import { assetModule } from '@/Scandinaver/Asset/Infrastructure/store/asset'
 import { puzzleModule } from '@/Scandinaver/Puzzle/Infrastructure/store'
 import { rbacModule } from '@/Scandinaver/RBAC/Infrastructure/store'
 import {
-  SET_FAVOURITES,
   SET_PERSONAL,
   SET_SENTENCES,
   SET_WORDS,
@@ -17,6 +16,7 @@ import { plainToClass } from 'class-transformer'
 import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import Intro from '@/Scandinaver/Intro/Domain/Intro'
+import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
 import CommonAPI = API.CommonAPI
 
 // State
@@ -144,26 +144,12 @@ class CommonActions extends Actions<
 
   reloadStore() {
     CommonAPI.getState().then((response) => {
-      const personalAssets = plainToClass<Asset, Asset>(
-        Asset,
-        response.data.personal,
-      )
-      const favouriteAsset = plainToClass<Asset, Asset>(
-        Asset,
-        response.data.favourites,
-      )
-
-      personalAssets.unshift(favouriteAsset)
-
       this.assetstore.commit(SET_WORDS, plainToClass(Asset, response.data.words))
       this.assetstore.commit(SET_SENTENCES, plainToClass(Asset, response.data.sentences))
-      this.assetstore.commit(SET_FAVOURITES, plainToClass(Asset, response.data.favourites))
-      this.assetstore.commit(SET_PERSONAL, plainToClass(Asset, personalAssets))
-      this.textstore.commit(
-        'setTexts',
-        plainToClass(Translate, response.data.texts),
-      )
-      this.puzzleStore.commit('setPuzzles', response.data.puzzles)
+      this.assetstore.commit(SET_PERSONAL, plainToClass(Asset, plainToClass(Asset, response.data.personal)))
+      this.textstore.commit('setTexts', plainToClass(Translate, response.data.texts))
+      this.puzzleStore.commit('setPuzzles', plainToClass(Puzzle, response.data.puzzles))
+
       this.commit('setSites', response.data.sites)
       this.commit('setCurrentSite', response.data.currentsite)
       this.commit('setDomain', response.data.domain)

@@ -18,7 +18,7 @@ export default class ResultModalComponent extends Vue {
     this.$eventHub.$emit(RELOAD_TEST)
   }
 
-  close(done: any) {
+  close() {
     if (this.visible === true) {
       this.$eventHub.$emit(CLOSE_RESULT_MODAL)
     }

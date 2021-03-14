@@ -24,19 +24,9 @@ export default class CardRepository extends BaseRepository<Card> {
     throw new Error('method not implemented')
   }
 
-  async removeFromAsset(card: Card, asset: Asset): Promise<any> {
-    return this.api.destroyCard(card, asset).then(response => response)
-  }
-
   public async save(card: Card): Promise<Card> {
     return this.api
       .createCard(card)
-      .then(response => plainToClass(Card, response.data))
-  }
-
-  public async add(card: Card, asset: Asset): Promise<Card> {
-    return this.api
-      .addCardToAsset(card.getId(), asset.getId())
       .then(response => plainToClass(Card, response.data))
   }
 

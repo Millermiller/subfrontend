@@ -16,9 +16,9 @@
     </el-row>
   </el-main>
   <el-dialog title="Это закрытая часть сайта" :visible.sync="dialogVisible">
-    <span><a>Оплатите подписку</a> </span>
+    <span><a>{{$t('subscriptionNotify')}}</a> </span>
     <span class="dialog-footer" slot="footer">
-      <el-button @click="dialogVisible = false">Закрыть</el-button>
+      <el-button @click="dialogVisible = false">{{$t('close')}}</el-button>
     </span>
   </el-dialog>
 </el-container>

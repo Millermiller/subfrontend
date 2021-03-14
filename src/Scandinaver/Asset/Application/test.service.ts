@@ -4,6 +4,8 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
 import { Test } from '@/Scandinaver/Asset/Domain/Test'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { TestPayload } from '@/Scandinaver/Asset/Domain/TestPayload'
+import Question from '@/Scandinaver/Asset/Domain/Question'
 
 @Service()
 export default class TestService extends BaseService<Test> {
@@ -15,7 +17,14 @@ export default class TestService extends BaseService<Test> {
   }
 
   async complete(test: Test) {
-    await this.repository.complete(test)
+    const payload = new TestPayload()
+    payload.id = test.id
+    payload.percent = test.percent
+    payload.time = test.time
+    test.errors.forEach((error: Question) => {
+      payload.addError(error.card)
+    })
+    await this.repository.complete(test, payload)
     await store.dispatch('reloadStore')
   }
 }

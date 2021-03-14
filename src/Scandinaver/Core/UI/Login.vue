@@ -23,7 +23,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" native-type="submit">Вход</el-button>
+            <el-button type="primary" native-type="submit">{{ $t('enter') }}</el-button>
           </el-form-item>
         </el-form>
       </el-card>

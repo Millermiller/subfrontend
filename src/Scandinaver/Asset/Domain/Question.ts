@@ -1,15 +1,16 @@
-import VariantsCollection from '@/Scandinaver/Asset/Domain/VariantsCollection'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import { Container, Inject, Service } from 'typedi'
 import Translate from '@/Scandinaver/Asset/Domain/Translate'
 import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 import VariantsFromAssetFactory from '@/Scandinaver/Asset/Domain/VariantsFromAssetFactory'
+import { Collection } from '@/Scandinaver/Core/Domain/Collection'
+import Variant from '@/Scandinaver/Asset/Domain/Variant'
 
 @Service()
 export default class Question extends Entity {
   @Inject()
   private variantsFabric: VariantsFromAssetFactory
-  variants: VariantsCollection
+  variants: Collection<Variant>
   card: Card
 
   constructor(card: Card, translates: Translate[]) {

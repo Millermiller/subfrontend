@@ -59,9 +59,8 @@ export default class PersonalComponent extends Vue {
 
   async add(card: Card) {
     this.loading = true
-    await this.cardService.addCardToAsset(card, this.asset)
+    await this.assetService.addCardToAsset(card, this.asset)
     this.loading = false
-    await this.load(this.asset.getId())
     this.$notify.success({
       title: this.$tc('cardAdded'),
       message: card.word.getValue(),
@@ -71,8 +70,8 @@ export default class PersonalComponent extends Vue {
 
   async removeCard(data: any) {
     this.loading = true
-    await this.cardService.removeFromAsset(data.card, this.asset)
-    await this.load(this.asset.getId())
+    await this.assetService.removeCardFromAsset(data.card, this.asset)
+    this.loading = false
     this.$notify.success({
       title: this.$tc('cardRemoved'),
       message: data.card.word!.getValue(),

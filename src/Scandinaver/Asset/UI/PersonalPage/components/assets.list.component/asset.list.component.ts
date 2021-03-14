@@ -4,9 +4,11 @@ import Scrollbar from 'smooth-scrollbar'
 import AssetComponent from './asset.component/index.vue'
 import { Inject } from 'vue-typedi'
 import AssetService from '@/Scandinaver/Asset/Application/asset.service'
-import { ADD_PERSONAL_ASSET } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import * as events from '@/events/events.type'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 
 @Component({
   name: 'AssetsComponent',
@@ -44,25 +46,33 @@ export default class AssetsComponent extends Vue {
         inputPattern: /^.+$/,
         inputErrorMessage: this.$tc('titleLabel'),
       })
-        .then((input: any) => {
+        .then(async (input: any) => {
           this.loading = true
-          this.$store.dispatch(ADD_PERSONAL_ASSET, input.value).then(
-            (response) => {
-              this.$notify.success({
-                title: this.$tc('assetCreated'),
-                message: input.value,
-                duration: 4000,
-              })
-              this.loading = false
-            },
-            (error) => {
-              this.$notify.error({
-                title: this.$tc('error'),
-                message: '',
-                duration: 4000,
-              })
-            },
-          )
+          const dto: AssetDTO = {
+            id: null,
+            language: store.getters.language,
+            level: 0,
+            title: input.value,
+            type: AssetType.PERSONAL,
+            basic: false,
+          }
+          try {
+            await this.assetService.create(dto)
+            await this.assetService.reloadPersonalAssets()
+            this.$notify.success({
+              title: this.$tc('assetCreated'),
+              message: input.value,
+              duration: 4000,
+            })
+          } catch (error) {
+            this.$notify.error({
+              title: this.$tc('error'),
+              message: error,
+              duration: 4000,
+            })
+          } finally {
+            this.loading = false
+          }
         })
         .catch(() => {
           //
@@ -73,6 +83,7 @@ export default class AssetsComponent extends Vue {
   async remove(asset: any) {
     this.loading = true
     await this.assetService.destroyAsset(asset)
+    await this.assetService.reloadPersonalAssets()
     this.loading = false
     this.$notify.success({
       title: this.$tc('assetRemoved'),
