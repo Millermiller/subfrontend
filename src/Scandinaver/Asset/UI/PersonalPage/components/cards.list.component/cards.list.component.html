@@ -4,7 +4,9 @@
       <span class="h3" style="line-height: 38px">
         {{ $t('cardsOfAssets') }}
       </span>
-      <el-tag v-if="name" type="info">{{ name }}</el-tag>
+      <span class='asset-title' style="margin-left: 10px;">
+        {{ name }}
+      </span>
     </div>
     <section
       data-scrollbar="data-scrollbar"
@@ -13,7 +15,7 @@
     >
       <transition-group name="cards" tag="div">
         <CardComponent
-          v-for="(card, index) in cards"
+          v-for="(card, index) in cards.all()"
           :card="card"
           :index="index"
           :key="card.id"

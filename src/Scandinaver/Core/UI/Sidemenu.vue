@@ -82,7 +82,11 @@ export default class Sidemenu extends Vue {
   }
 
   get favouriteId() {
-    return store.getters.favouriteAsset.id
+    const { favouriteAsset } = store.getters
+    if (favouriteAsset !== undefined) {
+      return favouriteAsset.id
+    }
+    return ''
   }
 
   toggle() {

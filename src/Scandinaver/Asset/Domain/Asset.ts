@@ -17,6 +17,11 @@ export class Asset extends Entity {
   private _language: string
   public active: boolean
 
+  constructor() {
+    super();
+    this._cards = new Collection<Card>([])
+  }
+
   get id(): number {
     return this._id
   }

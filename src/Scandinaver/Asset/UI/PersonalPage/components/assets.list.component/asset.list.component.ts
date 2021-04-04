@@ -57,8 +57,8 @@ export default class AssetsComponent extends Vue {
             basic: false,
           }
           try {
-            await this.assetService.create(dto)
-            await this.assetService.reloadPersonalAssets()
+            const newAsset = await this.assetService.create(dto)
+            await this.assetService.addToPersonalAssets(newAsset)
             this.$notify.success({
               title: this.$tc('assetCreated'),
               message: input.value,
@@ -80,15 +80,22 @@ export default class AssetsComponent extends Vue {
     }
   }
 
-  async remove(asset: any) {
+  async remove(asset: Asset) {
     this.loading = true
     await this.assetService.destroyAsset(asset)
-    await this.assetService.reloadPersonalAssets()
+    await this.assetService.removeFromPersonalAssets(asset)
     this.loading = false
     this.$notify.success({
       title: this.$tc('assetRemoved'),
       message: asset.title,
       duration: 4000,
+    })
+    await this.$router.push({
+      name: 'PersonalPage',
+      params: {
+        language: store.getters.language,
+        id: store.getters.favouriteAsset.id,
+      },
     })
   }
 

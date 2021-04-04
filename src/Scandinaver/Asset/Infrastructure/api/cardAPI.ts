@@ -3,7 +3,7 @@ import request from '@/utils/request'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { Service } from 'typedi'
-import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 export namespace API {
   @Service()
@@ -15,9 +15,9 @@ export namespace API {
       })
     }
 
-    translate(word: string, sentence: boolean): Promise<AxiosResponse<Card[]>> {
-      return request.get('/translate', {
-        params: { word, sentence: +sentence },
+    translate(query: string, sentence: boolean): Promise<AxiosResponse<Card[]>> {
+      return request.get('/card/search', {
+        params: { query, sentence: +sentence, lang: store.getters.language },
       })
     }
 

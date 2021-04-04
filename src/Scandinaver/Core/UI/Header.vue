@@ -16,7 +16,6 @@
       <router-link
         class="el-menu-item learn"
         tag="li"
-        v-if="$can(permissions.VIEW_PAGE_CARDS)"
         :to="{ name: 'defaultAsset', params: { language: currentLanguage } }"
       >
         {{ $t('assets') }}
@@ -33,7 +32,7 @@
         class="el-menu-item cards"
         tag="li"
         exact="exact"
-        v-if="$can(permissions.VIEW_PAGE_CARDS)"
+        v-if="$can(permissions.VIEW_PAGE_PERSONAL)"
         :to="{ name: 'PersonalPage', params: { id: favouriteId, language: currentLanguage } }"
       >
         {{ $t('personals') }}
@@ -48,7 +47,7 @@
       <router-link
         class="el-menu-item puzzle"
         tag="li"
-        v-if="$can(permissions.VIEW_PAGE_PUZZLE)"
+        v-if="$can(permissions.VIEW_PAGE_PUZZLE, 'any')"
         :to="{ name: 'PuzzlePage', params: { language: currentLanguage } }"
         >{{ $t('puzzles') }}
       </router-link>
@@ -108,7 +107,6 @@ export default class Header extends Vue {
   offset: number = 0
   width: number = 60
   private observer?: MutationObserver
-  private title: string = 'Исландский'
   private permissions: {}
 
   constructor() {
@@ -122,7 +120,11 @@ export default class Header extends Vue {
   }
 
   get favouriteId() {
-    return store.getters.favouriteAsset.id
+    const { favouriteAsset } = store.getters
+    if (favouriteAsset !== undefined) {
+      return favouriteAsset.id
+    }
+    return ''
   }
 
   get currentLanguage(): string {

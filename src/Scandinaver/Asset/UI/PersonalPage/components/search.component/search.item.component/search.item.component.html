@@ -1,11 +1,15 @@
 <div class="list-item list-item-card el-row">
-  <el-col :span="20">
-    <p :class="['asset_title', { 'text-success': card.exist }]">
-      {{ card.word.getValue() }}
-    </p>
+  <el-col :span="21">
+    <p>{{ card.word.getValue() }}</p>
   </el-col>
-  <el-col :span="4">
-    <i class="ion el-icon-circle-plus-outline pointer" @click="add"></i>
+  <el-col :span="2">
+    <el-button
+      type="default"
+      icon="el-icon-plus"
+      size="mini"
+      @click="add()"
+      plain
+    ></el-button>
   </el-col>
   <el-col :span="24">
     <p :class="['no-margin', 'card-value', { 'text-success': card.exist }]">

@@ -68,7 +68,7 @@ export default class AssetGetters extends Getters<State> {
   }
 
   get favouriteAsset(): Asset {
-    return this.state.favourites
+    return this.state.personal[0]
   }
 
   get activeAssetId(): number {

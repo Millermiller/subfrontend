@@ -7,6 +7,7 @@ import { assetModule } from '@/Scandinaver/Asset/Infrastructure/store/asset'
 import { puzzleModule } from '@/Scandinaver/Puzzle/Infrastructure/store'
 import { rbacModule } from '@/Scandinaver/RBAC/Infrastructure/store'
 import {
+  SET_FAVOURITES,
   SET_PERSONAL,
   SET_SENTENCES,
   SET_WORDS,
@@ -143,10 +144,12 @@ class CommonActions extends Actions<
   }
 
   reloadStore() {
+    this.commit('setFullscreenLoading', true)
     CommonAPI.getState().then((response) => {
       this.assetstore.commit(SET_WORDS, plainToClass(Asset, response.data.words))
       this.assetstore.commit(SET_SENTENCES, plainToClass(Asset, response.data.sentences))
       this.assetstore.commit(SET_PERSONAL, plainToClass(Asset, plainToClass(Asset, response.data.personal)))
+      this.assetstore.commit(SET_FAVOURITES, plainToClass(Asset, plainToClass(Asset, response.data.favourite)))
       this.textstore.commit('setTexts', plainToClass(Translate, response.data.texts))
       this.puzzleStore.commit('setPuzzles', plainToClass(Puzzle, response.data.puzzles))
 
@@ -154,6 +157,7 @@ class CommonActions extends Actions<
       this.commit('setCurrentSite', response.data.currentsite)
       this.commit('setDomain', response.data.domain)
       this.commit('setIntro', response.data.intro)
+      this.commit('setFullscreenLoading', false)
     })
   }
 

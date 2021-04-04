@@ -12,6 +12,17 @@ export default class AssetMutations extends Mutations<State> {
     this.state.personal = data
   }
 
+  addPersonal(asset: Asset) {
+    this.state.personal.push(asset)
+  }
+
+  removePersonal(asset: Asset) {
+    const index = this.state.personal.findIndex(
+      (item: any) => item.id === asset.id,
+    )
+    this.state.personal.splice(index, 1)
+  }
+
   setWords(data: Asset[]) {
     this.state.words = data
   }
@@ -20,20 +31,25 @@ export default class AssetMutations extends Mutations<State> {
     this.state.sentences = data
   }
 
-  setFavourites(data: any) {
-    this.state.favourites = data
+  setFavourites(data: Asset) {
+    this.state.personal.unshift(data)
   }
 
   patchPersonal(asset: Asset) {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
-    this.state.personal[index] = asset
+    const updatedAsset = this.state.personal[index]
+    updatedAsset.title = asset.title
+    updatedAsset.type = asset.type
+    updatedAsset.level = asset.level
+    updatedAsset.basic = asset.basic
+    updatedAsset.count = asset.count
   }
 
-  incrementPersonalCounter(card: Card) {
+  incrementPersonalCounter(asset: Asset) {
     const index = this.state.personal.findIndex(
-      (item: any) => item.id === card.asset.id,
+      (item: any) => item.id === asset.id,
     )
     this.state.personal[index].count++
   }
