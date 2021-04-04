@@ -31,9 +31,9 @@ export default class PersonalComponent extends Vue {
   private cardService: CardService
 
   @Watch('$route')
-  private onRouteChange(route: any) {
+  private async onRouteChange(route: any) {
     if (parseInt(this.$route.params.id, 10) > 0) {
-      this.load(parseInt(this.$route.params.id, 10))
+      await this.load(parseInt(this.$route.params.id, 10))
     }
   }
 
@@ -59,13 +59,17 @@ export default class PersonalComponent extends Vue {
 
   async add(card: Card) {
     this.loading = true
-    await this.assetService.addCardToAsset(card, this.asset)
-    this.loading = false
-    this.$notify.success({
-      title: this.$tc('cardAdded'),
-      message: card.word.getValue(),
-      duration: 4000,
-    })
+    try {
+      await this.assetService.addCardToAsset(card, this.asset)
+      this.loading = false
+      this.$notify.success({
+        title: this.$tc('cardAdded'),
+        message: card.word.getValue(),
+        duration: 4000,
+      })
+    } catch (error) {
+      this.loading = false
+    }
   }
 
   async removeCard(data: any) {

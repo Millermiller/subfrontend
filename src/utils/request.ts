@@ -27,7 +27,7 @@ request.interceptors.response.use(undefined, (error) => {
   if (error.response) {
     Notification.error({
       title: i18n.tc('error'),
-      message: error.response.data.message,
+      message: error.response.data,
       duration: 4000,
     })
   }

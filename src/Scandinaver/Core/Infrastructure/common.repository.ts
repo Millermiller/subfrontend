@@ -20,14 +20,14 @@ export class CommonRepository<D extends Entity> {
   }
 
   public async create(data: any): Promise<D> {
-    return this.api.create(data).then(response => plainToClass(this.type, response.data))
+    return this.api.create(data).then(response => plainToClass(this.api.class, response.data))
   }
 
   public async update(entity: D, data: any): Promise<D> {
-    return this.api.update(entity.getId(), data).then(response => plainToClass(this.type, response.data))
+    return this.api.update(entity.getId(), data).then(response => plainToClass(this.api.class, response.data))
   }
 
   public async delete(entity: D): Promise<any> {
-    return this.api.delete(entity.getId()).then(response => plainToClass(this.type, response.data))
+    return this.api.delete(entity.getId()).then(response => plainToClass(this.api.class, response.data))
   }
 }

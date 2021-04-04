@@ -4,9 +4,10 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import * as types from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import {
+  ADD_PERSONAL,
   DECREMENT_PERSONAL_COUNTER,
   INCREMENT_PERSONAL_COUNTER,
-  PATCH_PERSONAL, SET_ACTIVE_ASSET_ID,
+  PATCH_PERSONAL, REMOVE_PERSONAL, SET_ACTIVE_ASSET_ID,
   SET_ACTIVE_PERSONAL_ASSET_NAME, SET_PERSONAL,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
@@ -39,9 +40,18 @@ export default class AssetService extends BaseService<Asset> {
     store.commit(SET_PERSONAL, assets)
   }
 
+  public addToPersonalAssets(asset: Asset): void {
+    store.commit(ADD_PERSONAL, asset)
+  }
+
+  public removeFromPersonalAssets(asset: Asset): void {
+    store.commit(REMOVE_PERSONAL, asset)
+  }
+
   public async updateAsset(asset: Asset, data: any) {
     const response = await this.repository.update(asset, data)
     store.commit(PATCH_PERSONAL, response)
+    return response
   }
 
   public async destroyAsset(asset: Asset) {
@@ -49,9 +59,9 @@ export default class AssetService extends BaseService<Asset> {
   }
 
   public async addCardToAsset(card: Card, asset: Asset): Promise<Card> {
-    await this.repository.addCard(card, asset)
+    await this.repository.addCard(asset, card)
     asset.cards.add(card)
-    store.commit(INCREMENT_PERSONAL_COUNTER, card)
+    store.commit(INCREMENT_PERSONAL_COUNTER, asset)
     return card
   }
 

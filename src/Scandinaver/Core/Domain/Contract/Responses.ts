@@ -18,7 +18,7 @@ export namespace Responses {
     site: string
     words: []
     sentences: []
-    favourites: Asset
+    favourite: Asset
     personal: Asset[]
     texts: []
     puzzles: []

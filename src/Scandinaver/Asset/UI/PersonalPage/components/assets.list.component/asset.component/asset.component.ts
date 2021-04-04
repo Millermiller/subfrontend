@@ -44,10 +44,6 @@ export default class AssetComponent extends Vue {
     return this.asset.type === AssetType.FAVORITES
   }
 
-  created() {
-    this.assetName = this.asset.title
-  }
-
   showResponder = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
@@ -107,15 +103,16 @@ export default class AssetComponent extends Vue {
     }
   }
 
-  openedit() {
+  openEdit() {
+    this.assetName = this.asset.title
     this.edited = true
   }
 
-  closeedit() {
+  closeEdit() {
     this.edited = false
   }
 
-  async applyedit() {
+  async applyEdit() {
     this.loading = true
     const dto: AssetDTO = this.asset.toDTO()
     dto.title = this.assetName

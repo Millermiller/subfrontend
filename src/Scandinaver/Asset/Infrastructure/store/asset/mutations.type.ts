@@ -1,4 +1,6 @@
 export const SET_PERSONAL = 'setPersonal'
+export const ADD_PERSONAL = 'addPersonal'
+export const REMOVE_PERSONAL = 'removePersonal'
 export const SET_WORDS = 'setWords'
 export const SET_SENTENCES = 'setSentences'
 export const SET_FAVOURITES = 'setFavourites'

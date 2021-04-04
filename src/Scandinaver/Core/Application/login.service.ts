@@ -4,6 +4,7 @@ import Vue from 'vue'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import IntroService from '@/Scandinaver/Intro/Application/intro.service'
 import { Inject, Service } from 'vue-typedi'
+import { INITIALISE_RBAC } from '@/Scandinaver/RBAC/Infrastructure/store/actions.type'
 import UserAPI = API.UserAPI
 
 @Service()
@@ -84,7 +85,7 @@ export class LoginService {
             store.commit('setAuth', true)
             store.commit('setActive', response.data.active)
             store.dispatch('reloadStore').then((r) => {
-              store.dispatch('initialiseRBAC', response.data).then(() => {
+              store.dispatch(INITIALISE_RBAC, response.data).then(() => {
                 resolve()
               })
             })

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import CardComponent from './card.component/index.vue'
+import { Collection } from '@/Scandinaver/Core/Domain/Collection'
+import { Card } from '@/Scandinaver/Asset/Domain/Card'
 
 @Component({
   name: 'CardsComponent',
@@ -12,7 +14,7 @@ export default class CardsListComponent extends Vue {
   private name: string
 
   @Prop()
-  private cards: any
+  private cards: Collection<Card>
 
   @Prop({ required: true })
   private loading: boolean

@@ -10,40 +10,42 @@
   }]"
   >
   <el-row :type="'flex'" :justify="'space-between'">
-    <p class="asset-title">
-      <span v-if="edited === false">{{ assetName }}</span>
+    <p class="asset-title" v-if="edited === false">
+      <span>{{ asset.title }}</span>
     </p>
-    <el-row :type="'flex'" :justify="'end'">
-      <el-input
-        v-if="edited === true"
-        size="small"
-        :placeholder="$t('assetName')"
-        v-model="assetName"
-        @click.native="showResponder($event)"
-      >
-        <el-button
-          slot="append"
-          type="danger"
-          icon="el-icon-close"
-          size="mini"
-          @click.stop="closeedit"
-          plain="plain"
-        ></el-button>
-        <el-button
-          slot="append"
-          type="success"
-          icon="el-icon-check"
-          size="mini"
-          @click.stop="applyedit"
-          plain="plain"
-        ></el-button>
-      </el-input>
+    <el-row :type="'flex'" :justify="'end'" style='width: 100%'>
+      <el-col>
+        <el-input
+          v-if="edited === true"
+          size="small"
+          :placeholder="$t('assetName')"
+          v-model="assetName"
+          @click.native="showResponder($event)"
+        >
+          <el-button
+            slot="append"
+            type="danger"
+            icon="el-icon-close"
+            size="mini"
+            @click.stop="closeEdit()"
+            plain="plain"
+          ></el-button>
+          <el-button
+            slot="append"
+            type="success"
+            icon="el-icon-check"
+            size="mini"
+            @click.stop="applyEdit()"
+            plain="plain"
+          ></el-button>
+        </el-input>
+        </el-col>
       <el-button
         v-if="asset.title !== $t('favourite') &amp;&amp; edited === false"
         type="default"
         icon="el-icon-edit"
         size="mini"
-        @click.stop="openedit"
+        @click.stop="openEdit()"
         :disabled="!isActive"
         plain="plain"
       ></el-button>
