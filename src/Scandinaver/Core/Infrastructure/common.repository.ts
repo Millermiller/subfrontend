@@ -1,11 +1,9 @@
 import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 import { plainToClass } from 'class-transformer'
-import { ClassType } from 'class-transformer/ClassTransformer'
 import { BaseAPI } from '@/Scandinaver/Core/Infrastructure/base.api'
 
 export class CommonRepository<D extends Entity> {
   protected api: BaseAPI<D>
-  private type: ClassType<D>
 
   constructor(api: BaseAPI<D>) {
     this.api = api

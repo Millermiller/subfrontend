@@ -5,7 +5,7 @@
   :xs="{span: 24, offset: 0}"
 >
   <el-card class="box-card tab-navigation">
-    <el-tabs @tab-click="handleClick" :value="active">
+    <el-tabs :value="active">
       <el-tab-pane :label="$t('words')" :name="wordTabName">
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
@@ -58,5 +58,12 @@
         </section>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :width="'400px'">
+      <span v-html="dialogContent"></span>
+      <span class="dialog-footer" slot="footer">
+      <el-button v-if="showTestLink" @click="goToTest()">{{$t('passTest')}}</el-button>
+      <el-button @click="dialogVisible = false">{{$t('close')}}</el-button>
+    </span>
+    </el-dialog>
   </el-card>
 </el-col>

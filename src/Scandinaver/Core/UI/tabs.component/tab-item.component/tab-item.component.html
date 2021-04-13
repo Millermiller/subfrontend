@@ -5,8 +5,7 @@
       'pointer',
       {
         'open': asset.active || isPersonal,
-        'tested': asset.canopen,
-        'not-available': !asset.available && !isPersonal,
+        'not-available': asset.isAvailable === false,
         'selected': selected,
       },
     ]"
@@ -14,7 +13,9 @@
 >
   <el-row :type="'flex'" :justify="'space-between'">
     <p class="asset-title">{{ asset.title }}</p>
-    <p class="asset-description">{{ asset.description }}</p>
+    <p class="asset-description" v-if="asset.isCompleted">
+      <i class='el-icon-medal-1'></i>
+    </p>
   </el-row>
   <el-row :type="'flex'" :justify="'space-between'">
     <el-col v-if="!isPersonal">
@@ -26,12 +27,12 @@
       <span class="text-muted small">
         <i class="el-icon-odometer tab-icon"></i>
       </span>
-      <span
+      <span v-if="asset.bestResult !== null"
         :class="['small', {
-            success: asset.result > 80,
-            warning: (asset.result > 50 && asset.result < 80),
-            danger: asset.result > 50}]"
-        >{{ asset.result }}%
+            'text-success': asset.bestResult >= 80,
+            'text-warning': (asset.bestResult >= 50 && asset.bestResult < 80),
+            'text-danger': asset.bestResult < 50}]"
+        >{{ asset.bestResult }}%
       </span>
       <span class="text-muted small" style="padding-left: 15px">
         <i class="el-icon-document-copy tab-icon"></i>
@@ -70,10 +71,12 @@
           <i class="el-icon-arrow-righ el-icon-right"></i>
         </el-button>
       </template>
-      <template v-else>
-        <span class="small text-muted">{{ $t('closed') }}</span>
+      <template v-if="asset.active === false && asset.isAvailable">
+        <span class="small text-muted" @click="showTestModal()">{{ $t('closed') }}</span>
+      </template>
+      <template v-if="!asset.isAvailable && !isPersonal">
+        <span class="small text-muted" @click="showPaidModal()">{{ $t('notAvailable') }}</span>
       </template>
     </el-col>
-    <i class="el-icon-lock" @click="showModal" v-if="!asset.available && !isPersonal"></i>
   </el-row>
 </el-row>

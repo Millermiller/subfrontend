@@ -4,6 +4,9 @@ import Scrollbar from 'smooth-scrollbar'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 import TabItemComponent from './tab-item.component/index.vue'
 import { Prop } from 'vue-property-decorator'
+import * as events from '@/events/events.type'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({
   name: 'TabsComponent',
@@ -27,9 +30,19 @@ export default class TabsComponent extends Vue {
   @Prop({ required: true })
   private loadAction: string
 
+  dialogVisible: boolean = false
+  dialogTitle: string = ''
+  dialogContent: string = ''
+  showTestLink: boolean = false
+  previousAsset: Asset = null
   wordTabName = AssetType.WORDS.toString()
   sentencesTabName = AssetType.SENTENCES.toString()
   personalTabName = AssetType.PERSONAL.toString()
+
+  created() {
+    this.$eventHub.$on(events.OPEN_PAID_MODAL, this.paidModal)
+    this.$eventHub.$on(events.OPEN_TEST_MODAL, this.testModal)
+  }
 
   get personals() {
     return this.$store.getters.personal
@@ -52,7 +65,32 @@ export default class TabsComponent extends Vue {
     return this.$store.getters.activeAssetType
   }
 
-  handleClick = () => {
-    //
+  paidModal() {
+    this.showTestLink = false
+    this.dialogTitle = this.$tc('assetNotAvailable')
+    this.dialogContent = this.$tc('paidNotify')
+    this.dialogVisible = true
+  }
+
+  testModal(asset: Asset) {
+    this.showTestLink = true
+    this.previousAsset = this.$store.getters.getAssetByLevelAndType(asset.level, asset.type)
+    this.dialogTitle = this.$tc('assetClosed')
+    this.dialogContent = this.$t('testNotify', {
+      title: this.previousAsset.title
+    }).toString()
+    this.dialogVisible = true
+  }
+
+  goToTest() {
+    this.$router.push({
+      name: 'Test',
+      params: { language: store.getters.language, id: this.previousAsset.getId().toString() },
+    })
+  }
+
+  beforeDestroy() {
+    this.$eventHub.$off(events.OPEN_PAID_MODAL)
+    this.$eventHub.$off(events.OPEN_TEST_MODAL)
   }
 }

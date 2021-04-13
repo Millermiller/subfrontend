@@ -1,6 +1,6 @@
 import { Inject, Service } from 'typedi'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
-import { API } from '@/Scandinaver/Asset/Infrastructure/api/assetAPI'
+import { API } from '@/Scandinaver/Asset/Infrastructure/api/asset.api'
 import { CommonRepository } from '@/Scandinaver/Core/Infrastructure/common.repository'
 import { plainToClass } from 'class-transformer'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'

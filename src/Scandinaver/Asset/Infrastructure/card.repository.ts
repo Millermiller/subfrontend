@@ -1,16 +1,15 @@
 import { Inject, Service } from 'typedi'
-import { API } from '@/Scandinaver/Asset/Infrastructure/api/cardAPI'
+import { API } from '@/Scandinaver/Asset/Infrastructure/api/card.api'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { plainToClass } from 'class-transformer'
-import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
-import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { CommonRepository } from '@/Scandinaver/Core/Infrastructure/common.repository'
 import CardApi = API.CardApi
 
 @Service()
-export default class CardRepository extends BaseRepository<Card> {
+export default class CardRepository extends CommonRepository<Card> {
   @Inject()
-  private api: CardApi
+  protected api: CardApi
 
   public async all(): Promise<Card[]> {
     throw new Error('method not implemented')

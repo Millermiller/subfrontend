@@ -1,14 +1,14 @@
 import { Inject, Service } from 'typedi'
-import { API } from '@/Scandinaver/Asset/Infrastructure/api/testAPI'
-import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
+import { API } from '@/Scandinaver/Asset/Infrastructure/api/test.api'
 import { Test } from '@/Scandinaver/Asset/Domain/Test'
 import { TestPayload } from '@/Scandinaver/Asset/Domain/TestPayload'
+import { CommonRepository } from '@/Scandinaver/Core/Infrastructure/common.repository'
 import TestAPI = API.TestAPI
 
 @Service()
-export default class TestRepository extends BaseRepository<Test> {
+export default class TestRepository extends CommonRepository<Test> {
   @Inject()
-  private api: TestAPI
+  protected api: TestAPI
 
   async all(): Promise<Test[]> {
     return Promise.resolve([])

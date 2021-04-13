@@ -3,6 +3,7 @@ import State from '@/Scandinaver/Asset/Infrastructure/store/asset/state'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
+import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 
 export default class AssetGetters extends Getters<State> {
   get activeAssetType(): string {
@@ -20,13 +21,24 @@ export default class AssetGetters extends Getters<State> {
   }
 
   get activeWords() {
-    let count = 0
+    return this.state.words.filter((asset: Asset) => asset.active === true).length
+  }
 
-    this.state.words.forEach((element: Asset, index: number, array: Asset[]) => {
-      if (element.active) count++
-    })
+  get completedWordAssetsCount() {
+    return this.state.words.filter((asset: Asset) => asset.completed === true).length
+  }
 
-    return count
+  get completedSentencesAssetsCount() {
+    return this.state.sentences.filter((asset: Asset) => asset.completed === true).length
+  }
+
+  public getAssetByLevelAndType(level: number, type: AssetType): Asset {
+    const previousLevel = level - 1
+    if (type === AssetType.WORDS) {
+      return this.state.words.find((asset: Asset) => asset.level === previousLevel)
+    }
+
+    return this.state.sentences.find((asset: Asset) => asset.level === previousLevel)
   }
 
   get activeSentences() {

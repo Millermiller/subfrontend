@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi'
-import { API } from '@/Scandinaver/Asset/Infrastructure/api/readerAPI'
+import { API } from '@/Scandinaver/Asset/Infrastructure/api/reader.api'
 import ReaderAPI = API.ReaderAPI
 
 @Service()

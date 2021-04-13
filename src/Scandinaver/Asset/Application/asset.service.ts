@@ -7,8 +7,7 @@ import {
   ADD_PERSONAL,
   DECREMENT_PERSONAL_COUNTER,
   INCREMENT_PERSONAL_COUNTER,
-  PATCH_PERSONAL, REMOVE_PERSONAL, SET_ACTIVE_ASSET_ID,
-  SET_ACTIVE_PERSONAL_ASSET_NAME, SET_PERSONAL,
+  PATCH_PERSONAL, REMOVE_PERSONAL, SET_ACTIVE_ASSET_ID, SET_PERSONAL,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
 import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'

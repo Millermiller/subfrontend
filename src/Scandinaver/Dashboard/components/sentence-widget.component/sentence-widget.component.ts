@@ -11,8 +11,8 @@ export default class SentenceWidgetComponent extends BaseWidgetComponent {
     return this.$store.getters.sentences.length
   }
 
-  get active() {
-    return this.$store.getters.activeSentences
+  get completed() {
+    return this.$store.getters.completedSentencesAssetsCount
   }
 
   goto(routeName: string) {

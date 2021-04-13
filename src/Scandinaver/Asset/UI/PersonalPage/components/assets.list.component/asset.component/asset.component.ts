@@ -116,6 +116,7 @@ export default class AssetComponent extends Vue {
     this.loading = true
     const dto: AssetDTO = this.asset.toDTO()
     dto.title = this.assetName
+    console.log(dto)
     await this.assetService.updateAsset(this.asset, dto)
     this.edited = false
     this.loading = false

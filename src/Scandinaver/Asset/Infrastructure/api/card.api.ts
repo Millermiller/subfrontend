@@ -4,10 +4,34 @@ import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { Service } from 'typedi'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import { BaseAPI } from '@/Scandinaver/Core/Infrastructure/base.api'
+import { ClassType } from 'class-transformer/ClassTransformer'
 
 export namespace API {
   @Service()
-  export class CardApi {
+  export class CardApi extends BaseAPI<Card> {
+    protected type: ClassType<Card> = Card
+
+    all(): Promise<AxiosResponse<Card[]>> {
+      throw new Error('method not implemented')
+    }
+
+    create(data: any): Promise<AxiosResponse<Card>> {
+      throw new Error('method not implemented')
+    }
+
+    delete(id: number | string): Promise<any> {
+      throw new Error('method not implemented')
+    }
+
+    one(id: number): Promise<AxiosResponse<Card>> {
+      throw new Error('method not implemented')
+    }
+
+    update(id: number | string, data: any): Promise<AxiosResponse<Card>> {
+      throw new Error('method not implemented')
+    }
+
     createCard(card: Card): Promise<AxiosResponse<Card>> {
       return request.post('/card/create', {
         word: card.word.getValue(),
