@@ -11,8 +11,8 @@ export default class WordWidgetComponent extends BaseWidgetComponent {
     return this.$store.getters.words.length
   }
 
-  get active() {
-    return this.$store.getters.activeWords
+  get completed() {
+    return this.$store.getters.completedWordAssetsCount
   }
 
   goto(routeName: string) {

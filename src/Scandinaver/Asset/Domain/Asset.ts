@@ -15,7 +15,10 @@ export class Asset extends Entity {
   private _count: number
   private _basic: boolean
   private _language: string
-  public active: boolean
+  private _active: boolean
+  private _completed: boolean
+  private _available: boolean
+  private _bestResult: number
 
   constructor() {
     super();
@@ -80,6 +83,45 @@ export class Asset extends Entity {
 
   set count(value: number) {
     this._count = value
+  }
+
+  get completed(): boolean {
+    return this._completed
+  }
+
+  get isCompleted(): boolean {
+    return this._completed === true
+  }
+
+  set completed(value: boolean) {
+    this._completed = value
+  }
+  get active(): boolean {
+    return this._active
+  }
+
+  set active(value: boolean) {
+    this._active = value
+  }
+
+  get available(): boolean {
+    return this._available
+  }
+
+  get isAvailable(): boolean {
+    return this._available === true
+  }
+
+  set available(value: boolean) {
+    this._available = value
+  }
+
+  get bestResult(): number {
+    return this._bestResult
+  }
+
+  set bestResult(value: number) {
+    this._bestResult = value
   }
 
   toDTO(): AssetDTO {

@@ -1,22 +1,14 @@
 import { Inject, Service } from 'typedi'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
-import { API } from '@/Scandinaver/Asset/Infrastructure/api/cardAPI'
-import { BaseRepository } from '@/Scandinaver/Core/Infrastructure/base.repository'
+import { API } from '@/Scandinaver/Asset/Infrastructure/api/card.api'
 import { plainToClass } from 'class-transformer'
+import { CommonRepository } from '@/Scandinaver/Core/Infrastructure/common.repository'
 import CardApi = API.CardApi
 
 @Service()
-export default class FavouriteRepository extends BaseRepository<Card> {
+export default class FavouriteRepository extends CommonRepository<Card> {
   @Inject()
-  private api: CardApi
-
-  async all(): Promise<Card[]> {
-    return Promise.resolve([])
-  }
-
-  async one(id: number): Promise<Card> {
-    return Promise.resolve(new Card())
-  }
+  protected api: CardApi
 
   async save(card: Card): Promise<Card> {
     return this.api

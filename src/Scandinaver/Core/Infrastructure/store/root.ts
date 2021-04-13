@@ -12,7 +12,7 @@ import {
   SET_SENTENCES,
   SET_WORDS,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
-import { API } from '@/Scandinaver/Core/Infrastructure/api/commonAPI'
+import { API } from '@/Scandinaver/Core/Infrastructure/api/common.api'
 import { plainToClass } from 'class-transformer'
 import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'

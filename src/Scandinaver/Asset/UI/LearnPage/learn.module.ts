@@ -4,6 +4,8 @@ import RightMenuButtonComponent from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 import * as events from '@/events/events.type'
 import TabsComponent from '../../../Core/UI/tabs.component/index.vue'
 import SliderComponent from './components/slider.component/index.vue'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({
   name: 'LearnModule',
@@ -14,16 +16,10 @@ import SliderComponent from './components/slider.component/index.vue'
   },
 })
 export default class LearnModule extends Vue {
-  dialogVisible: boolean = false
   visible: boolean = false
 
   created() {
     this.$eventHub.$on(events.TOGGLE_RIGHT_MENU, this.toggleRightMenuR())
-    this.$eventHub.$on(events.OPEN_PAID_MODAL, this.modal)
-  }
-
-  modal() {
-    this.dialogVisible = true
   }
 
   async toggleRightMenuR() {
@@ -38,7 +34,6 @@ export default class LearnModule extends Vue {
 
   beforeDestroy() {
     // this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
-    this.$eventHub.$off(events.CLOSE_MENU)
-    this.$eventHub.$off(events.OPEN_PAID_MODAL)
+    this.$eventHub.$off(events.TOGGLE_RIGHT_MENU)
   }
 }

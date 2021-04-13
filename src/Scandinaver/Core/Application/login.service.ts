@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { API, ILoginData } from '@/Scandinaver/Core/Infrastructure/api/userAPI'
+import { API, ILoginData } from '@/Scandinaver/Core/Infrastructure/api/user.api'
 import Vue from 'vue'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import IntroService from '@/Scandinaver/Intro/Application/intro.service'

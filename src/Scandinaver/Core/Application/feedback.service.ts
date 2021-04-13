@@ -10,6 +10,6 @@ export default class FeedbackService {
   private repository: FeedbackRepository
 
   async addFeedback(form: IFeedbackForm): Promise<FeedbackForm> {
-    return this.repository.save(form)
+    return this.repository.create(form)
   }
 }

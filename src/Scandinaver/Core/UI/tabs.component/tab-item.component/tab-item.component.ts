@@ -85,7 +85,11 @@ export default class TabItemComponent extends Vue {
     }
   }
 
-  showModal(): void {
+  showTestModal(): void {
+    this.$eventHub.$emit(events.OPEN_TEST_MODAL, this.asset)
+  }
+
+  showPaidModal(): void {
     this.$eventHub.$emit(events.OPEN_PAID_MODAL)
   }
 }

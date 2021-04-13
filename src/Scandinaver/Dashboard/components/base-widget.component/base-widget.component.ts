@@ -10,12 +10,12 @@ export default class BaseWidgetComponent extends Vue {
     return 0
   }
 
-  get active(): number {
+  get completed(): number {
     return 0
   }
 
   get percent() {
-    return Math.round((100 * this.active) / this.all) || 0
+    return Math.round((100 * this.completed) / this.all) || 0
   }
 
   get currentLanguage(): string {
