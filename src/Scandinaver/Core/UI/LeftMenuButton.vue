@@ -1,10 +1,5 @@
 <template>
-  <a id="left-menu" @click="showLeftMenu">
-    <button class="navbar-toggle collapsed">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span></button
-  ></a>
+  <i class="el-icon-d-arrow-right hidden-sm-and-up" id="left-menu" @click="showLeftMenu"></i>
 </template>
 
 <script lang="ts">
@@ -16,14 +11,17 @@ import * as events from '@/events/events.type'
   name: 'LeftMenuButton',
 })
 export default class LeftMenuButton extends Vue {
-  showLeftMenu = (): void => {
-    this.$eventHub.$emit(events.TOGGLE_LEFT_MENU)
+  showLeftMenu(): void {
+    this.$store.commit('setLeftMenuOpen', true)
+    this.$store.commit('setRightMenuOpen', false)
   }
 }
 </script>
 
 <style>
 #left-menu {
-  position: absolute;
+  position: relative;
+  padding: 15px 0;
+  font-size: 30px;
 }
 </style>

@@ -1,5 +1,4 @@
 <el-container>
-  <RightMenuButtonComponent></RightMenuButtonComponent>
   <el-main>
     <el-row :gutter="20">
       <router-view></router-view>
@@ -11,6 +10,7 @@
         <TabsComponent :showLearnButton="false"
                        :showTestButton="true"
                        :loadAction="'learn'"
+                       v-if="showRightMenu"
         ></TabsComponent>
       </transition>
     </el-row>

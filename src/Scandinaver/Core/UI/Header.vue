@@ -1,6 +1,6 @@
 <template>
   <header class="el-header" ref="menu">
-    <LeftMenuButton></LeftMenuButton>
+    <LeftMenuButton v-if='showLeftMenuButton'></LeftMenuButton>
     <el-menu
       class="el-menu-demo main-menu hidden-sm-and-down"
       mode="horizontal"
@@ -84,6 +84,7 @@
       </li>
       <hr :style="{ left: offset + 'px', width: width + 'px' }" />
     </el-menu>
+    <RightMenuButton v-if='showRightMenuButton'></RightMenuButton>
   </header>
 </template>
 
@@ -95,10 +96,11 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import LeftMenuButton from '@/Scandinaver/Core/UI/LeftMenuButton.vue'
 import { Inject } from 'vue-typedi'
 import { permissions } from '@/permissions/permission.type'
+import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 
 @Component({
   name: 'Header',
-  components: { LeftMenuButton },
+  components: { LeftMenuButton, RightMenuButton },
 })
 export default class Header extends Vue {
   @Inject()
@@ -125,6 +127,14 @@ export default class Header extends Vue {
       return favouriteAsset.id
     }
     return ''
+  }
+
+  get showLeftMenuButton():boolean {
+    return store.getters.showLeftMenuButton
+  }
+
+  get showRightMenuButton():boolean {
+    return store.getters.showRightMenuButton
   }
 
   get currentLanguage(): string {
@@ -197,6 +207,7 @@ export default class Header extends Vue {
   border-bottom: solid 1px #e6e6e6;
   box-shadow: 0 2px 3px hsla(0, 0%, 7%, 0.1), 0 0 0 1px hsla(0, 0%, 7%, 0.1);
   padding: 0 20px;
+  height: 60px;
 }
 
 .navbar {

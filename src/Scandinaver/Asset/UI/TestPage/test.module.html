@@ -1,11 +1,4 @@
 <el-container>
-  <a id="right-menu" @click="toggleRightMenu">
-    <button class="navbar-toggle collapsed">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </a>
   <el-main>
     <el-row :gutter="20">
       <Result></Result>
@@ -15,7 +8,7 @@
         enter-active-class="animated slideInRight"
         leave-active-class="animated slideOutRight"
       >
-        <TabsComponent v-show="visible"
+        <TabsComponent v-if="showRightMenu"
                        :showLearnButton="true"
                        :showTestButton="false"
                        :loadAction="'test'"

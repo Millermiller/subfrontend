@@ -9,6 +9,7 @@ export namespace API {
   @Service()
   export class TextAPI extends BaseAPI<Translate> {
     protected type: ClassType<Translate> = Translate
+    protected baseUrl = 'text'
 
     all(): Promise<AxiosResponse<Translate[]>> {
       throw new Error('method not implemented')
@@ -31,7 +32,7 @@ export namespace API {
     }
 
     getText(id: number): Promise<AxiosResponse> {
-      return request.get(`/text/${id}`)
+      return request.get(`/${this.baseUrl}/${id}`)
     }
 
     nextLevel(text: Translate): Promise<AxiosResponse<Translate>> {
