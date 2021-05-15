@@ -1,11 +1,11 @@
 {
   "name": "subfrontend",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "private": true,
   "scripts": {
     "run development": "vue-cli-service serve --mode development --host learn.scandinaver.local",
     "build local": "vue-cli-service build --mode development",
-    "build development": "vue-cli-service build",
+    "build production": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
