@@ -14,9 +14,9 @@
             <p class="userlogin">{{ login }}</p>
             <p class="useremail">{{ email }}</p>
           </div>
-          <i class="ion-ios-close-empty ion-big" @click="toggle"></i>
+          <i class="el-icon-back hide-menu-button" @click="hide"></i>
         </div>
-        <div class="sidemenu-content" @click="toggle">
+        <div class="sidemenu-content" @click="hide">
           <el-menu class="el-menu-vertical" mode="vertical" default-active="1">
             <el-menu-item index="1">
               <i class="ion-ios-home-outline ion"></i>
@@ -59,7 +59,9 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({})
 export default class Sidemenu extends Vue {
-  private visible: boolean = false
+  get visible(): boolean {
+    return this.$store.getters.isLeftMenuOpen
+  }
 
   get avatar() {
     return this.$store.getters.avatar
@@ -89,16 +91,14 @@ export default class Sidemenu extends Vue {
     return ''
   }
 
-  toggle() {
-    this.visible = !this.visible
-
-    if (!this.$store.getters.rightMenuOpen) this.$store.commit('setBackdrop', 0)
+  hide() {
+    this.$store.commit('setLeftMenuOpen', false)
+    this.$store.commit('setBackdrop', 0)
   }
 
   mounted() {
     const data = this
     this.$eventHub.$on(events.SHOW_MENU, () => {
-      data.visible = true
       data.$store.commit('setBackdrop', 1)
     })
   }
@@ -108,3 +108,11 @@ export default class Sidemenu extends Vue {
   }
 }
 </script>
+
+<style lang='scss' scoped>
+.hide-menu-button {
+  float: right;
+  font-size: 30px;
+  margin: 10px;
+}
+</style>

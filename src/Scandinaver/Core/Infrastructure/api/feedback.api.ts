@@ -9,10 +9,7 @@ export namespace API {
   @Service()
   export class FeedbackAPI extends BaseAPI<Feedback> {
     protected type: ClassType<Feedback> = Feedback
-
-    create(form: IFeedbackForm): Promise<AxiosResponse<Feedback>> {
-      return request.post('feedback', { message: form.message })
-    }
+    protected baseUrl = 'feedback'
 
     all(): Promise<AxiosResponse<Feedback[]>> {
       throw new Error('method not implemented')

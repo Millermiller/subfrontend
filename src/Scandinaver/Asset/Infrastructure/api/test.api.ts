@@ -9,6 +9,7 @@ export namespace API {
   @Service()
   export class TestAPI extends BaseAPI<Test> {
     protected type: ClassType<Test> = Test
+    protected baseUrl = 'result'
 
     saveResult(test: Test, percent: number): Promise<AxiosResponse> {
       return request.post(`/result/${test.id}`, { result: percent })

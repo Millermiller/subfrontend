@@ -10,6 +10,7 @@ export namespace API {
   @Service()
   export class PuzzleAPI extends BaseAPI<Puzzle> {
     protected type: ClassType<Puzzle> = Puzzle
+    protected baseUrl = 'puzzle'
 
     all(): Promise<AxiosResponse<Puzzle[]>> {
       throw new Error('method not implemented')
@@ -32,7 +33,7 @@ export namespace API {
     }
 
     getPuzzles(): Promise<AxiosResponse<Puzzle[]>> {
-      return request.get('/puzzle/user', {
+      return request.get(`/${this.baseUrl}/user`, {
         params: {
           lang: store.getters.language
         }
@@ -40,7 +41,7 @@ export namespace API {
     }
 
     processPuzzle(puzzle: Puzzle): Promise<AxiosResponse> {
-      return request.put(`/puzzle/${puzzle.id}/complete`)
+      return request.put(`/${this.baseUrl}/${puzzle.id}/complete`)
     }
   }
 }

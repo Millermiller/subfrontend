@@ -11,6 +11,7 @@ export namespace API {
   @Service()
   export class CardApi extends BaseAPI<Card> {
     protected type: ClassType<Card> = Card
+    protected baseUrl = 'card'
 
     all(): Promise<AxiosResponse<Card[]>> {
       throw new Error('method not implemented')
@@ -33,14 +34,14 @@ export namespace API {
     }
 
     createCard(card: Card): Promise<AxiosResponse<Card>> {
-      return request.post('/card/create', {
+      return request.post(`/${this.baseUrl}/create`, {
         word: card.word.getValue(),
         translate: card.translate.getValue(),
       })
     }
 
     translate(query: string, sentence: boolean): Promise<AxiosResponse<Card[]>> {
-      return request.get('/card/search', {
+      return request.get(`/${this.baseUrl}/search`, {
         params: { query, sentence: +sentence, lang: store.getters.language },
       })
     }
