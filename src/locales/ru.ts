@@ -82,4 +82,10 @@ export const messages = {
   feedback: 'Обратная связь',
   message: 'Сообщение',
   mainPage: 'На главную',
+  tour: {
+    skip: 'Пропустить',
+    previous: 'Назад',
+    next: 'Вперед',
+    finish: 'Заакончить',
+  }
 }

@@ -8,7 +8,6 @@ export default class IntroService {
   public stream: BehaviorSubject<any> = new BehaviorSubject<any>(false)
 
   public getForPage(page: any): Intro[] {
-    // return store.getters.intro.filter((el: Intro) => el.page === page)
-    return store.getters.intro
+    return store.getters.intro.filter((el: Intro) => el.page === page)
   }
 }
