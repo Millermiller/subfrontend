@@ -1,31 +1,38 @@
 <template>
-  <a id="left-menu" @click="showRightMenu">
-    <button class="navbar-toggle collapsed">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </a>
+  <i :class="[iconClass, 'hidden-sm-and-up']" id="right-menu" @click="toggleRightMenu"></i>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import * as events from '@/events/events.type'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component({
   name: 'RightMenuButton',
 })
 export default class RightMenuButton extends Vue {
-  showRightMenu = (): void => {
-    this.$eventHub.$emit(events.TOGGLE_RIGHT_MENU)
+  private opened: boolean = false
+  readonly classOpened: string = 'el-icon-d-arrow-left'
+  readonly classClosed: string = 'el-icon-close'
+
+  get iconClass(): string {
+    return store.getters.isRightMenuOpen ? this.classClosed : this.classOpened
+  }
+
+  toggleRightMenu(): void{
+    this.$store.commit('setRightMenuOpen', !store.getters.isRightMenuOpen)
+    this.$store.commit('setLeftMenuOpen', false)
+    this.opened = store.getters.isRightMenuOpen
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#left-menu {
-  position: absolute;
+#right-menu {
+  position: relative;
+  padding: 15px 0;
+  font-size: 30px;
+  float: right;
 }
 .navbar-toggle {
   float: right;

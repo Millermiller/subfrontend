@@ -59,17 +59,18 @@ export default class TabItemComponent extends Vue {
     this.$router.push({
       name: 'Test',
       params: { language: this.currentLanguage, id: this.asset.getId().toString() },
+    }).then(() => {
+      this.$store.commit('setRightMenuOpen', false)
     })
   }
 
   learn() {
     if (this.asset.active || this.isPersonal) {
-      if (window.innerWidth <= 910) {
-        this.$eventHub.$emit(events.CLOSE_MENU)
-      }
       this.$router.push({
         name: 'learnAsset',
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
+      }).then(() => {
+        this.$store.commit('setRightMenuOpen', false)
       })
     }
   }
@@ -81,6 +82,8 @@ export default class TabItemComponent extends Vue {
       this.$router.push({
         name: 'PersonalPage',
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
+      }).then(() => {
+        this.$store.commit('setRightMenuOpen', false)
       })
     }
   }

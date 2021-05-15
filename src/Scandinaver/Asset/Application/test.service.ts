@@ -25,6 +25,6 @@ export default class TestService extends BaseService<Test> {
       payload.addError(error.card)
     })
     await this.repository.complete(test, payload)
-    await store.dispatch('reloadStore')
+    await store.dispatch('reloadStore', false)
   }
 }

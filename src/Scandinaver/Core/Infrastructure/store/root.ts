@@ -30,7 +30,10 @@ class State {
   domain = ''
   info = {}
   backdrop = 0
-  rightMenuOpen = false
+  showLeftMenuButton = true
+  showRightMenuButton = false
+  rightMenuOpen: boolean = false
+  leftMenuOpen: boolean = false
   intro: Intro[] = []
   language: string = ''
 }
@@ -54,8 +57,12 @@ class CommonGetters extends Getters<State> {
     return this.state.backdrop
   }
 
-  get rightMenuOpen() {
+  get isRightMenuOpen(): boolean {
     return this.state.rightMenuOpen
+  }
+
+  get isLeftMenuOpen(): boolean {
+    return this.state.leftMenuOpen
   }
 
   get intro(): Intro[] {
@@ -68,6 +75,14 @@ class CommonGetters extends Getters<State> {
 
   get language(): string {
     return this.state.language
+  }
+
+  get showLeftMenuButton(): boolean {
+    return this.state.showLeftMenuButton
+  }
+
+  get showRightMenuButton(): boolean {
+    return this.state.showRightMenuButton
   }
 }
 
@@ -94,20 +109,36 @@ class CommonMutations extends Mutations<State> {
     this.state.rightMenuOpen = data
   }
 
-  setSites(sites: any) {
+  setSites(sites: any): void {
     this.state.sites = sites
   }
 
-  setCurrentSite(site: any) {
+  setCurrentSite(site: any): void {
     this.state.currentsite = site
   }
 
-  setDomain(domain: string) {
+  setDomain(domain: string): void {
     this.state.domain = domain
   }
 
-  setLanguage(language: string) {
+  setLanguage(language: string): void {
     this.state.language = language
+  }
+
+  setShowLeftMenuButton(visible: boolean): void {
+    this.state.showLeftMenuButton = visible
+  }
+
+  setShowRightMenuButton(visible: boolean): void {
+    this.state.showRightMenuButton = visible
+  }
+
+  setRightMenuOpen(visible: boolean): void {
+    this.state.rightMenuOpen = visible
+  }
+
+  setLeftMenuOpen(visible: boolean): void {
+    this.state.leftMenuOpen = visible
   }
 }
 

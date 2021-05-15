@@ -15,3 +15,14 @@
     text-align: center;
   }
 }
+
+@media (min-width: 480px){
+  .el-card.box-card {
+    height: 80vh;
+  }
+}
+@media (max-width: 480px) {
+  #accountblock {
+    margin-bottom: 20px;
+  }
+}
