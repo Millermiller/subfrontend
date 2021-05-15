@@ -33,6 +33,7 @@ export default class App extends Vue {
   }
 
   mounted() {
+    document.body.classList.add('app-body')
     this.$store.commit('setLanguage', LanguageService.extract())
   }
 }

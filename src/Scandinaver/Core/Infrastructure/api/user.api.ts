@@ -32,7 +32,7 @@ export namespace API {
       return request.post('/logout')
     }
 
-    static fetch(token: string): Promise<AxiosResponse> {
+    fetch(token: string): Promise<AxiosResponse> {
       const request = axios.create({
         baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,

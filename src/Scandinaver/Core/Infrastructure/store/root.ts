@@ -18,6 +18,8 @@ import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import Intro from '@/Scandinaver/Intro/Domain/Intro'
 import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
+import { Inject } from 'vue-typedi'
+import IntroService from '@/Scandinaver/Intro/Application/intro.service'
 import CommonAPI = API.CommonAPI
 
 // State
@@ -31,17 +33,6 @@ class State {
   rightMenuOpen = false
   intro: Intro[] = []
   language: string = ''
-  introNeed = {
-    login: false,
-    MainPage: true,
-    learnHome: false,
-    learn: false,
-    testHome: false,
-    test: false,
-    cards: false,
-    texts: false,
-    text: false,
-  }
 }
 
 // Getters
@@ -95,11 +86,6 @@ class CommonMutations extends Mutations<State> {
     this.state.fullscreenLoading = loading
   }
 
-  setIntroVisibility(data: { page: string; visible: boolean }): void {
-    // @ts-ignore
-    this.state.introNeed[data.page] = data.visible
-  }
-
   setBackdrop(data: number): void {
     this.state.backdrop = data
   }
@@ -141,24 +127,6 @@ class CommonActions extends Actions<
     this.assetstore = assetModule.context(store)
     this.textstore = text.context(store)
     this.puzzleStore = puzzleModule.context(store)
-  }
-
-  reloadStore() {
-    this.commit('setFullscreenLoading', true)
-    CommonAPI.getState().then((response) => {
-      this.assetstore.commit(SET_WORDS, plainToClass(Asset, response.data.words))
-      this.assetstore.commit(SET_SENTENCES, plainToClass(Asset, response.data.sentences))
-      this.assetstore.commit(SET_PERSONAL, plainToClass(Asset, plainToClass(Asset, response.data.personal)))
-      this.assetstore.commit(SET_FAVOURITES, plainToClass(Asset, plainToClass(Asset, response.data.favourite)))
-      this.textstore.commit('setTexts', plainToClass(Translate, response.data.texts))
-      this.puzzleStore.commit('setPuzzles', plainToClass(Puzzle, response.data.puzzles))
-
-      this.commit('setSites', response.data.sites)
-      this.commit('setCurrentSite', response.data.currentsite)
-      this.commit('setDomain', response.data.domain)
-      this.commit('setIntro', response.data.intro)
-      this.commit('setFullscreenLoading', false)
-    })
   }
 
   toggleBackdrop() {
