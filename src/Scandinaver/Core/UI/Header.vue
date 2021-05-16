@@ -322,8 +322,8 @@ ul.el-menu.el-menu-vertical {
 .main-menu {
   .el-menu-item {
     border-bottom: none;
-    height: 50px;
-    line-height: 50px;
+    height: 60px;
+    line-height: 60px;
     font-size: 16px;
   }
 }
