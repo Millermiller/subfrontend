@@ -1,41 +1,37 @@
 import { Mutations } from 'vuex-smart-module'
-import Vue from 'vue'
 import State from '@/Scandinaver/Asset/Infrastructure/store/asset/state'
-import { Word } from '@/Scandinaver/Asset/Domain/Word'
-import ISentence from '@/Scandinaver/Asset/Domain/Sentence'
-import { Card } from '@/Scandinaver/Asset/Domain/Card'
-import {} from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
+import * as mutations from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 export default class AssetMutations extends Mutations<State> {
-  setPersonal(data: Asset[]) {
+  [mutations.SET_PERSONAL](data: Asset[]) {
     this.state.personal = data
   }
 
-  addPersonal(asset: Asset) {
+  [mutations.ADD_PERSONAL](asset: Asset) {
     this.state.personal.push(asset)
   }
 
-  removePersonal(asset: Asset) {
+  [mutations.REMOVE_PERSONAL](asset: Asset) {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
     this.state.personal.splice(index, 1)
   }
 
-  setWords(data: Asset[]) {
+  [mutations.SET_WORDS](data: Asset[]) {
     this.state.words = data
   }
 
-  setSentences(data: Asset[]) {
+  [mutations.SET_SENTENCES](data: Asset[]) {
     this.state.sentences = data
   }
 
-  setFavourites(data: Asset) {
+  [mutations.SET_FAVOURITES](data: Asset) {
     this.state.personal.unshift(data)
   }
 
-  patchPersonal(asset: Asset) {
+  [mutations.PATCH_PERSONAL](asset: Asset) {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
@@ -47,41 +43,37 @@ export default class AssetMutations extends Mutations<State> {
     updatedAsset.count = asset.count
   }
 
-  incrementPersonalCounter(asset: Asset) {
+  [mutations.INCREMENT_PERSONAL_COUNTER](asset: Asset) {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
     this.state.personal[index].count++
   }
 
-  decrementPersonalCounter(asset: Asset) {
+  [mutations.DECREMENT_PERSONAL_COUNTER](asset: Asset) {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.getId(),
     )
     this.state.personal[index].count--
   }
 
-  incrementFavouriteCounter(): void {
+  [mutations.INCREMENT_FAVOURITE_COUNTER](): void {
     this.state.personal[0].count++
   }
 
-  decrementFavouriteCounter(): void {
+  [mutations.DECREMENT_FAVOURITE_COUNTER](): void {
     this.state.personal[0].count--
   }
 
-  setActiveAssetId(id: number): void {
+  [mutations.SET_ACTIVE_ASSET_ID](id: number): void {
     this.state.activeAssetId = id
   }
 
-  setActivePersonalAssetName(data: string): void {
-    this.state.activePersonalAssetName = data
-  }
-
-  setActiveAssetType(data: number): void {
+  [mutations.SET_ACTIVE_ASSET_TYPE](data: number): void {
     this.state.activeAssetType = data
   }
 
-  setActiveAssetEdit(data: boolean): void {
+  [mutations.SET_ACTIVE_PERSONAL_ASSET_EDIT](data: boolean): void {
     this.state.activePersonalAssetEdit = data
   }
 }

@@ -8,6 +8,9 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
+import { Getter } from '@/utils/getter.decorator'
+import { ACTIVE_ASSET_ID } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 
 @Component({
   name: 'AssetComponent',
@@ -28,16 +31,18 @@ export default class AssetComponent extends Vue {
   @Inject()
   private assetService: AssetService
 
+  @Getter(ACTIVE_ASSET_ID)
+  private readonly activeAssetId: number
+
+  @Getter(IS_ACTIVE)
+  private readonly isActive: boolean
+
   edited: boolean = false
   assetName: string = ''
   loading: boolean = false
 
   get selected(): boolean {
-    return this.asset.getId() === this.$store.getters.activeAssetId
-  }
-
-  get isActive() {
-    return this.$store.getters.isActive
+    return this.asset.getId() === this.activeAssetId
   }
 
   get isFavourite(): boolean {

@@ -67,17 +67,17 @@
           :value="currentLanguage"
           @change="gotosite"
           size="small"
-          :placeholder="sites.length ? sites[0].label : ''"
+          :placeholder="languages.length ? languages[0].label : ''"
         >
           <el-option
-            v-for="item in sites"
+            v-for="item in languages"
             :key="item.value"
             :label="item.label"
             :value="item.letter"
           >
             <img style="float: left" :src="item.flag" alt="" /><span
               style="float: left"
-              >{{ item.label }}</span
+              >{{ item.title }}</span
             >
           </el-option>
         </el-select>
@@ -97,6 +97,11 @@ import LeftMenuButton from '@/Scandinaver/Core/UI/LeftMenuButton.vue'
 import { Inject } from 'vue-typedi'
 import { permissions } from '@/permissions/permission.type'
 import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
+import { FAVOURITE_ASSET } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { Getter } from '@/utils/getter.decorator'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
+import { User } from '@/Scandinaver/Core/Domain/User'
 
 @Component({
   name: 'Header',
@@ -105,6 +110,12 @@ import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 export default class Header extends Vue {
   @Inject()
   private loginService: LoginService
+
+  @Getter(FAVOURITE_ASSET)
+  private readonly favouriteAsset: Asset
+
+  @Getter(USER)
+  private readonly user: User
 
   offset: number = 0
   width: number = 60
@@ -122,9 +133,8 @@ export default class Header extends Vue {
   }
 
   get favouriteId() {
-    const { favouriteAsset } = store.getters
-    if (favouriteAsset !== undefined) {
-      return favouriteAsset.id
+    if (this.favouriteAsset !== undefined) {
+      return this.favouriteAsset.id
     }
     return ''
   }
@@ -141,12 +151,8 @@ export default class Header extends Vue {
     return store.getters.language
   }
 
-  get user() {
-    return this.$store.getters.user
-  }
-
-  get sites() {
-    return this.$store.getters.sites
+  get languages() {
+    return this.$store.getters.languages
   }
 
   logout(): void {
@@ -157,14 +163,13 @@ export default class Header extends Vue {
     })
   }
 
-  gotosite(letter: any): void {
+  async gotosite(letter: any) {
     store.commit('setLanguage', letter)
     const routeName = this.$router.currentRoute.name as string
     const routeParams = this.$router.currentRoute.params
     routeParams.language = letter
-    this.$router.push({ name: routeName, params: routeParams }).then(() => {
-      store.dispatch('reloadStore')
-    })
+    await this.$router.push({ name: routeName, params: routeParams })
+    await this.loginService.reloadStore()
   }
 
   setUnderline(target: any) {
@@ -182,7 +187,7 @@ export default class Header extends Vue {
   }
 
   mounted() {
-    this.url = this.$store.getters.currentsite
+    this.url = this.$store.getters.currentLanguage
 
     this.observer = new MutationObserver((mutations) => {
       mutations.forEach((m) => {

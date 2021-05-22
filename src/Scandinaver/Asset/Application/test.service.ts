@@ -6,11 +6,15 @@ import { Test } from '@/Scandinaver/Asset/Domain/Test'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { TestPayload } from '@/Scandinaver/Asset/Domain/TestPayload'
 import Question from '@/Scandinaver/Asset/Domain/Question'
+import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 
 @Service()
 export default class TestService extends BaseService<Test> {
   @Inject()
   private repository: TestRepository
+
+  @Inject()
+  private service: LoginService
 
   create(asset: Asset): Test {
     return new Test(asset)
@@ -25,6 +29,6 @@ export default class TestService extends BaseService<Test> {
       payload.addError(error.card)
     })
     await this.repository.complete(test, payload)
-    await store.dispatch('reloadStore', false)
+    await this.service.reloadStore()
   }
 }

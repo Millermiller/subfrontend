@@ -1,21 +1,14 @@
 import { Getters } from 'vuex-smart-module'
 import State from '@/Scandinaver/Puzzle/Infrastructure/store/state'
 import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
+import * as getters from '@/Scandinaver/Puzzle/Infrastructure/store/getters.type'
 
 export default class PuzzleGetters extends Getters<State> {
-  get puzzles() {
+  get [getters.PUZZLES]() {
     return this.state.puzzles
   }
 
-  get active() {
-    let count = 0
-
-    this.state.puzzles.forEach(
-      (element: Puzzle, index: number, array: Puzzle[]) => {
-        if (element.success) count++
-      },
-    )
-
-    return count
+  get [getters.ACTIVE]() {
+    return this.state.puzzles.filter((puzzle: Puzzle) => puzzle.success).length
   }
 }

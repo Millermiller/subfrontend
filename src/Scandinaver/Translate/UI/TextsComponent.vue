@@ -12,6 +12,9 @@
 import Component from 'vue-class-component'
 import Vue from 'vue'
 import TextCard from '@/Scandinaver/Translate/UI/TextCardComponent.vue'
+import { Getter } from '@/utils/getter.decorator'
+import { TEXTS } from '@/Scandinaver/Translate/Infrastructure/store/getters.type'
+import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 
 @Component({
   name: 'TextsComponent',
@@ -20,8 +23,7 @@ import TextCard from '@/Scandinaver/Translate/UI/TextCardComponent.vue'
   },
 })
 export default class TextsComponent extends Vue {
-  get texts() {
-    return this.$store.getters.texts
-  }
+  @Getter(TEXTS)
+  public readonly texts: Translate[]
 }
 </script>

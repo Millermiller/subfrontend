@@ -1,44 +1,45 @@
 import { Mutations } from 'vuex-smart-module'
 import State from '@/Scandinaver/Asset/Infrastructure/store/test/state'
+import * as mutations from '@/Scandinaver/Asset/Infrastructure/store/test/mutations.type'
 
 export default class TestMutations extends Mutations<State> {
-  setPercent(data: number): void {
+  [mutations.SET_PERCENT](data: number): void {
     this.state.percent = data
   }
 
-  setQuantity(data: number): void {
+  [mutations.SET_QUANTITY](data: number): void {
     this.state.quantity = data
   }
 
-  setTitle(data: string): void {
+  [mutations.SET_TITLE](data: string): void {
     this.state.title = data
   }
 
-  setLevel(data: number): void {
+  [mutations.SET_LEVEL](data: number): void {
     this.state.level = data
   }
 
-  setResult(data: number): void {
+  [mutations.SET_RESULT](data: number): void {
     this.state.result = data
   }
 
-  setError(data: any) {
+  [mutations.SET_ERROR](data: any) {
     this.state.errors.unshift(data)
   }
 
-  removeError(id: number) {
+  [mutations.REMOVE_ERROR](id: number) {
     this.state.errors.splice(id, 1)
   }
 
-  resetError(): void {
+  [mutations.RESET_ERROR](): void {
     this.state.errors = []
   }
 
-  resetPercent(): void {
+  [mutations.RESET_PERCENT](): void {
     this.state.percent = 0
   }
 
-  setTime(data: number) {
+  [mutations.SET_TIME](data: number) {
     this.state.time = data
   }
 }

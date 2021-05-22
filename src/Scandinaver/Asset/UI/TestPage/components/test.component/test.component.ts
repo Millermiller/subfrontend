@@ -14,9 +14,16 @@ import CollectionException from '@/Scandinaver/Core/Domain/CollectionException'
 import Question from '@/Scandinaver/Asset/Domain/Question'
 import { RESET_TEST } from '@/Scandinaver/Asset/Infrastructure/store/test/action.type'
 import { Subscription, timer } from 'rxjs'
-import { SET_TIME } from '@/Scandinaver/Asset/Infrastructure/store/test/mutations.type'
+import {
+  RESET_ERROR,
+  SET_ERROR,
+  SET_PERCENT,
+  SET_TIME,
+} from '@/Scandinaver/Asset/Infrastructure/store/test/mutations.type'
 import ResultModalComponent from './result.modal.component/index.vue'
 import { CLOSE_RESULT_MODAL, RELOAD_TEST } from '@/events/events.type'
+import { Getter } from '@/utils/getter.decorator'
+import { TIME } from '@/Scandinaver/Asset/Infrastructure/store/test/getters.type'
 
 @Component({
   name: 'TestComponent',
@@ -30,6 +37,9 @@ export default class TestComponent extends Vue {
 
   @Inject()
   private testService: TestService
+
+  @Getter(TIME)
+  public readonly time: number
 
   @Watch('$route')
   private onRouteChange(route: any) {
@@ -48,7 +58,7 @@ export default class TestComponent extends Vue {
   async created() {
     this.$eventHub.$on(RELOAD_TEST, this.reload)
     this.$eventHub.$on(CLOSE_RESULT_MODAL, this.closeModal)
-    this.$store.commit('resetError')
+    this.$store.commit(RESET_ERROR)
     if (parseInt(this.$route.params.id, 10) > 0) {
       await this.buildTest(parseInt(this.$route.params.id, 10))
     } else {
@@ -93,14 +103,14 @@ export default class TestComponent extends Vue {
     if (variant.isCorrect()) {
       this.$Progress.setColor('#20A0FF')
       this.test.success++
-      this.$store.commit('setPercent', this.test.percent)
+      this.$store.commit(SET_PERCENT, this.test.percent)
     } else {
       this.$Progress.setColor('#FF4949')
       this.test.fail++
       if (this.question instanceof Question) {
         this.test.errors.push(this.question)
       }
-      this.$store.commit('setError', this.question)
+      this.$store.commit(SET_ERROR, this.question)
     }
     await this.next()
   }
@@ -111,7 +121,7 @@ export default class TestComponent extends Vue {
     } catch (e) {
       if (e instanceof CollectionException) {
         this.subscriptions.unsubscribe()
-        this.test.time = this.$store.getters.time
+        this.test.time = this.time
         this.dialogVisible = true
         await this.testService.complete(this.test)
       }

@@ -27,7 +27,6 @@ import { permissions } from '@/permissions/permission.type'
 })
 export default class HomeModule extends Vue {
   dialogVisible: boolean = false
-  greetingVisible: boolean = false
   private permissions: {}
 
   constructor() {
@@ -38,10 +37,6 @@ export default class HomeModule extends Vue {
     return {
       title: 'Scandinaver',
     }
-  }
-
-  get username() {
-    return this.$store.getters.login
   }
 
   modal() {

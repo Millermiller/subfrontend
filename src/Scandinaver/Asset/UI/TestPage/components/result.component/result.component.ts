@@ -5,6 +5,14 @@ import ErrorItem from './error.item.component/index.vue'
 import * as events from '@/events/events.type'
 import Question from '@/Scandinaver/Asset/Domain/Question'
 import * as moment from 'moment'
+import {
+  ERRORS,
+  LEVEL,
+  PERCENT,
+  QUANTITY, RESULT, TIME, TITLE,
+} from '@/Scandinaver/Asset/Infrastructure/store/test/getters.type'
+import { Getter } from '@/utils/getter.decorator'
+import { REMOVE_ERROR } from '@/Scandinaver/Asset/Infrastructure/store/test/mutations.type'
 
 @Component({
   name: 'Result',
@@ -19,40 +27,37 @@ import * as moment from 'moment'
   },
 })
 export default class Result extends Vue {
+  @Getter(PERCENT)
+  public readonly percent: number
+
+  @Getter(QUANTITY)
+  public readonly quantity: number
+
+  @Getter(LEVEL)
+  public readonly level: number
+
+  @Getter(TITLE)
+  public readonly title: number
+
+  @Getter(RESULT)
+  public readonly result: number
+
+  @Getter(ERRORS)
+  public readonly errors: number
+
+  @Getter(TIME)
+  public readonly time: number
+
   created() {
     this.$eventHub.$on(events.REMOVE_ERROR_ITEM, this.removeErrorItem)
   }
 
-  get percent() {
-    return this.$store.getters.percent
-  }
-
-  get quantity() {
-    return this.$store.getters.quantity
-  }
-
-  get errors(): Question[] {
-    return this.$store.getters.errors
-  }
-
-  get title(): string {
-    return this.$store.getters.title
-  }
-
-  get result(): number {
-    return this.$store.getters.result
-  }
-
-  get level(): number {
-    return this.$store.getters.level
-  }
-
-  get time(): string {
-    return moment.utc(this.$store.getters.time * 1000).format('HH:mm:ss')
+  get formattedTime(): string {
+    return moment.utc(this.time * 1000).format('HH:mm:ss')
   }
 
   removeErrorItem(id: number) {
-    this.$store.commit('removeError', id)
+    this.$store.commit(REMOVE_ERROR, id)
   }
 
   beforeDestroy() {

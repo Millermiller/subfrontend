@@ -8,11 +8,11 @@
       <div class="sidemenu" v-show="visible">
         <div class="sidemenu-toolbar">
           <div class="avatar-wrapper-small pull-left">
-            <img class="avatar-small" :src="avatar" alt="" />
+            <img class="avatar-small" :src="user.avatar" alt="" />
           </div>
           <div class="userinfo pull-left">
-            <p class="userlogin">{{ login }}</p>
-            <p class="useremail">{{ email }}</p>
+            <p class="userlogin">{{ user.login }}</p>
+            <p class="useremail">{{ user.email }}</p>
           </div>
           <i class="el-icon-back hide-menu-button" @click="hide"></i>
         </div>
@@ -56,23 +56,22 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import * as events from '@/events/events.type'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import { FAVOURITE_ASSET } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { Getter } from '@/utils/getter.decorator'
+import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
+import { User } from '@/Scandinaver/Core/Domain/User'
 
 @Component({})
 export default class Sidemenu extends Vue {
+  @Getter(FAVOURITE_ASSET)
+  private readonly favouriteAsset: Asset
+
+  @Getter(USER)
+  private readonly user: User
+
   get visible(): boolean {
     return this.$store.getters.isLeftMenuOpen
-  }
-
-  get avatar() {
-    return this.$store.getters.avatar
-  }
-
-  get login() {
-    return this.$store.getters.login
-  }
-
-  get email() {
-    return this.$store.getters.email
   }
 
   get backdrop() {
@@ -84,9 +83,8 @@ export default class Sidemenu extends Vue {
   }
 
   get favouriteId() {
-    const { favouriteAsset } = store.getters
-    if (favouriteAsset !== undefined) {
-      return favouriteAsset.id
+    if (this.favouriteAsset !== undefined) {
+      return this.favouriteAsset.id
     }
     return ''
   }
@@ -110,6 +108,19 @@ export default class Sidemenu extends Vue {
 </script>
 
 <style lang='scss' scoped>
+@import "../../../assets/scss/variables";
+
+.sidemenu-toolbar {
+  position: relative;
+  background-color: $blue-color;
+  padding: 20px 0;
+  overflow: hidden;
+  i {
+    color: #f9fafc;
+    cursor: pointer;
+  }
+}
+
 .hide-menu-button {
   float: right;
   font-size: 30px;
