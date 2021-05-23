@@ -100,12 +100,8 @@ class CommonMutations extends Mutations<State> {
     this.state.languages = languages
   }
 
-  setCurrentSite(site: any): void {
-    this.state.currentLanguage = site
-  }
-
-  setDomain(domain: string): void {
-    this.state.domain = domain
+  setCurrentLanguage(language: Language): void {
+    this.state.currentLanguage = language
   }
 
   setLanguage(language: string): void {

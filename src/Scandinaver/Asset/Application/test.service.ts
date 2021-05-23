@@ -1,15 +1,18 @@
 import { Inject, Service } from 'typedi'
 import TestRepository from '@/Scandinaver/Asset/Infrastructure/test.repository'
-import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
 import { Test } from '@/Scandinaver/Asset/Domain/Test'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { TestPayload } from '@/Scandinaver/Asset/Domain/TestPayload'
 import Question from '@/Scandinaver/Asset/Domain/Question'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
+import { CommonService } from '@/Scandinaver/Core/Application/common.service'
 
 @Service()
 export default class TestService extends BaseService<Test> {
+  @Inject()
+  private commonService: CommonService
+
   @Inject()
   private repository: TestRepository
 
@@ -29,6 +32,6 @@ export default class TestService extends BaseService<Test> {
       payload.addError(error.card)
     })
     await this.repository.complete(test, payload)
-    await this.service.reloadStore()
+    await this.commonService.reloadStore()
   }
 }

@@ -5,36 +5,21 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import IntroService from '@/Scandinaver/Intro/Application/intro.service'
 import { Inject, Service } from 'vue-typedi'
 import { INITIALISE_RBAC } from '@/Scandinaver/RBAC/Infrastructure/store/actions.type'
-import { API as commonApi } from '@/Scandinaver/Core/Infrastructure/api/common.api'
-import {
-  SET_FAVOURITES,
-  SET_PERSONAL,
-  SET_SENTENCES,
-  SET_WORDS,
-} from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
-import { plainToClass } from 'class-transformer'
-import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
-import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
-import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
-import Intro from '@/Scandinaver/Intro/Domain/Intro'
 import {
   RESET_USER, SET_ACTIVE,
   SET_AUTH,
   SET_USER,
 } from '@/Scandinaver/Core/Infrastructure/store/user/mutations.type'
-import { SET_PUZZLES } from '@/Scandinaver/Puzzle/Infrastructure/store/mutations.type'
-import { SET_TEXTS } from '@/Scandinaver/Translate/Infrastructure/store/mutations.type'
+import { CommonService } from '@/Scandinaver/Core/Application/common.service'
 import UserAPI = API.UserAPI
-import CommonAPI = commonApi.CommonAPI
-
 
 @Service()
 export class LoginService {
   @Inject()
-  private introService: IntroService
+  private commonService: CommonService
 
   @Inject()
-  private commonApi: CommonAPI
+  private introService: IntroService
 
   @Inject()
   private userApi: UserAPI
@@ -110,26 +95,8 @@ export class LoginService {
     store.commit(SET_USER, response.data)
     store.commit(SET_AUTH, true)
     store.commit(SET_ACTIVE, response.data.active)
-    store.dispatch(INITIALISE_RBAC, response.data)
+    await store.dispatch(INITIALISE_RBAC, response.data)
 
-    await this.reloadStore()
-  }
-
-  async reloadStore() {
-    const stateResponse = await this.commonApi.getState()
-    store.commit(SET_WORDS, plainToClass(Asset, stateResponse.data.words))
-    store.commit(SET_SENTENCES, plainToClass(Asset, stateResponse.data.sentences))
-    store.commit(SET_PERSONAL, plainToClass(Asset, plainToClass(Asset, stateResponse.data.personal)))
-    store.commit(SET_FAVOURITES, plainToClass(Asset, plainToClass(Asset, stateResponse.data.favourite)))
-    store.commit(SET_TEXTS, plainToClass(Translate, stateResponse.data.texts))
-    store.commit(SET_PUZZLES, plainToClass(Puzzle, stateResponse.data.puzzles))
-    store.commit('setSites', stateResponse.data.sites)
-    store.commit('setCurrentSite', stateResponse.data.currentsite)
-    store.commit('setDomain', stateResponse.data.domain)
-    store.commit('setIntro', plainToClass(Intro, stateResponse.data.intro))
-    store.commit('setFullscreenLoading', false)
-
-    this.introService.stream.next(true)
-    store.commit('setFullscreenLoading', false)
+    await this.commonService.reloadStore()
   }
 }
