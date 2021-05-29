@@ -8,6 +8,9 @@ import IDictionaryForm, {
 import { Inject } from 'vue-typedi'
 import CardService from '@/Scandinaver/Asset/Application/card.service'
 import * as events from '@/events/events.type'
+import { Getter } from '@/utils/getter.decorator'
+import { ACTIVE_PERSONAL_ASSET_CARDS } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 
 @Component({
   components: {
@@ -18,6 +21,12 @@ export default class SearchComponent extends Vue {
   @Inject()
   private service: CardService
 
+  @Getter(ACTIVE_PERSONAL_ASSET_CARDS)
+  private readonly activePersonalAssetCards: Card[]
+
+  @Getter(IS_ACTIVE)
+  private readonly isActive: boolean
+
   dialogFormVisible: boolean = false
   word: string = ''
   sentence: boolean = false
@@ -25,10 +34,6 @@ export default class SearchComponent extends Vue {
   cards: Card[] = []
   message: boolean | string = false
   form: IDictionaryForm = new DictionaryForm()
-
-  get isActive(): boolean {
-    return this.$store.getters.isActive
-  }
 
   livesearch() {
     if (this.word.length > 2) {
@@ -51,7 +56,7 @@ export default class SearchComponent extends Vue {
 
             const word_ids: number[] = []
 
-            this.$store.getters.cards.forEach(
+            this.activePersonalAssetCards.forEach(
               (el: Card, i: number, ar: Card[]) => {
                 word_ids.push(el.word!.id)
               },

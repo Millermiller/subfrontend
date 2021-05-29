@@ -1,36 +1,17 @@
 import { Getters } from 'vuex-smart-module'
 import State from '@/Scandinaver/Core/Infrastructure/store/user/state'
+import * as getters from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 
 export default class UserGetters extends Getters<State> {
-  get user() {
+  get [getters.USER]() {
     return this.state.user
   }
 
-  get avatar() {
-    return this.state.user.avatar
-  }
-
-  get login() {
-    return this.state.user.login
-  }
-
-  get email() {
-    return this.state.user.email
-  }
-
-  get plan() {
-    return this.state.user.plan
-  }
-
-  get active_to() {
-    return this.state.user.active_to
-  }
-
-  get auth() {
+  get [getters.IS_AUTH]() {
     return this.state.user.authenticated
   }
 
-  get isActive() {
+  get [getters.IS_ACTIVE]() {
     return this.state.user.active
   }
 }

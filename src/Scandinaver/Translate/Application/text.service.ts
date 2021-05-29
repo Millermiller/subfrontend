@@ -3,6 +3,7 @@ import { Inject } from 'vue-typedi'
 import TextRepository from '@/Scandinaver/Translate/Infrastructure/text.repository'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { Translate } from '../Domain/Translate'
+import { SET_TEXTS } from '@/Scandinaver/Translate/Infrastructure/store/mutations.type'
 
 @Service()
 export default class TextService {
@@ -15,7 +16,7 @@ export default class TextService {
 
   public async nextLevel(text: Translate): Promise<Translate> {
     const newtext = await this.repository.nextLevel(text)
-    store.commit('setTexts', newtext)
+    store.commit(SET_TEXTS, newtext)
     return newtext
   }
 }

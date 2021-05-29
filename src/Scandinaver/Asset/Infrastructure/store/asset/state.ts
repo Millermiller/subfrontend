@@ -6,7 +6,6 @@ export default class State {
   sentences: Asset[] = []
   personal: Asset[] = []
   activePersonalAssetIndex: number = 0
-  activePersonalAssetName: string = ''
   activePersonalAssetEdit: boolean = false
   activeAssetType: number = AssetType.WORDS
   activeAssetId: number = 0

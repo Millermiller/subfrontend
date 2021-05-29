@@ -1,13 +1,13 @@
-<el-col id="accountblock" :md="6" :xs="24">
-  <el-card class="box-card account-card" shadow="hover">
+<el-col :md="6" :xs="24">
+  <el-card id="intro-target-account-widget" class="box-card account-card" shadow="hover">
     <div class="avatar-wrapper-big">
       <img class="avatar-small" :src="user.avatar"  alt=''/>
     </div>
     <p class="text-center">{{ user.login }}</p>
     <p class="text-center">{{ user.email }}</p>
-    <p :class="color(plan.id)">{{ plan.name }}</p>
-    <p class="text-center" v-if="plan.name !== 'Basic'">
-      активен до: {{ active_to }}
+    <p v-if="false" :class="color(user.plan.id)">{{ user.plan.name }}</p>
+    <p class="text-center" v-if="false">
+      активен до: {{ user.active_to }}
     </p>
   </el-card>
 </el-col>

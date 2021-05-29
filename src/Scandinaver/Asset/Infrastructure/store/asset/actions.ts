@@ -6,9 +6,9 @@ import {
   SET_ACTIVE_ASSET_ID,
   SET_ACTIVE_ASSET_TYPE,
   SET_ACTIVE_PERSONAL_ASSET_EDIT,
-  SET_PERSONAL,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import * as actions from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 
 export default class AssetActions extends Actions<
   State,
@@ -16,23 +16,23 @@ export default class AssetActions extends Actions<
   AssetMutations,
   AssetActions
 > {
-  loadAsset(data: any) {
+  [actions.SET_ASSET_AS_SELECTED](data: any) {
     // this.commit(SET_SELECTION, data)
   }
 
-  setActiveAssetType(data: number) {
+  [actions.RESOLVE_AND_SET_ACTIVE_ASSET_TYPE](data: number) {
     this.commit(SET_ACTIVE_ASSET_TYPE, data)
   }
 
-  onCardsPageClose() {
+  [actions.ON_CARDS_PAGE_CLOSE]() {
     this.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, false)
   }
 
-  onCardsPageOpen() {
+  [actions.ON_CARDS_PAGE_OPEN]() {
 
   }
 
-  resetActiveAsset() {
+  [actions.RESET_ACTIVE_ASSET]() {
     this.commit(SET_ACTIVE_ASSET_ID, 0)
     this.commit(SET_ACTIVE_ASSET_TYPE, AssetType.WORDS)
   }

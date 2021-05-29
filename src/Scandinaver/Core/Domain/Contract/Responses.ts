@@ -1,5 +1,6 @@
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { Language } from '@/Scandinaver/Core/Domain/Language'
 
 export namespace Responses {
   export interface GetAssetResponse {
@@ -23,8 +24,8 @@ export namespace Responses {
     texts: []
     puzzles: []
     intro: any
-    sites: []
-    currentsite: []
+    languages: Language[]
+    currentLanguage: Language
     domain: string
   }
 }

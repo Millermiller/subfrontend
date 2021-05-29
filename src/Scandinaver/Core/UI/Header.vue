@@ -8,7 +8,7 @@
       <router-link
         class="el-menu-item home"
         tag="li"
-        :to="{ name: 'MainPage', params: { language: currentLanguage } }"
+        :to="{ name: 'MainPage', params: { language: currentLanguage.letter } }"
         exact="exact"
       >
         <i class="el-icon-s-home"></i>
@@ -16,7 +16,7 @@
       <router-link
         class="el-menu-item learn"
         tag="li"
-        :to="{ name: 'defaultAsset', params: { language: currentLanguage } }"
+        :to="{ name: 'defaultAsset', params: { language: currentLanguage.letter } }"
       >
         {{ $t('assets') }}
       </router-link>
@@ -24,7 +24,7 @@
         class="el-menu-item test"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TESTS)"
-        :to="{ name: 'defaultTest', params: { language: currentLanguage } }"
+        :to="{ name: 'defaultTest', params: { language: currentLanguage.letter } }"
       >
         {{ $t('tests') }}
       </router-link>
@@ -33,7 +33,7 @@
         tag="li"
         exact="exact"
         v-if="$can(permissions.VIEW_PAGE_PERSONAL)"
-        :to="{ name: 'PersonalPage', params: { id: favouriteId, language: currentLanguage } }"
+        :to="{ name: 'PersonalPage', params: { id: favouriteId, language: currentLanguage.letter } }"
       >
         {{ $t('personals') }}
       </router-link>
@@ -41,14 +41,14 @@
         class="el-menu-item translates"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TEXTS)"
-        :to="{ name: 'TextPage', params: { language: currentLanguage } }"
+        :to="{ name: 'TextPage', params: { language: currentLanguage.letter } }"
         >{{ $t('texts') }}
       </router-link>
       <router-link
         class="el-menu-item puzzle"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_PUZZLE, 'any')"
-        :to="{ name: 'PuzzlePage', params: { language: currentLanguage } }"
+        :to="{ name: 'PuzzlePage', params: { language: currentLanguage.letter } }"
         >{{ $t('puzzles') }}
       </router-link>
       <el-menu-item class="logout" index="3">
@@ -64,21 +64,22 @@
       </li>
       <li class="el-menu-item pull-right">
         <el-select
-          :value="currentLanguage"
-          @change="gotosite"
+          v-model='model'
+          value-key="letter"
+          @change="changeLanguage($event)"
           size="small"
-          :placeholder="sites.length ? sites[0].label : ''"
         >
+          <template v-slot:prefix>
+            <img style="float: left" :src="model.flag" alt="" />
+          </template>
           <el-option
-            v-for="item in sites"
-            :key="item.value"
-            :label="item.label"
-            :value="item.letter"
+            v-for="(item, i)  in languages"
+            :key="i"
+            :label="item.title"
+            :value="item"
           >
-            <img style="float: left" :src="item.flag" alt="" /><span
-              style="float: left"
-              >{{ item.label }}</span
-            >
+            <img style="float: left" :src="item.flag" alt="" />
+            <span style="float: left">{{ item.title }}</span>
           </el-option>
         </el-select>
       </li>
@@ -97,6 +98,13 @@ import LeftMenuButton from '@/Scandinaver/Core/UI/LeftMenuButton.vue'
 import { Inject } from 'vue-typedi'
 import { permissions } from '@/permissions/permission.type'
 import RightMenuButton from '@/Scandinaver/Core/UI/RightMenuButton.vue'
+import { FAVOURITE_ASSET } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { Getter } from '@/utils/getter.decorator'
+import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
+import { User } from '@/Scandinaver/Core/Domain/User'
+import { Language } from '@/Scandinaver/Core/Domain/Language'
+import { CommonService } from '@/Scandinaver/Core/Application/common.service'
 
 @Component({
   name: 'Header',
@@ -106,25 +114,39 @@ export default class Header extends Vue {
   @Inject()
   private loginService: LoginService
 
-  offset: number = 0
-  width: number = 60
+  @Inject()
+  private commonService: CommonService
+
+  @Getter(FAVOURITE_ASSET)
+  private readonly favouriteAsset: Asset
+
+  @Getter(USER)
+  private readonly user: User
+
+  private offset: number = 0
+  private width: number = 60
   private observer?: MutationObserver
   private permissions: {}
+
+  public model: any = {
+    letter: '',
+    title: ''
+  }
 
   constructor() {
     super()
     this.permissions = permissions
-  }
-
-  url: any = {
-    value: 'https://is.scandinaver.local',
-    title: 'Исландский',
+    this.commonService.languageSubject.subscribe((language) => {
+      if (language !== null) {
+        this.model.letter = language.letter
+        this.model.flag = language.flag
+      }
+    })
   }
 
   get favouriteId() {
-    const { favouriteAsset } = store.getters
-    if (favouriteAsset !== undefined) {
-      return favouriteAsset.id
+    if (this.favouriteAsset !== undefined) {
+      return this.favouriteAsset.id
     }
     return ''
   }
@@ -137,16 +159,12 @@ export default class Header extends Vue {
     return store.getters.showRightMenuButton
   }
 
-  get currentLanguage(): string {
-    return store.getters.language
+  get currentLanguage(): Language {
+    return store.getters.currentLanguage
   }
 
-  get user() {
-    return this.$store.getters.user
-  }
-
-  get sites() {
-    return this.$store.getters.sites
+  get languages(): Language[] {
+    return this.$store.getters.languages
   }
 
   logout(): void {
@@ -157,14 +175,15 @@ export default class Header extends Vue {
     })
   }
 
-  gotosite(letter: any): void {
-    store.commit('setLanguage', letter)
-    const routeName = this.$router.currentRoute.name as string
-    const routeParams = this.$router.currentRoute.params
-    routeParams.language = letter
-    this.$router.push({ name: routeName, params: routeParams }).then(() => {
-      store.dispatch('reloadStore')
-    })
+  async changeLanguage(language: Language) {
+    if (language.letter !== store.getters.currentLanguage.letter) {
+      store.commit('setFullscreenLoading', true)
+      store.commit('setCurrentLanguage', language)
+      store.commit('setLanguage', language.letter)
+      this.commonService.languageSubject.next(language)
+      await this.commonService.reloadStore()
+      await this.$router.push({ name: 'MainPage', params: { language: language.letter } })
+    }
   }
 
   setUnderline(target: any) {
@@ -182,8 +201,6 @@ export default class Header extends Vue {
   }
 
   mounted() {
-    this.url = this.$store.getters.currentsite
-
     this.observer = new MutationObserver((mutations) => {
       mutations.forEach((m) => {
         // @ts-ignore
@@ -322,8 +339,8 @@ ul.el-menu.el-menu-vertical {
 .main-menu {
   .el-menu-item {
     border-bottom: none;
-    height: 50px;
-    line-height: 50px;
+    height: 60px;
+    line-height: 60px;
     font-size: 16px;
   }
 }
@@ -378,6 +395,19 @@ ul.el-menu.el-menu-vertical {
 .el-menu-item {
   * {
     vertical-align: inherit !important;
+  }
+}
+
+.el-input__prefix {
+  top: 12px !important;
+}
+
+.el-select-dropdown__item, .el-input__prefix {
+  img {
+    top: 12px;
+    width: 20px;
+    float: left;
+    margin: 7px 8px 8px 0;
   }
 }
 

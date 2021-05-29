@@ -1,32 +1,33 @@
 import { Getters } from 'vuex-smart-module'
 import State from '@/Scandinaver/Asset/Infrastructure/store/test/state'
+import * as getters from '@/Scandinaver/Asset/Infrastructure/store/test/getters.type'
 
 export default class TestGetters extends Getters<State> {
-  get percent(): number {
+  get [getters.PERCENT](): number {
     return this.state.percent
   }
 
-  get quantity(): number {
+  get [getters.QUANTITY](): number {
     return this.state.quantity
   }
 
-  get level(): number {
+  get [getters.LEVEL](): number {
     return this.state.level
   }
 
-  get title(): string {
+  get [getters.TITLE](): string {
     return this.state.title
   }
 
-  get result(): number {
+  get [getters.RESULT](): number {
     return this.state.result
   }
 
-  get errors() {
+  get [getters.ERRORS]() {
     return this.state.errors
   }
 
-  get time(): number {
+  get [getters.TIME](): number {
     return this.state.time
   }
 }

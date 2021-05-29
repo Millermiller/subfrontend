@@ -6,27 +6,14 @@ import { test } from '@/Scandinaver/Asset/Infrastructure/store/test'
 import { assetModule } from '@/Scandinaver/Asset/Infrastructure/store/asset'
 import { puzzleModule } from '@/Scandinaver/Puzzle/Infrastructure/store'
 import { rbacModule } from '@/Scandinaver/RBAC/Infrastructure/store'
-import {
-  SET_FAVOURITES,
-  SET_PERSONAL,
-  SET_SENTENCES,
-  SET_WORDS,
-} from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
-import { API } from '@/Scandinaver/Core/Infrastructure/api/common.api'
-import { plainToClass } from 'class-transformer'
-import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
-import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import Intro from '@/Scandinaver/Intro/Domain/Intro'
-import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
-import { Inject } from 'vue-typedi'
-import IntroService from '@/Scandinaver/Intro/Application/intro.service'
-import CommonAPI = API.CommonAPI
+import { Language } from '@/Scandinaver/Core/Domain/Language'
 
 // State
 class State {
   fullscreenLoading: boolean = false
-  sites: [] = []
-  currentsite = {}
+  languages: Language[] = []
+  currentLanguage: Language = new Language()
   domain = ''
   info = {}
   backdrop = 0
@@ -45,12 +32,12 @@ class CommonGetters extends Getters<State> {
     return this.state.fullscreenLoading
   }
 
-  get sites() {
-    return this.state.sites
+  get languages(): Language[] {
+    return this.state.languages
   }
 
-  get currentsite() {
-    return this.state.currentsite
+  get currentLanguage() {
+    return this.state.currentLanguage
   }
 
   get backdrop() {
@@ -109,16 +96,12 @@ class CommonMutations extends Mutations<State> {
     this.state.rightMenuOpen = data
   }
 
-  setSites(sites: any): void {
-    this.state.sites = sites
+  setSites(languages: any): void {
+    this.state.languages = languages
   }
 
-  setCurrentSite(site: any): void {
-    this.state.currentsite = site
-  }
-
-  setDomain(domain: string): void {
-    this.state.domain = domain
+  setCurrentLanguage(language: Language): void {
+    this.state.currentLanguage = language
   }
 
   setLanguage(language: string): void {

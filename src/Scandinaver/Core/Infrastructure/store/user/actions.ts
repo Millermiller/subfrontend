@@ -9,7 +9,4 @@ export default class UserActions extends Actions<
   UserMutations,
   UserActions
 > {
-  auth(isAuth: boolean) {
-    this.commit('setAuth', isAuth)
-  }
 }

@@ -9,6 +9,12 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import {
+  FAVOURITE_ASSET,
+  PERSONAL_ASSETS,
+} from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { Getter } from '@/utils/getter.decorator'
+import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 
 @Component({
   name: 'AssetsComponent',
@@ -24,15 +30,16 @@ export default class AssetsComponent extends Vue {
   @Inject()
   private assetService: AssetService
 
+  @Getter(FAVOURITE_ASSET)
+  private readonly favouriteAsset: Asset
+
+  @Getter(PERSONAL_ASSETS)
+  private readonly assets: Asset[]
+
+  @Getter(IS_ACTIVE)
+  private readonly isActive: boolean
+
   loading: boolean = false
-
-  get assets(): Asset[] {
-    return this.$store.getters.personal
-  }
-
-  get isActive() {
-    return this.$store.getters.isActive
-  }
 
   created() {
     this.$eventHub.$on(events.REMOVE_ASSET, this.remove)
@@ -94,7 +101,7 @@ export default class AssetsComponent extends Vue {
       name: 'PersonalPage',
       params: {
         language: store.getters.language,
-        id: store.getters.favouriteAsset.id,
+        id: this.favouriteAsset.id.toString(),
       },
     })
   }

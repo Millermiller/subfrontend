@@ -7,12 +7,19 @@ import { Prop } from 'vue-property-decorator'
 import * as events from '@/events/events.type'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
+import { mapGetters } from 'vuex'
+import {
+  ACTIVE_ASSET_TYPE,
+  GET_ASSETS_BY_LEVEL_AND_TYPE, PERSONAL_ASSETS, SENTENCE_ASSETS, WORD_ASSETS,
+} from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
+import { Getter } from '@/utils/getter.decorator'
 
 @Component({
   name: 'TabsComponent',
   components: {
     TabItemComponent
   },
+  computed: mapGetters([ACTIVE_ASSET_TYPE]),
   mounted() {
     Scrollbar.initAll({
       alwaysShowTracks: true,
@@ -30,6 +37,21 @@ export default class TabsComponent extends Vue {
   @Prop({ required: true })
   private loadAction: string
 
+  @Getter(ACTIVE_ASSET_TYPE)
+  private readonly activeAssetType: string
+
+  @Getter(GET_ASSETS_BY_LEVEL_AND_TYPE)
+  private readonly getAssetByLevelAndType: (level: number, type: AssetType) => Asset
+
+  @Getter(WORD_ASSETS)
+  private readonly words: Asset[]
+
+  @Getter(SENTENCE_ASSETS)
+  private readonly sentences: Asset[]
+
+  @Getter(PERSONAL_ASSETS)
+  private readonly personals: Asset[]
+
   dialogVisible: boolean = false
   dialogTitle: string = ''
   dialogContent: string = ''
@@ -44,25 +66,13 @@ export default class TabsComponent extends Vue {
     this.$eventHub.$on(events.OPEN_TEST_MODAL, this.testModal)
   }
 
-  get personals() {
-    return this.$store.getters.personal
-  }
-
-  get words() {
-    return this.$store.getters.words
-  }
-
-  get sentences() {
-    return this.$store.getters.sentences
-  }
-
   get active() {
     if (
-      this.$store.getters.activeAssetType === AssetType.FAVORITES.toString()
+      this.activeAssetType === AssetType.FAVORITES.toString()
     ) {
       return AssetType.PERSONAL.toString()
     }
-    return this.$store.getters.activeAssetType
+    return this.activeAssetType
   }
 
   paidModal() {
@@ -74,7 +84,7 @@ export default class TabsComponent extends Vue {
 
   testModal(asset: Asset) {
     this.showTestLink = true
-    this.previousAsset = this.$store.getters.getAssetByLevelAndType(asset.level, asset.type)
+    this.previousAsset = this.getAssetByLevelAndType(asset.level, asset.type)
     this.dialogTitle = this.$tc('assetClosed')
     this.dialogContent = this.$t('testNotify', {
       title: this.previousAsset.title
