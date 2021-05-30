@@ -40,5 +40,19 @@
     .example-value {
       font-style: italic;
     }
+
+    .el-icon-video-play {
+      position: relative;
+      bottom: -1px;
+      right: -10px;
+      font-size: 20px;
+    }
+  }
+
+  .el-icon-video-play {
+    position: absolute;
+    bottom: 30px;
+    right: 15px;
+    font-size: 30px;
   }
 }

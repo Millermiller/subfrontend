@@ -19,10 +19,11 @@ export default class SlideComponent extends Vue {
   @Inject()
   private readerService: ReaderService
 
-  activeClass: string = 'el-icon-star-on'
-  defaultClass: string = 'el-icon-star-off'
-  show: boolean = false
-  loading: boolean = false
+  public activeClass: string = 'el-icon-star-on'
+  public defaultClass: string = 'el-icon-star-off'
+  public show: boolean = false
+  public loading: boolean = false
+  private waitReading: boolean = false
 
   get favouriteButtonClass(): string {
     return this.item.favourite ? this.activeClass : this.defaultClass
@@ -38,7 +39,11 @@ export default class SlideComponent extends Vue {
   }
 
   async play(text: string) {
-    await this.readerService.read(text)
+    if (this.waitReading === false) {
+      this.waitReading = true
+      await this.readerService.read(text)
+      this.waitReading = false
+    }
   }
 
   async favourite() {
