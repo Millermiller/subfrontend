@@ -6,7 +6,14 @@
         <p class="slide-value">{{ item.word.getValue() }}</p>
         <div class="example-area">
           <template v-for="(example, index) in item.examples">
-            <p class="example-text" v-html="example.text"></p>
+            <p>
+            <span class="example-text" v-html="example.text"></span>
+              <i
+                class="el-icon-video-play pointer"
+                disabled='"disabled"'
+                @click.stop="play(example.text.replace(/<(.|\n)*?>/g, ''))"
+              ></i>
+            </p>
             <p class="example-value" v-html="example.value"></p>
           </template>
         </div>
