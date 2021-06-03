@@ -9,30 +9,30 @@ import { ClassType } from 'class-transformer/ClassTransformer'
 export namespace API {
   @Service()
   export class PuzzleAPI extends BaseAPI<Puzzle> {
-    protected type: ClassType<Puzzle> = Puzzle
-    protected baseUrl = 'puzzle'
+    protected readonly type: ClassType<Puzzle> = Puzzle
+    protected readonly baseUrl = 'puzzle'
 
-    all(): Promise<AxiosResponse<Puzzle[]>> {
+    public async all(): Promise<AxiosResponse<Puzzle[]>> {
       throw new Error('method not implemented')
     }
 
-    create(data: any): Promise<AxiosResponse<Puzzle>> {
+    public async create(data: any): Promise<AxiosResponse<Puzzle>> {
       throw new Error('method not implemented')
     }
 
-    delete(id: number | string): Promise<any> {
+    public async delete(id: number | string): Promise<any> {
       throw new Error('method not implemented')
     }
 
-    one(id: number): Promise<AxiosResponse<Puzzle>> {
+    public async one(id: number): Promise<AxiosResponse<Puzzle>> {
       throw new Error('method not implemented')
     }
 
-    update(id: number | string, data: any): Promise<AxiosResponse<Puzzle>> {
+    public async update(id: number | string, data: any): Promise<AxiosResponse<Puzzle>> {
       throw new Error('method not implemented')
     }
 
-    getPuzzles(): Promise<AxiosResponse<Puzzle[]>> {
+    public async getPuzzles(): Promise<AxiosResponse<Puzzle[]>> {
       return request.get(`/${this.baseUrl}/user`, {
         params: {
           lang: store.getters.language
@@ -40,7 +40,7 @@ export namespace API {
       })
     }
 
-    processPuzzle(puzzle: Puzzle): Promise<AxiosResponse> {
+    public async processPuzzle(puzzle: Puzzle): Promise<AxiosResponse> {
       return request.put(`/${this.baseUrl}/${puzzle.id}/complete`)
     }
   }

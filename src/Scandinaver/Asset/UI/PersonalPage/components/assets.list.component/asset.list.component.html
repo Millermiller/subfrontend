@@ -9,11 +9,11 @@
           placement="top-start"
           width="200"
           trigger="click"
-          :disabled="isActive"
+          :disabled="_isActive"
           popper-class="text-left"
           content="Создание словарей недоступно базовым аккаунтам"
         >
-          <el-button slot="reference" @click="add">
+          <el-button slot="reference" @click="add()">
             {{ $t('create') }}
           </el-button>
         </el-popover>
@@ -26,7 +26,7 @@
     >
       <transition-group name="splash" tag="div">
         <AssetComponent
-          v-for="(asset, index) in assets"
+          v-for="(asset, index) in _assets"
           :asset="asset"
           :index="index"
           :showLearnButton='true'

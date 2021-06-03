@@ -33,29 +33,31 @@ import { TIME } from '@/Scandinaver/Asset/Infrastructure/store/test/getters.type
 })
 export default class TestComponent extends Vue {
   @Inject()
-  private assetService: AssetService
+  private readonly assetService: AssetService
 
   @Inject()
-  private testService: TestService
+  private readonly testService: TestService
 
   @Getter(TIME)
-  public readonly time: number
+  public readonly _time: number
 
   @Watch('$route')
-  private onRouteChange(route: any) {
-    if (route.params.id) this.buildTest(parseInt(route.params.id, 10))
+  private async onRouteChange(route: any): Promise<void> {
+    if (route.params.id) {
+      await this.buildTest(parseInt(route.params.id, 10))
+    }
   }
 
-  private test: Test | null = null
-  private question: Question | null = null
-  private dialogVisible: boolean = false
-  private loading: boolean = false
-  private isTestLoaded: boolean = false
+  public test: Test | null = null
+  public question: Question | null = null
+  public dialogVisible: boolean = false
+  public loading: boolean = false
+  public isTestLoaded: boolean = false
   private subscriptions: Subscription = new Subscription()
-  private isTestEnabled: boolean = true
+  public isTestEnabled: boolean = true
   public isRotate: boolean = false
 
-  async created() {
+  async created(): Promise<void> {
     this.$eventHub.$on(RELOAD_TEST, this.reload)
     this.$eventHub.$on(CLOSE_RESULT_MODAL, this.closeModal)
     this.$store.commit(RESET_ERROR)
@@ -66,14 +68,14 @@ export default class TestComponent extends Vue {
     }
   }
 
-  async reload() {
+  public async reload(): Promise<void> {
     this.isRotate = true
     await this.buildTest(this.test.id)
     this.isRotate = false
     this.dialogVisible = false
   }
 
-  async buildTest(id: number) {
+  private async buildTest(id: number): Promise<void> {
     this.subscriptions.unsubscribe()
     this.loading = true
     this.$Progress.set(0)
@@ -95,7 +97,7 @@ export default class TestComponent extends Vue {
     this.isTestEnabled = true
   }
 
-  async check(variant: Variant) {
+  public async check(variant: Variant): Promise<void> {
     this.test.answers++
     this.$Progress.set(
       Math.floor((this.test.answers * 100) / this.test.quantity),
@@ -115,25 +117,25 @@ export default class TestComponent extends Vue {
     await this.next()
   }
 
-  async next() {
+  private async next(): Promise<void> {
     try {
       this.question = this.test.questions.next()
     } catch (e) {
       if (e instanceof CollectionException) {
         this.subscriptions.unsubscribe()
-        this.test.time = this.time
+        this.test.time = this._time
         this.dialogVisible = true
         await this.testService.complete(this.test)
       }
     }
   }
 
-  closeModal() {
+  private closeModal(): void {
     this.dialogVisible = false
     this.isTestEnabled = false
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(RELOAD_TEST)
     this.$eventHub.$off(CLOSE_RESULT_MODAL)
     this.subscriptions.unsubscribe()

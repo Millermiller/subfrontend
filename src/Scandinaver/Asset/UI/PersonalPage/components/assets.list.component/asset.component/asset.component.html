@@ -1,12 +1,12 @@
 <el-row
   :type="'flex'"
-  @click.native="load"
+  @click.native="load()"
   v-loading.body="loading"
   :class="['list-item',
   'pointer',
   'open', {
     'selected': selected,
-    'muted': (!isActive && isFavourite)
+    'muted': (!_isActive && isFavourite)
   }]"
   >
   <el-row :type="'flex'" :justify="'space-between'">
@@ -41,12 +41,12 @@
         </el-input>
         </el-col>
       <el-button
-        v-if="asset.title !== $t('favourite') &amp;&amp; edited === false"
+        v-if="asset.title !== $t('favourite') && edited === false"
         type="default"
         icon="el-icon-edit"
         size="mini"
         @click.stop="openEdit()"
-        :disabled="!isActive"
+        :disabled="!_isActive"
         plain="plain"
       ></el-button>
       <el-button
@@ -55,7 +55,7 @@
         icon="el-icon-close"
         size="mini"
         @click.stop="confirm(asset)"
-        :disabled="!isActive"
+        :disabled="!_isActive"
         plain
       >
       </el-button>
@@ -68,12 +68,12 @@
       </span>
       <span
         :class="['small', {
-          'success': asset.result > 80,
-          'warning': (asset.result > 50 && asset.result < 80),
-          'danger': asset.result < 50
+          'success': asset.bestResult > 80,
+          'warning': (asset.bestResult > 50 && asset.bestResult < 80),
+          'danger': asset.bestResult < 50
         }]"
       >
-        {{ asset.result }}%
+        {{ asset.bestResult }}%
       </span>
       <span class="text-muted small" style="padding-left: 15px">
         <i class="el-icon-document-copy tab-icon"></i>

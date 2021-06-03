@@ -7,9 +7,9 @@ import { User } from '@/Scandinaver/Core/Domain/User'
 @Component({ name: 'AccountWidgetComponent' })
 export default class AccountWidgetComponent extends Vue {
   @Getter(USER)
-  private readonly user: User
+  private readonly _user: User
 
-  color(value?: number): string {
+  public color(value?: number): string {
     if (value === 2) {
       return 'text-center plan-title red-plan'
     }

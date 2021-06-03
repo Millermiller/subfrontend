@@ -7,5 +7,5 @@ import FeedbackAPI = API.FeedbackAPI
 @Service()
 export default class FeedbackRepository extends CommonRepository<Feedback> {
   @Inject()
-  protected api: FeedbackAPI
+  protected readonly api: FeedbackAPI
 }

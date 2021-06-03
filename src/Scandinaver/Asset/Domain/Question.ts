@@ -9,9 +9,9 @@ import Variant from '@/Scandinaver/Asset/Domain/Variant'
 @Service()
 export default class Question extends Entity {
   @Inject()
-  private variantsFabric: VariantsFromAssetFactory
-  variants: Collection<Variant>
-  card: Card
+  private readonly variantsFabric: VariantsFromAssetFactory
+  public variants: Collection<Variant>
+  public card: Card
 
   constructor(card: Card, translates: Translate[]) {
     super()

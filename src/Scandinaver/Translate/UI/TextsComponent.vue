@@ -2,7 +2,7 @@
   <el-container>
     <el-main>
       <el-row :gutter="20">
-        <TextCard v-for="text in texts" :text="text" :key="text.id"></TextCard>
+        <TextCard v-for="text in _texts" :text="text" :key="text.id"></TextCard>
       </el-row>
     </el-main>
   </el-container>
@@ -24,6 +24,6 @@ import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 })
 export default class TextsComponent extends Vue {
   @Getter(TEXTS)
-  public readonly texts: Translate[]
+  public readonly _texts: Translate[]
 }
 </script>

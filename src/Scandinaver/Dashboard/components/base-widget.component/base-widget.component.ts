@@ -4,7 +4,7 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 @Component
 export default class BaseWidgetComponent extends Vue {
-  title: string
+  protected title: string
 
   get all(): number {
     return 0
@@ -22,8 +22,8 @@ export default class BaseWidgetComponent extends Vue {
     return store.getters.language
   }
 
-  goto(routeName: string) {
-    this.$router.push({
+  public async goto(routeName: string): Promise<void> {
+    await this.$router.push({
       name: routeName,
       params: { language: this.currentLanguage },
     })

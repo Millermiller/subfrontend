@@ -8,15 +8,15 @@ import { SET_TEXTS } from '@/Scandinaver/Translate/Infrastructure/store/mutation
 @Service()
 export default class TextService {
   @Inject()
-  private repository: TextRepository
+  private readonly repository: TextRepository
 
-  public async getText(id: number) {
+  public async getText(id: number): Promise<Translate> {
     return this.repository.one(id)
   }
 
   public async nextLevel(text: Translate): Promise<Translate> {
-    const newtext = await this.repository.nextLevel(text)
-    store.commit(SET_TEXTS, newtext)
-    return newtext
+    const newText = await this.repository.nextLevel(text)
+    store.commit(SET_TEXTS, newText)
+    return newText
   }
 }

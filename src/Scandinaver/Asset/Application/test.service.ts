@@ -11,19 +11,19 @@ import { CommonService } from '@/Scandinaver/Core/Application/common.service'
 @Service()
 export default class TestService extends BaseService<Test> {
   @Inject()
-  private commonService: CommonService
+  private readonly commonService: CommonService
 
   @Inject()
-  private repository: TestRepository
+  private readonly repository: TestRepository
 
   @Inject()
-  private service: LoginService
+  private readonly service: LoginService
 
   create(asset: Asset): Test {
     return new Test(asset)
   }
 
-  async complete(test: Test) {
+  public async complete(test: Test): Promise<void> {
     const payload = new TestPayload()
     payload.id = test.id
     payload.percent = test.percent

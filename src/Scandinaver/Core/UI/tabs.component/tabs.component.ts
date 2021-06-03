@@ -29,62 +29,62 @@ import { Getter } from '@/utils/getter.decorator'
 })
 export default class TabsComponent extends Vue {
   @Prop({ required: true })
-  private showLearnButton: boolean
+  public showLearnButton: boolean
 
   @Prop({ required: true })
-  private showTestButton: boolean
+  public showTestButton: boolean
 
   @Prop({ required: true })
-  private loadAction: string
+  public loadAction: string
 
   @Getter(ACTIVE_ASSET_TYPE)
-  private readonly activeAssetType: string
+  private readonly _activeAssetType: string
 
   @Getter(GET_ASSETS_BY_LEVEL_AND_TYPE)
-  private readonly getAssetByLevelAndType: (level: number, type: AssetType) => Asset
+  private readonly _getAssetByLevelAndType: (level: number, type: AssetType) => Asset
 
   @Getter(WORD_ASSETS)
-  private readonly words: Asset[]
+  public readonly _words: Asset[]
 
   @Getter(SENTENCE_ASSETS)
-  private readonly sentences: Asset[]
+  public readonly _sentences: Asset[]
 
   @Getter(PERSONAL_ASSETS)
-  private readonly personals: Asset[]
+  public readonly _personals: Asset[]
 
-  dialogVisible: boolean = false
-  dialogTitle: string = ''
-  dialogContent: string = ''
-  showTestLink: boolean = false
-  previousAsset: Asset = null
-  wordTabName = AssetType.WORDS.toString()
-  sentencesTabName = AssetType.SENTENCES.toString()
-  personalTabName = AssetType.PERSONAL.toString()
+  public dialogVisible: boolean = false
+  public dialogTitle: string = ''
+  public dialogContent: string = ''
+  public showTestLink: boolean = false
+  private previousAsset: Asset = null
+  public wordTabName = AssetType.WORDS.toString()
+  public sentencesTabName = AssetType.SENTENCES.toString()
+  public personalTabName = AssetType.PERSONAL.toString()
 
-  created() {
+  created(): void {
     this.$eventHub.$on(events.OPEN_PAID_MODAL, this.paidModal)
     this.$eventHub.$on(events.OPEN_TEST_MODAL, this.testModal)
   }
 
-  get active() {
+  get active(): string {
     if (
-      this.activeAssetType === AssetType.FAVORITES.toString()
+      this._activeAssetType === AssetType.FAVORITES.toString()
     ) {
       return AssetType.PERSONAL.toString()
     }
-    return this.activeAssetType
+    return this._activeAssetType
   }
 
-  paidModal() {
+  private paidModal(): void {
     this.showTestLink = false
     this.dialogTitle = this.$tc('assetNotAvailable')
     this.dialogContent = this.$tc('paidNotify')
     this.dialogVisible = true
   }
 
-  testModal(asset: Asset) {
+  private testModal(asset: Asset): void {
     this.showTestLink = true
-    this.previousAsset = this.getAssetByLevelAndType(asset.level, asset.type)
+    this.previousAsset = this._getAssetByLevelAndType(asset.level, asset.type)
     this.dialogTitle = this.$tc('assetClosed')
     this.dialogContent = this.$t('testNotify', {
       title: this.previousAsset.title
@@ -92,14 +92,14 @@ export default class TabsComponent extends Vue {
     this.dialogVisible = true
   }
 
-  goToTest() {
+  public async goToTest(): Promise<void> {
     this.$router.push({
       name: 'Test',
       params: { language: store.getters.language, id: this.previousAsset.getId().toString() },
     })
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(events.OPEN_PAID_MODAL)
     this.$eventHub.$off(events.OPEN_TEST_MODAL)
   }

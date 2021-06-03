@@ -1,5 +1,5 @@
 <template>
-  <i class="el-icon-d-arrow-right hidden-sm-and-up" id="left-menu" @click="showLeftMenu"></i>
+  <i class="el-icon-d-arrow-right hidden-sm-and-up" id="left-menu" @click="showLeftMenu()"></i>
 </template>
 
 <script lang="ts">

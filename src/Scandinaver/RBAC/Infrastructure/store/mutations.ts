@@ -4,19 +4,19 @@ import Role from '@/Scandinaver/RBAC/Domain/Role'
 import Permission from '@/Scandinaver/RBAC/Domain/Permission'
 
 export default class RBACMutations extends Mutations<RBACState> {
-  setRoles(data: Role[]) {
+  public setRoles(data: Role[]): void {
     this.state.roles = data
   }
 
-  setPermissions(data: Permission[]) {
+  public setPermissions(data: Permission[]): void {
     this.state.permissions = data
   }
 
-  clearAbility(): void {
+  public clearAbility(): void {
     this.state.ability.update([])
   }
 
-  updateAbility(data: any): void {
+  public updateAbility(data: any): void {
     this.state.ability.update(data)
   }
 }

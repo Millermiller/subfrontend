@@ -12,18 +12,18 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 @Component
 export default class WordWidgetComponent extends BaseWidgetComponent {
   @Getter(COMPLETED_WORDS_ASSETS_COUNT)
-  public readonly completed: number
+  public readonly _completed: number
 
   @Getter(WORD_ASSETS)
-  public readonly words: Asset[]
+  public readonly _words: Asset[]
 
-  title = this.$root.$tc('words')
+  protected title = this.$root.$tc('words')
 
   get all(): number {
-    return this.words.length
+    return this._words.length
   }
 
-  goto(routeName: string): void {
+  public async goto(routeName: string): Promise<void> {
     this.$store
       .dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.WORDS)
       .then((r) => {

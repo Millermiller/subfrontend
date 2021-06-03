@@ -18,28 +18,19 @@ import { permissions } from '@/permissions/permission.type'
     PersonalWidgetComponent,
     PuzzleWidgetComponent,
   },
-  mounted() {
-    if (!localStorage.getItem('myFirstAdventure')) {
-      //   this.greetingVisible = true;
-      //   localStorage.setItem('myFirstAdventure', true)
-    }
-  },
 })
 export default class HomeModule extends Vue {
-  dialogVisible: boolean = false
+  public dialogVisible: boolean = false
   private permissions: {}
 
   constructor() {
     super()
     this.permissions = permissions
   }
+
   metaInfo() {
     return {
       title: 'Scandinaver',
     }
-  }
-
-  modal() {
-    this.dialogVisible = true
   }
 }

@@ -8,15 +8,15 @@ import TextAPI = API.TextAPI
 @Service()
 export default class TextRepository extends CommonRepository<Translate> {
   @Inject()
-  protected api: TextAPI
+  protected readonly api: TextAPI
 
-  async one(id: number): Promise<Translate> {
+  public async one(id: number): Promise<Translate> {
     return this.api
       .getText(id)
       .then(response => plainToClass(Translate, response.data))
   }
 
-  nextLevel(text: Translate) {
+  public async nextLevel(text: Translate): Promise<any> {
     return this.api
       .nextLevel(text)
       .then(response => plainToClass<Translate, Translate>(Translate, response.data))

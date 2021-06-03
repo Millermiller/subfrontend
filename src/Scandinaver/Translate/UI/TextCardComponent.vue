@@ -25,7 +25,7 @@
             <el-button
               :type="buttonType"
               plain="plain"
-              @click="goToText"
+              @click="goToText()"
               :disabled="!text.available"
             >
               {{ buttonText }}

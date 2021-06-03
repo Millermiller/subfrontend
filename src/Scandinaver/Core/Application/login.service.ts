@@ -16,13 +16,13 @@ import UserAPI = API.UserAPI
 @Service()
 export class LoginService {
   @Inject()
-  private commonService: CommonService
+  private readonly commonService: CommonService
 
   @Inject()
-  private introService: IntroService
+  private readonly introService: IntroService
 
   @Inject()
-  private userApi: UserAPI
+  private readonly userApi: UserAPI
 
   public login(payload: any): Promise<AxiosResponse<ILoginData>> {
     return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ export class LoginService {
     })
   }
 
-  public checkAuth() {
+  public checkAuth(): Promise<any> {
     return new Promise((resolve, reject) => {
       const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token'
       const token = Vue.$cookies.get(cookieName)
@@ -73,7 +73,7 @@ export class LoginService {
     })
   }
 
-  public logout() {
+  public logout(): Promise<any> {
     const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token'
     const token = Vue.$cookies.get(cookieName)
     return UserAPI.logout(token).then((response) => {
@@ -87,7 +87,7 @@ export class LoginService {
     })
   }
 
-  private async fetchUser(token: string) {
+  private async fetchUser(token: string): Promise<void> {
     store.commit('setFullscreenLoading', true)
 
     const response = await this.userApi.fetch(token)

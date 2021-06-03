@@ -4,14 +4,14 @@ import { IUser } from '@/Scandinaver/Core/Domain/User'
 import * as mutations from '@/Scandinaver/Core/Infrastructure/store/user/mutations.type'
 
 export default class UserMutations extends Mutations<State> {
-  [mutations.SET_USER](user: IUser) {
+  [mutations.SET_USER](user: IUser): void {
     this.state.user.avatar = user.avatar
     this.state.user.email = user.email
     this.state.user.id = user.id
     this.state.user.login = user.login
   }
 
-  [mutations.RESET_USER]() {
+  [mutations.RESET_USER](): void {
     this.state.user.id = 0
     this.state.user.authenticated = false
     this.state.user.avatar = ''
@@ -22,11 +22,11 @@ export default class UserMutations extends Mutations<State> {
     this.state.user.plan = { name: '', id: 0 }
   }
 
-  [mutations.SET_AUTH](auth: boolean) {
+  [mutations.SET_AUTH](auth: boolean): void {
     this.state.user.authenticated = auth
   }
 
-  [mutations.SET_ACTIVE](active: boolean) {
+  [mutations.SET_ACTIVE](active: boolean): void {
     this.state.user.active = active
   }
 }

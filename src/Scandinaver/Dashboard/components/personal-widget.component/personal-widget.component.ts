@@ -10,21 +10,21 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 @Component
 export default class PersonalWidgetComponent extends BaseWidgetComponent {
   @Getter(FAVOURITE_ASSET)
-  private readonly favouriteAsset: Asset
+  private readonly _favouriteAsset: Asset
 
   @Getter(PERSONAL_ASSETS)
-  private readonly personalAssets: Asset[]
+  private readonly _personalAssets: Asset[]
 
   public title = this.$root.$tc('personals')
 
-  get all() {
-    return this.personalAssets.length
+  get all(): number {
+    return this._personalAssets.length
   }
 
-  personal() {
-    this.$router.push({
+  public async personal(): Promise<void> {
+    await this.$router.push({
       name: 'PersonalPage',
-      params: { language: this.currentLanguage, id: this.favouriteAsset.id.toString() },
+      params: { language: this.currentLanguage, id: this._favouriteAsset.id.toString() },
     })
   }
 }

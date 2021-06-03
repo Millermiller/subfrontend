@@ -1,19 +1,19 @@
 import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 
 export default class Translate extends Entity {
-  id?: number
-  value: string
+  private _id?: number
+  private readonly _value: string
 
   constructor(value: string) {
     super()
-    this.value = value
+    this._value = value
   }
 
   getId(): any {
-    return this.id
+    return this._id
   }
 
   getValue(): string {
-    return this.value
+    return this._value
   }
 }

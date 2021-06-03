@@ -8,25 +8,25 @@ import TestAPI = API.TestAPI
 @Service()
 export default class TestRepository extends CommonRepository<Test> {
   @Inject()
-  protected api: TestAPI
+  protected readonly api: TestAPI
 
-  async all(): Promise<Test[]> {
+  public async all(): Promise<Test[]> {
     return Promise.resolve([])
   }
 
-  async one(id: number): Promise<Test> {
+  public async one(id: number): Promise<Test> {
     throw new Error('method not implemented')
   }
 
-  async save(entity: Test): Promise<Test> {
+  public async save(entity: Test): Promise<Test> {
     throw new Error('method not implemented')
   }
 
-  async delete(entity: Test): Promise<any> {
+  public async delete(entity: Test): Promise<any> {
     return Promise.resolve(undefined)
   }
 
-  async update(test: Test, result: number): Promise<any> {
+  public async update(test: Test, result: number): Promise<any> {
     this.api.saveResult(test, result).then(response => response)
   }
 

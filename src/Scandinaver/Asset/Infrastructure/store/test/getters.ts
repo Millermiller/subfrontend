@@ -23,7 +23,7 @@ export default class TestGetters extends Getters<State> {
     return this.state.result
   }
 
-  get [getters.ERRORS]() {
+  get [getters.ERRORS](): Error[] {
     return this.state.errors
   }
 

@@ -13,7 +13,7 @@ import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 })
 export default class TabItemComponent extends Vue {
   @Prop({ required: true })
-  private asset: Asset
+  public asset: Asset
 
   @Prop({ required: true })
   private type: any
@@ -22,13 +22,13 @@ export default class TabItemComponent extends Vue {
   private index: number
 
   @Prop({ required: true })
-  private showLearnButton: boolean
+  public showLearnButton: boolean
 
   @Prop({ required: true })
-  private showTestButton: boolean
+  public showTestButton: boolean
 
   @Prop({ required: true })
-  private showEditButton: boolean
+  public showEditButton: boolean
 
   @Prop({ required: true })
   private loadAction: string
@@ -45,14 +45,14 @@ export default class TabItemComponent extends Vue {
     return this.asset.type === AssetType.PERSONAL || this.asset.type === AssetType.FAVORITES
   }
 
-  load(): void {
+  public load(): void {
     const actionName: string = this.loadAction;
     if (!this.selected) {
       (this as any)[actionName]()
     }
   }
 
-  test(): void {
+  public test(): void {
     if (window.innerWidth <= 910) {
       this.$eventHub.$emit(events.CLOSE_MENU)
     }
@@ -64,7 +64,7 @@ export default class TabItemComponent extends Vue {
     })
   }
 
-  learn() {
+  public learn() {
     if (this.asset.active || this.isPersonal) {
       this.$router.push({
         name: 'learnAsset',
@@ -75,7 +75,7 @@ export default class TabItemComponent extends Vue {
     }
   }
 
-  update() {
+  public update() {
     if (this.asset.active || this.isPersonal) {
       this.$store.dispatch(SET_ASSET_AS_SELECTED, this.asset.getId())
       this.$store.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, true)
@@ -88,11 +88,11 @@ export default class TabItemComponent extends Vue {
     }
   }
 
-  showTestModal(): void {
+  public showTestModal(): void {
     this.$eventHub.$emit(events.OPEN_TEST_MODAL, this.asset)
   }
 
-  showPaidModal(): void {
+  public showPaidModal(): void {
     this.$eventHub.$emit(events.OPEN_PAID_MODAL)
   }
 }

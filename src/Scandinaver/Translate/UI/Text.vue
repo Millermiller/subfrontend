@@ -32,19 +32,19 @@
             placeholder="Поле для перевода"
             v-loading.body="loading"
             v-model="inputStream"
-            @input="findPosition"
-            @click="findPosition"
+            @input="findPosition()"
+            @click="findPosition()"
           ></textarea>
           <el-row>
             <el-col :span="24">
-              <el-button class="pull-right" :plain="true" @click="clear">
+              <el-button class="pull-right" :plain="true" @click="clear()">
                 {{ $t('clear') }}
               </el-button>
               <el-button
                 class="pull-right"
                 v-if="nextTextId"
                 type="success"
-                @click="gotonext()"
+                @click="goToNext()"
               >
                 {{ $t('nextText') }}
               </el-button>
@@ -70,11 +70,11 @@ import { Translate } from '../Domain/Translate'
 })
 export default class TextItem extends Vue {
   @Inject()
-  private service: TextService
+  private readonly service: TextService
 
-  private text: Translate = new Translate()
-  private inputStream: string = ''
-  private input: Subject<string> = new Subject<string>()
+  public text: Translate = new Translate()
+  public inputStream: string = ''
+  public input: Subject<string> = new Subject<string>()
   private textSequence: {
     text: string
     selected: boolean
@@ -92,17 +92,17 @@ export default class TextItem extends Vue {
   private loading: boolean = false
 
   @Watch('inputStream')
-  private onInputChanged(val: string) {
+  private onInputChanged(val: string): void {
     this.input.next(val)
   }
 
   @Watch('$route')
-  private onRouteChange(route: any) {
+  private onRouteChange(route: any): void {
     if (route.params.id) this.loadText(parseInt(route.params.id, 10))
   }
 
   @Watch('progress')
-  private async onChange(progress: any) {
+  private async onChange(progress: any): Promise<void> {
     this.$Progress.set(progress)
     if (progress > 90) {
       const text: Translate = await this.service.nextLevel(this.text)
@@ -115,13 +115,11 @@ export default class TextItem extends Vue {
     }
   }
 
-  created() {
+  created(): void {
     this.input.subscribe((data) => {
       this.inputSequence = this.inputStream.split('.')
       const index = this.currentSentenceSubject.getValue()
       if (index <= this.textSequence.length - 1) {
-        console.log(index)
-        console.log(this.textSequence.length - 1)
         const parts = this.inputSequence[index].split(' ')
         this.inputObservables[index].next({ index, parts })
       }
@@ -169,7 +167,7 @@ export default class TextItem extends Vue {
     return Math.floor((count * 100) / this.length)
   }
 
-  async loadText(id: number) {
+  async loadText(id: number): Promise<void> {
     this.loading = true
     const text: Translate = await this.service.getText(id)
     this.inputObservables = text.text
@@ -194,7 +192,7 @@ export default class TextItem extends Vue {
     this.loading = false
   }
 
-  rebuild(data: { index: number; parts: string[] }) {
+  private rebuild(data: { index: number; parts: string[] }): void {
     data.parts = data.parts.filter(item => item !== '')
 
     const origs: { [key: string]: string } = {}
@@ -223,28 +221,28 @@ export default class TextItem extends Vue {
     this.textSequence[data.index].progress = [...new Set(origparts)].length
   }
 
-  findPosition(ev: any) {
+  public findPosition(ev: any): void {
     this.currentSentenceSubject.next(
       this.inputStream.substring(0, ev.target.selectionStart).split('.')
         .length - 1,
     )
   }
 
-  showExtra(extra: any) {
+  public showExtra(extra: any): void {
     this.showedExtra = extra.orig
   }
 
-  clearExtra() {
+  public clearExtra(): void {
     this.showedExtra = ''
   }
 
-  async clear() {
+  public async clear(): Promise<void> {
     await this.loadText(parseInt(this.$route.params.id, 10))
     this.currentSentenceSubject.next(0)
     this.inputStream = ''
   }
 
-  gotonext() {
+  public goToNext(): void {
     this.$router.push(`/translates/${this.nextTextId}`)
   }
 }

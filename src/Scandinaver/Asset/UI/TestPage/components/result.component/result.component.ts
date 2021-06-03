@@ -3,7 +3,6 @@ import Component from 'vue-class-component'
 import Scrollbar from 'smooth-scrollbar'
 import ErrorItem from './error.item.component/index.vue'
 import * as events from '@/events/events.type'
-import Question from '@/Scandinaver/Asset/Domain/Question'
 import * as moment from 'moment'
 import {
   ERRORS,
@@ -28,39 +27,39 @@ import { REMOVE_ERROR } from '@/Scandinaver/Asset/Infrastructure/store/test/muta
 })
 export default class Result extends Vue {
   @Getter(PERCENT)
-  public readonly percent: number
+  public readonly _percent: number
 
   @Getter(QUANTITY)
-  public readonly quantity: number
+  public readonly _quantity: number
 
   @Getter(LEVEL)
-  public readonly level: number
+  public readonly _level: number
 
   @Getter(TITLE)
-  public readonly title: number
+  public readonly _title: number
 
   @Getter(RESULT)
-  public readonly result: number
+  public readonly _result: number
 
   @Getter(ERRORS)
-  public readonly errors: number
+  public readonly _errors: number
 
   @Getter(TIME)
-  public readonly time: number
+  public readonly _time: number
 
-  created() {
+  created(): void {
     this.$eventHub.$on(events.REMOVE_ERROR_ITEM, this.removeErrorItem)
   }
 
   get formattedTime(): string {
-    return moment.utc(this.time * 1000).format('HH:mm:ss')
+    return moment.utc(this._time * 1000).format('HH:mm:ss')
   }
 
-  removeErrorItem(id: number) {
+  private removeErrorItem(id: number): void {
     this.$store.commit(REMOVE_ERROR, id)
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(events.REMOVE_ERROR_ITEM)
   }
 }

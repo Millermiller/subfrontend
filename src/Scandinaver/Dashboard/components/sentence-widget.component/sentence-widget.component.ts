@@ -8,24 +8,26 @@ import {
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
 import { Getter } from '@/utils/getter.decorator'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
+import { SET_RESET_ASSET_TYPE } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 
 @Component
 export default class SentenceWidgetComponent extends BaseWidgetComponent {
   @Getter(COMPLETED_SENTENCES_ASSETS_COUNT)
-  public readonly completed: number
+  public readonly _completed: number
 
   @Getter(SENTENCE_ASSETS)
-  public readonly sentences: Asset[]
+  public readonly _sentences: Asset[]
 
-  title = this.$root.$tc('sentences')
+  protected title = this.$root.$tc('sentences')
 
-  get all() {
-    return this.sentences.length
+  get all(): number {
+    return this._sentences.length
   }
 
-  goto(routeName: string) {
-    this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.SENTENCES)
-    this.$router.push({
+  async goto(routeName: string): Promise<void> {
+    await this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.SENTENCES)
+    this.$store.commit(SET_RESET_ASSET_TYPE, false)
+    await this.$router.push({
       name: routeName,
       params: { language: this.currentLanguage },
     })

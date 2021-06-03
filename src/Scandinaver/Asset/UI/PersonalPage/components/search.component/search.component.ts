@@ -19,29 +19,29 @@ import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.
 })
 export default class SearchComponent extends Vue {
   @Inject()
-  private service: CardService
+  private readonly service: CardService
 
   @Getter(ACTIVE_PERSONAL_ASSET_CARDS)
-  private readonly activePersonalAssetCards: Card[]
+  private readonly _activePersonalAssetCards: Card[]
 
   @Getter(IS_ACTIVE)
-  private readonly isActive: boolean
+  private readonly _isActive: boolean
 
-  dialogFormVisible: boolean = false
-  word: string = ''
-  sentence: boolean = false
-  loading: boolean = false
-  cards: Card[] = []
-  message: boolean | string = false
-  form: IDictionaryForm = new DictionaryForm()
+  public dialogFormVisible: boolean = false
+  public word: string = ''
+  public sentence: boolean = false
+  public loading: boolean = false
+  public cards: Card[] = []
+  public message: boolean | string = false
+  public form: IDictionaryForm = new DictionaryForm()
 
-  livesearch() {
+  public liveSearch(): void {
     if (this.word.length > 2) {
       this.search()
     }
   }
 
-  search(): void {
+  public search(): void {
     if (this.word !== '') {
       this.loading = true
       this.service.translate(this.word, this.sentence).then(
@@ -56,7 +56,7 @@ export default class SearchComponent extends Vue {
 
             const word_ids: number[] = []
 
-            this.activePersonalAssetCards.forEach(
+            this._activePersonalAssetCards.forEach(
               (el: Card, i: number, ar: Card[]) => {
                 word_ids.push(el.word!.id)
               },
@@ -79,20 +79,20 @@ export default class SearchComponent extends Vue {
     }
   }
 
-  openform() {
-    if (this.isActive) {
+  public openForm(): void {
+    if (this._isActive) {
       this.dialogFormVisible = true
     }
   }
 
-  async submit() {
+  public async submit(): Promise<void> {
     this.form.is_public = this.form.is_public ? 1 : 0
     const card = await this.service.createCard(this.form)
     this.cards = [card]
     this.dialogFormVisible = false
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(events.ADD_CART_TO_ASSET)
   }
 }

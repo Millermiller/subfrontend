@@ -29,33 +29,33 @@ export default class AssetComponent extends Vue {
   private showTestButton: boolean
 
   @Inject()
-  private assetService: AssetService
+  private readonly assetService: AssetService
 
   @Getter(ACTIVE_ASSET_ID)
-  private readonly activeAssetId: number
+  private readonly _activeAssetId: number
 
   @Getter(IS_ACTIVE)
-  private readonly isActive: boolean
+  private readonly _isActive: boolean
 
-  edited: boolean = false
-  assetName: string = ''
-  loading: boolean = false
+  public edited: boolean = false
+  public assetName: string = ''
+  public loading: boolean = false
 
   get selected(): boolean {
-    return this.asset.getId() === this.activeAssetId
+    return this.asset.getId() === this._activeAssetId
   }
 
   get isFavourite(): boolean {
     return this.asset.type === AssetType.FAVORITES
   }
 
-  showResponder = (e: any) => {
+  public showResponder = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
   }
 
-  confirm(asset: any) {
-    if (this.isActive) {
+  public confirm(asset: any): void {
+    if (this._isActive) {
       this.$confirm(this.$tc('removeAssetConfirm'), asset.title, {
         confirmButtonText: this.$tc('yes'),
         cancelButtonText: this.$tc('no'),
@@ -74,8 +74,8 @@ export default class AssetComponent extends Vue {
     return store.getters.language
   }
 
-  load(): void {
-    if (this.isActive && !this.selected) {
+  public load(): void {
+    if (this._isActive && !this.selected) {
       this.$router.push({
         name: 'PersonalPage',
         params: {
@@ -86,7 +86,7 @@ export default class AssetComponent extends Vue {
     }
   }
 
-  test(): void {
+  public test(): void {
     if (window.innerWidth <= 910) {
       this.$eventHub.$emit(events.CLOSE_MENU)
     }
@@ -96,7 +96,7 @@ export default class AssetComponent extends Vue {
     })
   }
 
-  learn() {
+  public learn(): void {
     if (this.asset.active) {
       if (window.innerWidth <= 910) {
         this.$eventHub.$emit(events.CLOSE_MENU)
@@ -108,20 +108,19 @@ export default class AssetComponent extends Vue {
     }
   }
 
-  openEdit() {
+  public openEdit(): void {
     this.assetName = this.asset.title
     this.edited = true
   }
 
-  closeEdit() {
+  public closeEdit(): void {
     this.edited = false
   }
 
-  async applyEdit() {
+  public async applyEdit(): Promise<void> {
     this.loading = true
     const dto: AssetDTO = this.asset.toDTO()
     dto.title = this.assetName
-    console.log(dto)
     await this.assetService.updateAsset(this.asset, dto)
     this.edited = false
     this.loading = false

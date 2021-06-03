@@ -32,12 +32,12 @@ import { Puzzle } from '../Domain/Puzzle'
 })
 export default class PuzzleListComponent extends Vue {
   @Inject()
-  private service: PuzzleService
+  private readonly service: PuzzleService
 
   public puzzles: Puzzle[] = []
-  private loading: boolean = false
+  public loading: boolean = false
 
-  created() {
+  created(): void {
     this.$eventHub.$on(ON_BEFORE_PUZZLE_SELECTED, () => {
       this.puzzles.forEach((puzzle): any => {
         puzzle.active = false
@@ -46,13 +46,13 @@ export default class PuzzleListComponent extends Vue {
     this.load()
   }
 
-  async load() {
+  private async load(): Promise<void> {
     this.loading = true
     this.puzzles = await this.service.getPuzzles()
     this.loading = false
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(PUZZLE_SELECTED)
   }
 }

@@ -13,14 +13,13 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
   },
 })
 export default class Tests extends Vue {
-  dialogVisible: boolean = false
-  visible: boolean = false
+  public dialogVisible: boolean = false
 
   created(): void {
     this.$eventHub.$on(events.OPEN_PAID_MODAL, this.modal)
   }
 
-  mounted() {
+  mounted(): void {
     store.commit('setShowRightMenuButton', true)
   }
 
@@ -28,17 +27,11 @@ export default class Tests extends Vue {
     this.dialogVisible = true
   }
 
-  toggleRightMenu(): void {
-    this.visible = !this.visible
-    this.$store.dispatch('toggleMenuOpen')
-    this.$store.dispatch('toggleBackdrop')
-  }
-
   get showRightMenu(): boolean {
     return window.innerWidth > 480 || store.getters.isRightMenuOpen
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     // this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
     this.$eventHub.$off(events.OPEN_PAID_MODAL)
     store.commit('setShowRightMenuButton', false)

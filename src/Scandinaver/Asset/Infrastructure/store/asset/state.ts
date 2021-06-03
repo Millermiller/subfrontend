@@ -9,4 +9,5 @@ export default class State {
   activePersonalAssetEdit: boolean = false
   activeAssetType: number = AssetType.WORDS
   activeAssetId: number = 0
+  resetAssetType: boolean = true
 }

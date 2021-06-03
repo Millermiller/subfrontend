@@ -14,17 +14,15 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
   },
 })
 export default class LearnModule extends Vue {
-  visible: boolean = false
-
   get showRightMenu(): boolean {
     return window.innerWidth > 480 || store.getters.isRightMenuOpen
   }
 
-  mounted() {
+  mounted(): void {
     store.commit('setShowRightMenuButton', true)
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     // this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
     store.commit('setShowRightMenuButton', false)
   }

@@ -6,14 +6,14 @@ import { BaseService } from '@/Scandinaver/Core/Application/base.service'
 @Service()
 export default class PuzzleService extends BaseService<Puzzle> {
   @Inject()
-  private repository: PuzzleRepository
+  private readonly repository: PuzzleRepository
 
-  create(puzzle: Puzzle): Puzzle {
+  public create(puzzle: Puzzle): Puzzle {
     puzzle.generate().pieces.shuffle()
     return puzzle
   }
 
-  async getPuzzles() {
+  public async getPuzzles(): Promise<Puzzle[]> {
     const puzzles = await this.repository.all()
     return puzzles.map(puzzle => puzzle.setActive(false))
   }

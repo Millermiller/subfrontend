@@ -12,11 +12,11 @@ export namespace API {
     protected type: ClassType<Asset> = Asset
     protected baseUrl = 'asset'
 
-    all(): Promise<AxiosResponse<Asset[]>> {
+    public async all(): Promise<AxiosResponse<Asset[]>> {
       throw new Error('Method not implemented.')
     }
 
-    personal(): Promise<AxiosResponse<Asset[]>> {
+    public async personal(): Promise<AxiosResponse<Asset[]>> {
       return request.get('/personal', {
         params: {
           lang: store.getters.language
@@ -24,11 +24,11 @@ export namespace API {
       })
     }
 
-    addCard(asset: number, card: number): Promise<any> {
+    public async addCard(asset: number, card: number): Promise<any> {
       return request.post(`/${this.baseUrl}/${asset}/${card}`)
     }
 
-    removeCard(asset: number, card: number) {
+    public async removeCard(asset: number, card: number): Promise<void> {
       return request.delete(`/${this.baseUrl}/${asset}/${card}`)
     }
   }

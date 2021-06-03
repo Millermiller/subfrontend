@@ -14,7 +14,7 @@ export class Puzzle extends Entity {
     return this.id
   }
 
-  generate(): Puzzle {
+  public generate(): Puzzle {
     const slices = this.translate.split(' ')
     const pieces: Piece[] = []
     slices.forEach((item: string) => {
@@ -28,7 +28,7 @@ export class Puzzle extends Entity {
     return this.pieces.count()
   }
 
-  setActive(active: boolean) {
+  public setActive(active: boolean): Puzzle {
     this.active = active
     return this
   }

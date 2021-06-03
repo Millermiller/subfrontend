@@ -1,5 +1,5 @@
 <template>
-  <i :class="[iconClass, 'hidden-sm-and-up']" id="right-menu" @click="toggleRightMenu"></i>
+  <i :class="[iconClass, 'hidden-sm-and-up']" id="right-menu" @click="toggleRightMenu()"></i>
 </template>
 
 <script lang="ts">
@@ -19,7 +19,7 @@ export default class RightMenuButton extends Vue {
     return store.getters.isRightMenuOpen ? this.classClosed : this.classOpened
   }
 
-  toggleRightMenu(): void{
+  public toggleRightMenu(): void{
     this.$store.commit('setRightMenuOpen', !store.getters.isRightMenuOpen)
     this.$store.commit('setLeftMenuOpen', false)
     this.opened = store.getters.isRightMenuOpen

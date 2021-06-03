@@ -5,15 +5,15 @@
         <el-col class="diagram" :span="8">
           <el-progress
             type="circle"
-            :percentage="percent"
+            :percentage="_percent"
             :width="100"
           ></el-progress>
         </el-col>
         <el-col class="asset-info" :span="16">
-          <template v-if="title">
-            <p v-if="level &gt; 0">{{ $t('level', { level: level }) }}</p>
-            <p>{{ $t('questionsCount', { quantity: quantity }) }}</p>
-            <p>{{ $t('bestResult', { result: result }) }}</p>
+          <template v-if="_title">
+            <p v-if="_level > 0">{{ $t('level', { level: _level }) }}</p>
+            <p>{{ $t('questionsCount', { quantity: _quantity }) }}</p>
+            <p>{{ $t('bestResult', { result: _result }) }}</p>
             <p>{{ $t('time', { time: formattedTime }) }}</p>
           </template>
         </el-col>
@@ -27,7 +27,7 @@
       <transition-group name="splash" tag="div">
         <ErrorItem
           class="splash-item"
-          v-for="(error, index) in errors"
+          v-for="(error, index) in _errors"
           :item="error"
           :index="index"
           :key="index"

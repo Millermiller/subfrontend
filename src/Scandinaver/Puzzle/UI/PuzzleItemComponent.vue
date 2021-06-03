@@ -32,12 +32,12 @@ import { Puzzle } from '../Domain/Puzzle'
 })
 export default class PuzzleItemComponent extends Vue {
   @Prop({ required: true })
-  private puzzle: Puzzle
+  public puzzle: Puzzle
 
   @Prop({ required: true })
-  private index: number
+  public index: number
 
-  createPuzzle(puzzle: Puzzle) {
+  public createPuzzle(puzzle: Puzzle): void {
     this.$eventHub.$emit(ON_BEFORE_PUZZLE_SELECTED)
     this.$eventHub.$emit(PUZZLE_SELECTED, puzzle)
   }

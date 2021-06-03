@@ -4,6 +4,6 @@ import Translate from '@/Scandinaver/Asset/Domain/Translate'
 import { Collection } from '@/Scandinaver/Core/Domain/Collection'
 import Variant from '@/Scandinaver/Asset/Domain/Variant'
 
-export default interface IVariantsFabric {
+export default interface IVariantsFactory {
   build(payload: Card | Asset, data: Translate[]): Collection<Variant>
 }

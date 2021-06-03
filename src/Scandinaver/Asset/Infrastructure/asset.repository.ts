@@ -9,13 +9,13 @@ import AssetApi = API.AssetApi
 @Service()
 export default class AssetRepository extends CommonRepository<Asset> {
   @Inject()
-  protected api: AssetApi
+  protected readonly api: AssetApi
 
   async getPersonalAssets(): Promise<Asset[]> {
     return this.api.personal().then(response => plainToClass(Asset, response.data))
   }
 
-  async removeCard(card: Card, asset: Asset): Promise<any> {
+  async removeCard(card: Card, asset: Asset): Promise<void> {
     return this.api.removeCard(asset.getId(), card.getId()).then(response => response)
   }
 

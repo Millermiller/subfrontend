@@ -14,9 +14,9 @@
             <p class="userlogin">{{ user.login }}</p>
             <p class="useremail">{{ user.email }}</p>
           </div>
-          <i class="el-icon-back hide-menu-button" @click="hide"></i>
+          <i class="el-icon-back hide-menu-button" @click="hide()"></i>
         </div>
-        <div class="sidemenu-content" @click="hide">
+        <div class="sidemenu-content" @click="hide()">
           <el-menu class="el-menu-vertical" mode="vertical" default-active="1">
             <el-menu-item index="1">
               <i class="ion-ios-home-outline ion"></i>
@@ -63,18 +63,18 @@ import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 import { User } from '@/Scandinaver/Core/Domain/User'
 
 @Component({})
-export default class Sidemenu extends Vue {
+export default class SideMenu extends Vue {
   @Getter(FAVOURITE_ASSET)
-  private readonly favouriteAsset: Asset
+  private readonly _favouriteAsset: Asset
 
   @Getter(USER)
-  private readonly user: User
+  private readonly _user: User
 
   get visible(): boolean {
     return this.$store.getters.isLeftMenuOpen
   }
 
-  get backdrop() {
+  get backdrop(): number {
     return this.$store.getters.backdrop
   }
 
@@ -82,26 +82,26 @@ export default class Sidemenu extends Vue {
     return store.getters.language
   }
 
-  get favouriteId() {
-    if (this.favouriteAsset !== undefined) {
-      return this.favouriteAsset.id
+  get favouriteId(): number|string {
+    if (this._favouriteAsset !== undefined) {
+      return this._favouriteAsset.id
     }
     return ''
   }
 
-  hide() {
+  public hide(): void {
     this.$store.commit('setLeftMenuOpen', false)
     this.$store.commit('setBackdrop', 0)
   }
 
-  mounted() {
+  mounted(): void {
     const data = this
     this.$eventHub.$on(events.SHOW_MENU, () => {
       data.$store.commit('setBackdrop', 1)
     })
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(events.SHOW_MENU)
   }
 }

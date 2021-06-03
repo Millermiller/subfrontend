@@ -17,21 +17,21 @@ export default class ErrorItem extends Vue {
   public index!: any
 
   @Inject()
-  private service: CardService
+  private readonly service: CardService
 
-  activeClass: string = 'el-icon-star-on'
-  defaultClass: string = 'el-icon-star-off'
-  loading: boolean = false
+  private activeClass: string = 'el-icon-star-on'
+  private defaultClass: string = 'el-icon-star-off'
+  public loading: boolean = false
 
   get favouriteButtonClass(): string {
     return this.item.card.favourite ? this.activeClass : this.defaultClass
   }
 
-  remove(id: number) {
+  public remove(id: number): void {
     this.$eventHub.$emit(events.REMOVE_ERROR_ITEM, id)
   }
 
-  async favourite() {
+  public async favourite(): Promise<void> {
     if (!this.loading) {
       this.loading = true
       if (!this.item.card.favourite) {

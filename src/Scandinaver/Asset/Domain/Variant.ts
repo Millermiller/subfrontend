@@ -1,9 +1,13 @@
 import Translate from '@/Scandinaver/Asset/Domain/Translate'
 
 export default class Variant extends Translate {
-  correct: boolean
+  private _correct: boolean
+
+  set correct(value: boolean) {
+    this._correct = value
+  }
 
   public isCorrect(): boolean {
-    return this.correct
+    return this._correct
   }
 }

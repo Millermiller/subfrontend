@@ -35,7 +35,7 @@
         {{ $t('added', {login:  card.word.user.login}) }}
         </span>
     </el-popover>
-    <template v-if="user.id === card.word.user.id">
+    <template v-if="_user.id === card.word.user.id">
       <el-tooltip
         class="text-muted"
         v-if="card.word.is_public"

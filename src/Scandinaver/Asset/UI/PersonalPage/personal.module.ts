@@ -25,39 +25,39 @@ import { Watch } from 'vue-property-decorator'
 })
 export default class PersonalComponent extends Vue {
   @Inject()
-  private assetService: AssetService
+  private readonly assetService: AssetService
 
   @Inject()
-  private cardService: CardService
+  private readonly cardService: CardService
 
   @Watch('$route')
-  private async onRouteChange(route: any) {
+  private async onRouteChange(route: any): Promise<void> {
     if (parseInt(this.$route.params.id, 10) > 0) {
       await this.load(parseInt(this.$route.params.id, 10))
     }
   }
 
-  asset: Asset = new Asset()
-  loading: boolean = false
+  public asset: Asset = new Asset()
+  public loading: boolean = false
 
-  created() {
+  async created(): Promise<void> {
     this.$eventHub.$on(events.ADD_CART_TO_ASSET, this.add)
     this.$eventHub.$on(events.DELETE_CART_FROM_ASSET, this.removeCard)
 
     if (parseInt(this.$route.params.id, 10) > 0) {
-      this.load(parseInt(this.$route.params.id, 10))
+      await this.load(parseInt(this.$route.params.id, 10))
     } else {
-      this.$store.dispatch(RESET_ACTIVE_ASSET)
+      await this.$store.dispatch(RESET_ACTIVE_ASSET)
     }
   }
 
-  async load(id: number) {
+  private async load(id: number): Promise<void> {
     this.loading = true
     this.asset = await this.assetService.getAsset(id)
     this.loading = false
   }
 
-  async add(card: Card) {
+  private async add(card: Card): Promise<void> {
     this.loading = true
     try {
       await this.assetService.addCardToAsset(card, this.asset)
@@ -72,7 +72,7 @@ export default class PersonalComponent extends Vue {
     }
   }
 
-  async removeCard(data: any) {
+  private async removeCard(data: any): Promise<void> {
     this.loading = true
     await this.assetService.removeCardFromAsset(data.card, this.asset)
     this.loading = false
@@ -83,8 +83,8 @@ export default class PersonalComponent extends Vue {
     })
   }
 
-  beforeDestroy() {
-    this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
+  async beforeDestroy(): Promise<void> {
+    await this.$store.dispatch(ON_CARDS_PAGE_CLOSE)
     this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)
     this.$eventHub.$off(events.ADD_CART_TO_ASSET)
     this.$eventHub.$off(events.DELETE_CART_FROM_ASSET)

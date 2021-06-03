@@ -110,27 +110,27 @@ import Piece from '@/Scandinaver/Puzzle/Domain/Piece'
 })
 export default class PuzzleComponent extends Vue {
   @Inject()
-  private service: PuzzleService
+  private readonly service: PuzzleService
 
-  private access: boolean = false
+  public access: boolean = false
   public puzzle: Puzzle = new Puzzle()
   public words: string[] = []
   public dropZones: {}[] = []
   public success: number = 0
   public isRotate: boolean = false
-  private wordsCount: number = 0
+  public wordsCount: number = 0
 
-  created() {
+  created(): void {
     this.access = this.$ability.can(this.$route.meta.permission)
     this.$eventHub.$on(events.PUZZLE_SELECTED, this.createPuzzle)
   }
 
   @Watch('$route')
-  private onRouteChange(route: Route) {
+  private onRouteChange(route: Route): void {
     this.access = this.$ability.can(route.meta.permission)
   }
 
-  async createPuzzle(puzzle: Puzzle) {
+  private async createPuzzle(puzzle: Puzzle): Promise<void> {
     this.puzzle = this.service.create(puzzle)
     puzzle.active = true
     this.success = 0
@@ -148,7 +148,7 @@ export default class PuzzleComponent extends Vue {
     }
   }
 
-  async refresh(puzzle: Puzzle) {
+  public async refresh(puzzle: Puzzle): Promise<void> {
     this.isRotate = true
     await this.createPuzzle(puzzle)
     setTimeout(() => {
@@ -156,7 +156,7 @@ export default class PuzzleComponent extends Vue {
     }, 1000)
   }
 
-  handleDrop(toList: any, data: any) {
+  public async handleDrop(toList: any, data: any): Promise<void> {
     const fromList = data.list
     if (data.item.word === toList.for) {
       toList.content.push(data.item)
@@ -165,14 +165,14 @@ export default class PuzzleComponent extends Vue {
       this.$Progress.set(Math.floor((this.success * 100) / this.wordsCount))
 
       if (this.$Progress.get() === 100) {
-        this.attach(this.puzzle!)
+        await this.attach(this.puzzle!)
       }
     } else {
       toList.class = 'dragover'
     }
   }
 
-  handleBackDrop(toList: Collection<Piece>, data: any) {
+  public handleBackDrop(toList: Collection<Piece>, data: any): void {
     const fromList = data.list
     if (data.zone) {
       toList.add(data.item)
@@ -183,15 +183,15 @@ export default class PuzzleComponent extends Vue {
     }
   }
 
-  handleDragEnter = (ev: any): void => {
+  public handleDragEnter = (ev: any): void => {
     ev.class = 'dragenter'
   }
 
-  handleDragLeave = (ev: any): void => {
+  public handleDragLeave = (ev: any): void => {
     if (!ev.content.length) ev.class = 'dragover'
   }
 
-  async attach(puzzle: Puzzle) {
+  private async attach(puzzle: Puzzle): Promise<void> {
     await this.service.processPuzzle(puzzle)
     this.$notify.success({
       title: this.$tc('puzzleComplete'),
@@ -200,7 +200,7 @@ export default class PuzzleComponent extends Vue {
     })
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(PUZZLE_SELECTED)
   }
 }

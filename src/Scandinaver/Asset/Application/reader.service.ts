@@ -5,9 +5,9 @@ import ReaderAPI = API.ReaderAPI
 @Service()
 export default class ReaderService {
   @Inject()
-  private api: ReaderAPI
+  private readonly api: ReaderAPI
 
-  public async read(text: string) {
+  public async read(text: string): Promise<void> {
     const result = await this.api.read(text)
     const { data } = result
 

@@ -9,16 +9,16 @@ import { CLOSE_RESULT_MODAL, RELOAD_TEST } from '@/events/events.type'
 })
 export default class ResultModalComponent extends Vue {
   @Prop()
-  private visible: boolean
+  public visible: boolean
 
   @Prop()
   public test!: Test
 
-  reload() {
+  public reload(): void {
     this.$eventHub.$emit(RELOAD_TEST)
   }
 
-  close() {
+  public close(): void {
     if (this.visible === true) {
       this.$eventHub.$emit(CLOSE_RESULT_MODAL)
     }

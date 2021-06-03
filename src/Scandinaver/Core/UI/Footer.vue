@@ -34,7 +34,7 @@
       </el-form>
       <span class="dialog-footer" slot="footer">
         <el-button @click="dialogFormVisible = false">{{$t('cancel')}}</el-button>
-        <el-button type="primary" @click="submit">{{$t('send')}}</el-button>
+        <el-button type="primary" @click="submit()">{{$t('send')}}</el-button>
       </span>
     </el-dialog>
     <v-tour name="myTour" :steps="steps" :options="{startTimeout: 5}">
@@ -92,20 +92,20 @@ import { version } from '../../../../package.json'
 @Component({ name: 'Footer' })
 export default class Footer extends Vue {
   @Inject()
-  private service: FeedbackService
+  private readonly service: FeedbackService
 
   @Inject()
-  private introService: IntroService
+  private readonly introService: IntroService
 
-  private version: string = `v.${version}`
-  private dialogFormVisible: boolean = false
-  private copy: string = `scandinaver.org © ${(new Date()).getFullYear()}`
+  public version: string = `v.${version}`
+  public dialogFormVisible: boolean = false
+  public copy: string = `scandinaver.org © ${(new Date()).getFullYear()}`
   private introVisible: boolean = false
-  private form: IFeedbackForm = new FeedbackForm()
-  private page: string = ''
-  private steps: any[] = []
+  public form: IFeedbackForm = new FeedbackForm()
+  public page: string = ''
+  public steps: any[] = []
 
-  rules: {} = {
+  public rules: {} = {
     message: [
       {
         required: true,
@@ -116,7 +116,7 @@ export default class Footer extends Vue {
   }
 
   @Watch('$route')
-  private onRouteChange(route: any) {
+  private onRouteChange(route: any): void {
     const isNeedIntro = window.localStorage.getItem('intro')
     if (isNeedIntro === null) {
       this.showHelp()
@@ -124,7 +124,7 @@ export default class Footer extends Vue {
     }
   }
 
-  submit() {
+  public submit(): void {
     // @ts-ignore
     this.$refs.messageform.validate(async (valid: any) => {
       if (valid) {
@@ -140,7 +140,7 @@ export default class Footer extends Vue {
     })
   }
 
-  showHelp() {
+  public showHelp(): void {
     this.page = this.$route.matched[0].name
     this.steps = this.introService.getForPage(this.page)
     if (this.steps.length > 0) {

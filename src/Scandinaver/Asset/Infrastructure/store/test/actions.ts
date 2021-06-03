@@ -16,7 +16,7 @@ export default class TestActions extends Actions<
   TestMutations,
   TestActions
 > {
-  resetTest(test: Test) {
+  public resetTest(test: Test): void {
     this.commit(SET_QUANTITY, test.quantity)
     this.commit(RESET_ERROR)
     this.commit(RESET_PERCENT)

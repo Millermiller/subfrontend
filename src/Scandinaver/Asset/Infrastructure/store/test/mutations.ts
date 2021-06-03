@@ -23,11 +23,11 @@ export default class TestMutations extends Mutations<State> {
     this.state.result = data
   }
 
-  [mutations.SET_ERROR](data: any) {
+  [mutations.SET_ERROR](data: any): void {
     this.state.errors.unshift(data)
   }
 
-  [mutations.REMOVE_ERROR](id: number) {
+  [mutations.REMOVE_ERROR](id: number): void {
     this.state.errors.splice(id, 1)
   }
 
@@ -39,7 +39,7 @@ export default class TestMutations extends Mutations<State> {
     this.state.percent = 0
   }
 
-  [mutations.SET_TIME](data: number) {
+  [mutations.SET_TIME](data: number): void {
     this.state.time = data
   }
 }

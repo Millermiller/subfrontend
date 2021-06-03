@@ -7,11 +7,11 @@ export default class UserGetters extends Getters<State> {
     return this.state.user
   }
 
-  get [getters.IS_AUTH]() {
+  get [getters.IS_AUTH](): boolean {
     return this.state.user.authenticated
   }
 
-  get [getters.IS_ACTIVE]() {
+  get [getters.IS_ACTIVE](): boolean {
     return this.state.user.active
   }
 }

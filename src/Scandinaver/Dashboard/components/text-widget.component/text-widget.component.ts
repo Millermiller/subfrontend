@@ -7,10 +7,10 @@ import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
 @Component
 export default class TextWidgetComponent extends BaseWidgetComponent {
   @Getter(TEXTS)
-  public readonly texts: Translate[]
+  public readonly _texts: Translate[]
 
   @Getter(ACTIVE_TEXTS)
-  public readonly active: Translate[]
+  public readonly _active: Translate[]
 
-  title = this.$root.$tc('translates')
+  protected title = this.$root.$tc('translates')
 }
