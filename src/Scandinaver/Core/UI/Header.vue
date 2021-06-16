@@ -57,10 +57,10 @@
       <li class="el-menu-item pull-right userblock">
         <div class="avatar-wrapper-small pull-left">
           <div class="avatar">
-            <img class="avatar-small" :src="user.avatar" alt="" />
+            <img class="avatar-small" :src="_user.avatar" alt="" />
           </div>
         </div>
-        <span>{{ user.login }}</span>
+        <span>{{ _user.login }}</span>
       </li>
       <li class="el-menu-item pull-right">
         <el-select

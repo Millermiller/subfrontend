@@ -1,4 +1,4 @@
-import { Word } from '@/Scandinaver/Asset/Domain/Word'
+import { Term } from '@/Scandinaver/Asset/Domain/Term'
 import Translate from '@/Scandinaver/Asset/Domain/Translate'
 import { User } from '@/Scandinaver/Core/Domain/User'
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
@@ -13,7 +13,7 @@ export class Card extends Entity {
   private _favourite?: boolean
   private _asset: Asset
   private _exist: boolean
-  private _word: Word
+  private _term: Term
   private _translate: Translate
   private _user: User
   private _examples: Collection<Example>
@@ -23,9 +23,9 @@ export class Card extends Entity {
     this._translate = value
   }
 
-  @Type(() => Word)
-  set word(value: Word) {
-    this._word = value
+  @Type(() => Term)
+  set term(value: Term) {
+    this._term = value
   }
 
   @Type(() => User)
@@ -83,8 +83,8 @@ export class Card extends Entity {
     this._exist = value
   }
 
-  get word(): Word {
-    return this._word
+  get term(): Term {
+    return this._term
   }
 
   get translate(): Translate {
@@ -100,7 +100,7 @@ export class Card extends Entity {
   }
 
   get subject(): string {
-    return this._word.getValue()
+    return this._term.getValue()
   }
 
   get value(): string {

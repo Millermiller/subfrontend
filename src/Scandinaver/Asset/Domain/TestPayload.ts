@@ -39,6 +39,7 @@ export class TestPayload {
       id: this._id,
       percent: this._percent,
       errors: this._errors.map((error: Card) => error.value),
+      cards: this._errors.map((error: Card) => error.getId()),
       time: this._time
     }
   }

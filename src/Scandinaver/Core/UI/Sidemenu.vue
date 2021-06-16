@@ -8,11 +8,11 @@
       <div class="sidemenu" v-show="visible">
         <div class="sidemenu-toolbar">
           <div class="avatar-wrapper-small pull-left">
-            <img class="avatar-small" :src="user.avatar" alt="" />
+            <img class="avatar-small" :src="_user.avatar" alt="" />
           </div>
           <div class="userinfo pull-left">
-            <p class="userlogin">{{ user.login }}</p>
-            <p class="useremail">{{ user.email }}</p>
+            <p class="userlogin">{{ _user.login }}</p>
+            <p class="useremail">{{ _user.email }}</p>
           </div>
           <i class="el-icon-back hide-menu-button" @click="hide()"></i>
         </div>

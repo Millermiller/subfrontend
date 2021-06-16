@@ -37,14 +37,14 @@ export default class ErrorItem extends Vue {
       if (!this.item.card.favourite) {
         this.item.card = await this.service.addToFavourite(this.item.card)
         this.$notify.success({
-          title: this.item.card.word.getValue(),
+          title: this.item.card.term.getValue(),
           message: this.$tc('addToFavourite'),
           duration: 2000,
         })
       } else {
         this.item.card = await this.service.removeFromFavourite(this.item.card)
         this.$notify.success({
-          title: this.item.card.word!.getValue(),
+          title: this.item.card.term!.getValue(),
           message: this.$tc('removedFromFavourite'),
           duration: 2000,
         })

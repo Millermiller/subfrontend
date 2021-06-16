@@ -23,18 +23,6 @@ export default class TestMutations extends Mutations<State> {
     this.state.result = data
   }
 
-  [mutations.SET_ERROR](data: any): void {
-    this.state.errors.unshift(data)
-  }
-
-  [mutations.REMOVE_ERROR](id: number): void {
-    this.state.errors.splice(id, 1)
-  }
-
-  [mutations.RESET_ERROR](): void {
-    this.state.errors = []
-  }
-
   [mutations.RESET_PERCENT](): void {
     this.state.percent = 0
   }

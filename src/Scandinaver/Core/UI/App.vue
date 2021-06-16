@@ -1,7 +1,7 @@
 <template>
   <el-container id="app" v-loading.fullscreen.lock="fullscreenLoading">
     <Header v-if="_auth"></Header>
-    <Sidemenu v-if="_auth"></Sidemenu>
+    <SideMenu v-if="_auth"></SideMenu>
     <router-view></router-view>
     <Footer v-if="_auth"></Footer>
   </el-container>

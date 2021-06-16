@@ -27,7 +27,7 @@
       <transition-group name="splash" tag="div">
         <ErrorItem
           class="splash-item"
-          v-for="(error, index) in _errors"
+          v-for="(error, index) in errors.all()"
           :item="error"
           :index="index"
           :key="index"

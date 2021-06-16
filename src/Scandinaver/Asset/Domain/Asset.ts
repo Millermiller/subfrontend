@@ -94,6 +94,10 @@ export class Asset extends Entity {
     return this._completed === true
   }
 
+  set completed(value: boolean) {
+    this._completed = value
+  }
+
   get active(): boolean {
     return this._active
   }

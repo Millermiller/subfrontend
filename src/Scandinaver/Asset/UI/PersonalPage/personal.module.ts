@@ -64,7 +64,7 @@ export default class PersonalComponent extends Vue {
       this.loading = false
       this.$notify.success({
         title: this.$tc('cardAdded'),
-        message: card.word.getValue(),
+        message: card.term.getValue(),
         duration: 4000,
       })
     } catch (error) {
@@ -72,13 +72,13 @@ export default class PersonalComponent extends Vue {
     }
   }
 
-  private async removeCard(data: any): Promise<void> {
+  private async removeCard(data: { card: Card, index: number }): Promise<void> {
     this.loading = true
     await this.assetService.removeCardFromAsset(data.card, this.asset)
     this.loading = false
     this.$notify.success({
       title: this.$tc('cardRemoved'),
-      message: data.card.word!.getValue(),
+      message: data.card.term!.getValue(),
       duration: 4000,
     })
   }

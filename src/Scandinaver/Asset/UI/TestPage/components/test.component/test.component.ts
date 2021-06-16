@@ -15,8 +15,6 @@ import Question from '@/Scandinaver/Asset/Domain/Question'
 import { RESET_TEST } from '@/Scandinaver/Asset/Infrastructure/store/test/action.type'
 import { Subscription, timer } from 'rxjs'
 import {
-  RESET_ERROR,
-  SET_ERROR,
   SET_PERCENT,
   SET_TIME,
 } from '@/Scandinaver/Asset/Infrastructure/store/test/mutations.type'
@@ -60,7 +58,7 @@ export default class TestComponent extends Vue {
   async created(): Promise<void> {
     this.$eventHub.$on(RELOAD_TEST, this.reload)
     this.$eventHub.$on(CLOSE_RESULT_MODAL, this.closeModal)
-    this.$store.commit(RESET_ERROR)
+
     if (parseInt(this.$route.params.id, 10) > 0) {
       await this.buildTest(parseInt(this.$route.params.id, 10))
     } else {
@@ -81,6 +79,8 @@ export default class TestComponent extends Vue {
     this.$Progress.set(0)
     const asset = await this.assetService.getAsset(id)
     this.test = this.testService.create(asset)
+
+    this.testService.errorsBehaviorSubject.next(null)
 
     this.$store.commit(SET_TIME, 0)
     await this.$store.dispatch(RESET_TEST, this.test)
@@ -112,7 +112,7 @@ export default class TestComponent extends Vue {
       if (this.question instanceof Question) {
         this.test.errors.push(this.question)
       }
-      this.$store.commit(SET_ERROR, this.question)
+      this.testService.errorsBehaviorSubject.next(this.question)
     }
     await this.next()
   }
@@ -138,6 +138,7 @@ export default class TestComponent extends Vue {
   beforeDestroy(): void {
     this.$eventHub.$off(RELOAD_TEST)
     this.$eventHub.$off(CLOSE_RESULT_MODAL)
+    this.testService.errorsBehaviorSubject.next(null)
     this.subscriptions.unsubscribe()
     this.$store.commit(SET_TIME, 0)
   }

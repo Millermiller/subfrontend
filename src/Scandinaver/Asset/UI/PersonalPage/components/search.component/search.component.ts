@@ -58,7 +58,7 @@ export default class SearchComponent extends Vue {
 
             this._activePersonalAssetCards.forEach(
               (el: Card, i: number, ar: Card[]) => {
-                word_ids.push(el.word!.id)
+                word_ids.push(el.term!.id)
               },
             )
 

@@ -24,6 +24,10 @@ export default class SentenceWidgetComponent extends BaseWidgetComponent {
     return this._sentences.length
   }
 
+  get completed() {
+    return this._completed
+  }
+
   async goto(routeName: string): Promise<void> {
     await this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.SENTENCES)
     this.$store.commit(SET_RESET_ASSET_TYPE, false)

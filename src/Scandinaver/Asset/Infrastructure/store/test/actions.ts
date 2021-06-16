@@ -4,7 +4,7 @@ import { Test } from '@/Scandinaver/Asset/Domain/Test'
 import TestGetters from '@/Scandinaver/Asset/Infrastructure/store/test/getters'
 import TestMutations from '@/Scandinaver/Asset/Infrastructure/store/test/mutations'
 import {
-  RESET_ERROR, RESET_PERCENT,
+  RESET_PERCENT,
   SET_LEVEL,
   SET_QUANTITY,
   SET_TITLE,
@@ -18,7 +18,6 @@ export default class TestActions extends Actions<
 > {
   public resetTest(test: Test): void {
     this.commit(SET_QUANTITY, test.quantity)
-    this.commit(RESET_ERROR)
     this.commit(RESET_PERCENT)
     this.commit(SET_TITLE, test.asset.title)
     // commit(SET_RESULT, test.asset.result)

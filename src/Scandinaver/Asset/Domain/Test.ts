@@ -1,9 +1,9 @@
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import Question from '@/Scandinaver/Asset/Domain/Question'
-import Translate from '@/Scandinaver/Asset/Domain/Translate'
 import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 import { Collection } from '@/Scandinaver/Core/Domain/Collection'
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
+import { Term } from '@/Scandinaver/Asset/Domain/Term'
 
 export class Test extends Entity {
   private _asset: Asset
@@ -17,7 +17,7 @@ export class Test extends Entity {
   constructor(asset: Asset) {
     super()
     this._asset = asset
-    const translates: Translate[] = asset.cards.all().map(card => card.word)
+    const translates: Term[] = asset.cards.all().map(card => card.term)
     const questions: Question[] = this._asset.cards.all().map(
       card => new Question(card, translates),
     )

@@ -4,6 +4,5 @@ export default class State {
   result = 0
   level = 0
   title = ''
-  errors: Error[] = []
   time: number = 0
 }

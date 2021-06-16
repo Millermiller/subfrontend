@@ -34,7 +34,7 @@ export namespace API {
 
     public async createCard(card: Card): Promise<AxiosResponse<Card>> {
       return request.post(`/${this.baseUrl}/create`, {
-        word: card.word.getValue(),
+        word: card.term.getValue(),
         translate: card.translate.getValue(),
       })
     }

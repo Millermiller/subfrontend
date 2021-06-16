@@ -9,7 +9,7 @@ import {
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
-import { Word } from '@/Scandinaver/Asset/Domain/Word'
+import { Term } from '@/Scandinaver/Asset/Domain/Term'
 import Translate from '@/Scandinaver/Asset/Domain/Translate'
 
 @Service()
@@ -26,7 +26,7 @@ export default class CardService extends BaseService<Card> {
 
   public async createCard(form: IDictionaryForm): Promise<Card> {
     const card = new Card()
-    card.word = new Word(form.orig)
+    card.term = new Term(form.orig)
     card.translate = new Translate(form.translate)
     await this.cardRepository.save(card)
     return card

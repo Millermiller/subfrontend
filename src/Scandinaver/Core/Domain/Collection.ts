@@ -14,6 +14,10 @@ export class Collection<T extends Entity> implements Iterable<T> {
     return this.data
   }
 
+  public clear(): void {
+    this.data.splice(0, this.data.length)
+  }
+
   public get(id: number): T {
     return this.data[id]
   }

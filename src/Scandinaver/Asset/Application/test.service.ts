@@ -7,6 +7,7 @@ import { TestPayload } from '@/Scandinaver/Asset/Domain/TestPayload'
 import Question from '@/Scandinaver/Asset/Domain/Question'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 import { CommonService } from '@/Scandinaver/Core/Application/common.service'
+import { BehaviorSubject } from 'rxjs'
 
 @Service()
 export default class TestService extends BaseService<Test> {
@@ -18,6 +19,8 @@ export default class TestService extends BaseService<Test> {
 
   @Inject()
   private readonly service: LoginService
+
+  public errorsBehaviorSubject: BehaviorSubject<Question> = new BehaviorSubject<Question>(undefined)
 
   create(asset: Asset): Test {
     return new Test(asset)

@@ -23,6 +23,10 @@ export default class WordWidgetComponent extends BaseWidgetComponent {
     return this._words.length
   }
 
+  get completed() {
+    return this._completed
+  }
+
   public async goto(routeName: string): Promise<void> {
     this.$store
       .dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, AssetType.WORDS)

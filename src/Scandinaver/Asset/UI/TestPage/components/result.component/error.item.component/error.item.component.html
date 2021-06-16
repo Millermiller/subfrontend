@@ -5,11 +5,11 @@
         <h4 class="no-margin">{{ item.value }}</h4>
       </el-row>
       <el-row class="error-translate" type="flex" align="bottom">
-        <p>{{ item.card.word.value }}</p>
+        <p>{{ item.card.term.value }}</p>
       </el-row>
     </el-col>
     <el-col :span="4">
-      <i class="ion ion-ios-close-empty pointer" @click="remove(index)"></i>
+      <i class="ion ion-ios-close-empty pointer" @click="remove(item)"></i>
       <i
         :class="[
             'pointer',

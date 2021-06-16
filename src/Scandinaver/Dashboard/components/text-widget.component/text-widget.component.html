@@ -5,7 +5,7 @@
     shadow="hover"
     @click.native="goto('TextPage')"
   >
-    <p class="widget-title">{{ _title }}</p>
+    <p class="widget-title">{{ title }}</p>
     <p class="widget-description">{{ _active }}/{{ _texts.length }}</p>
     <el-progress type="circle" :percentage="percent"></el-progress>
   </el-card>
