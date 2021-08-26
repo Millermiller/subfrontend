@@ -8,15 +8,15 @@
       <div class="sidemenu" v-show="visible">
         <div class="sidemenu-toolbar">
           <div class="avatar-wrapper-small pull-left">
-            <img class="avatar-small" :src="user.avatar" alt="" />
+            <img class="avatar-small" :src="_user.avatar" alt="" />
           </div>
           <div class="userinfo pull-left">
-            <p class="userlogin">{{ user.login }}</p>
-            <p class="useremail">{{ user.email }}</p>
+            <p class="userlogin">{{ _user.login }}</p>
+            <p class="useremail">{{ _user.email }}</p>
           </div>
-          <i class="el-icon-back hide-menu-button" @click="hide"></i>
+          <i class="el-icon-back hide-menu-button" @click="hide()"></i>
         </div>
-        <div class="sidemenu-content" @click="hide">
+        <div class="sidemenu-content" @click="hide()">
           <el-menu class="el-menu-vertical" mode="vertical" default-active="1">
             <el-menu-item index="1">
               <i class="ion-ios-home-outline ion"></i>
@@ -24,13 +24,13 @@
             </el-menu-item>
             <el-menu-item index="2">
               <i class="ion-university ion"></i>
-              <router-link :to="{ name: 'defaultAsset', params: { language: currentLanguage } }">
+              <router-link :to="{ name: defaultAssetPage, params: { language: currentLanguage } }">
                 {{ $t('assets') }}
               </router-link>
             </el-menu-item>
             <el-menu-item index="3">
               <i class="ion-android-checkbox-outline ion"></i>
-              <router-link :to="{ name: 'defaultTest', params: { language: currentLanguage } }">
+              <router-link :to="{ name: defaultTestPage, params: { language: currentLanguage } }">
                 {{ $t('tests') }}
               </router-link>
             </el-menu-item>
@@ -38,7 +38,7 @@
               <i class="ion-android-checkbox-outline ion"></i>
               <router-link
                 :to="{
-                      name: 'PersonalPage',
+                      name: personalPage,
                       params: { id: favouriteId, language: currentLanguage },
                     }">
                 {{ $t('personals') }}</router-link>
@@ -61,20 +61,25 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { Getter } from '@/utils/getter.decorator'
 import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 import { User } from '@/Scandinaver/Core/Domain/User'
+import { DEFAULT_ASSET_PAGE, DEFAULT_TEST_PAGE, PERSONAL_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({})
-export default class Sidemenu extends Vue {
+export default class SideMenu extends Vue {
   @Getter(FAVOURITE_ASSET)
-  private readonly favouriteAsset: Asset
+  private readonly _favouriteAsset: Asset
 
   @Getter(USER)
-  private readonly user: User
+  private readonly _user: User
+
+  public readonly defaultAssetPage: string = DEFAULT_ASSET_PAGE
+  public readonly defaultTestPage: string = DEFAULT_TEST_PAGE
+  public readonly personalPage: string = PERSONAL_PAGE
 
   get visible(): boolean {
     return this.$store.getters.isLeftMenuOpen
   }
 
-  get backdrop() {
+  get backdrop(): number {
     return this.$store.getters.backdrop
   }
 
@@ -82,26 +87,26 @@ export default class Sidemenu extends Vue {
     return store.getters.language
   }
 
-  get favouriteId() {
-    if (this.favouriteAsset !== undefined) {
-      return this.favouriteAsset.id
+  get favouriteId(): number|string {
+    if (this._favouriteAsset !== undefined) {
+      return this._favouriteAsset.id
     }
     return ''
   }
 
-  hide() {
+  public hide(): void {
     this.$store.commit('setLeftMenuOpen', false)
     this.$store.commit('setBackdrop', 0)
   }
 
-  mounted() {
+  mounted(): void {
     const data = this
     this.$eventHub.$on(events.SHOW_MENU, () => {
       data.$store.commit('setBackdrop', 1)
     })
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(events.SHOW_MENU)
   }
 }

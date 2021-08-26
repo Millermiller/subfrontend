@@ -15,6 +15,7 @@ import {
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
 import { Getter } from '@/utils/getter.decorator'
 import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
+import { PERSONAL_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({
   name: 'AssetsComponent',
@@ -28,25 +29,25 @@ import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.
 })
 export default class AssetsComponent extends Vue {
   @Inject()
-  private assetService: AssetService
+  private readonly assetService: AssetService
 
   @Getter(FAVOURITE_ASSET)
-  private readonly favouriteAsset: Asset
+  private readonly _favouriteAsset: Asset
 
   @Getter(PERSONAL_ASSETS)
-  private readonly assets: Asset[]
+  private readonly _assets: Asset[]
 
   @Getter(IS_ACTIVE)
-  private readonly isActive: boolean
+  private readonly _isActive: boolean
 
-  loading: boolean = false
+  public loading: boolean = false
 
-  created() {
+  created(): void {
     this.$eventHub.$on(events.REMOVE_ASSET, this.remove)
   }
 
-  add() {
-    if (this.isActive) {
+  public add(): void {
+    if (this._isActive) {
       this.$prompt(this.$tc('title'), this.$tc('newAsset'), {
         confirmButtonText: this.$tc('create'),
         cancelButtonText: this.$tc('back'),
@@ -87,7 +88,7 @@ export default class AssetsComponent extends Vue {
     }
   }
 
-  async remove(asset: Asset) {
+  private async remove(asset: Asset): Promise<void> {
     this.loading = true
     await this.assetService.destroyAsset(asset)
     await this.assetService.removeFromPersonalAssets(asset)
@@ -98,15 +99,15 @@ export default class AssetsComponent extends Vue {
       duration: 4000,
     })
     await this.$router.push({
-      name: 'PersonalPage',
+      name: PERSONAL_PAGE,
       params: {
         language: store.getters.language,
-        id: this.favouriteAsset.id.toString(),
+        id: this._favouriteAsset.id.toString(),
       },
     })
   }
 
-  beforeDestroy() {
+  beforeDestroy(): void {
     this.$eventHub.$off(events.REMOVE_ASSET)
   }
 }

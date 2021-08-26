@@ -7,6 +7,10 @@ export default class PermissionGroup extends Entity {
   private _slug: string
   private _description: string
 
+  getId(): number {
+    return this._id
+  }
+
   set id(value: number) {
     this._id = value
   }
@@ -25,10 +29,6 @@ export default class PermissionGroup extends Entity {
 
   set slug(value: string) {
     this._slug = value
-  }
-
-  getId(): number {
-    return this._id
   }
 
   get name(): string {

@@ -2,9 +2,11 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
+// @ts-ignore
 @Component
-export default class BaseWidgetComponent extends Vue {
-  title: string
+export abstract class BaseWidgetComponent extends Vue {
+  protected abstract title: string
+  protected abstract link: string
 
   get all(): number {
     return 0
@@ -22,9 +24,9 @@ export default class BaseWidgetComponent extends Vue {
     return store.getters.language
   }
 
-  goto(routeName: string) {
-    this.$router.push({
-      name: routeName,
+  public async goto(): Promise<void> {
+    await this.$router.push({
+      name: this.link,
       params: { language: this.currentLanguage },
     })
   }

@@ -1,14 +1,22 @@
 import { Entity } from '@/Scandinaver/Core/Domain/Contract/Entity'
 
 export default class Piece extends Entity {
-  word: string
+  private _word: string
 
   constructor(word: string) {
     super()
-    this.word = word
+    this._word = word
+  }
+
+  get word(): string {
+    return this._word
+  }
+
+  set word(value: string) {
+    this._word = value
   }
 
   getId(): string {
-    return this.word
+    return this._word
   }
 }

@@ -11,13 +11,13 @@ import { Card } from '@/Scandinaver/Asset/Domain/Card'
 })
 export default class CardsListComponent extends Vue {
   @Prop()
-  private name: string
+  public name: string
 
   @Prop()
-  private cards: Collection<Card>
+  public cards: Collection<Card>
 
   @Prop({ required: true })
-  private loading: boolean
+  public loading: boolean
 
-  private loadingbody: boolean = false
+  public loadingBody: boolean = false
 }

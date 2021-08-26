@@ -1,6 +1,6 @@
 <div class="list-item list-item-card el-row">
   <el-col :span="21">
-    <p>{{ card.word.getValue() }}</p>
+    <p>{{ card.term.getValue() }}</p>
   </el-col>
   <el-col :span="2">
     <el-button
@@ -16,29 +16,29 @@
       {{ card.value }}
     </p>
   </el-col>
-  <el-col :span="24" v-if="card.word.creator">
+  <el-col :span="24" v-if="card.term.creator">
     <el-popover placement="top-start" width="250" trigger="hover">
       <el-row>
         <el-col :span="6">
           <div class="avatar-wrapper-small pull-left">
             <div class="avatar">
-              <img class="avatar-small" :src="card.word.user.avatar" />
+              <img class="avatar-small" :src="card.term.user.avatar" />
             </div>
           </div>
         </el-col>
         <el-col :span="18">
-          <p class="text-danger">{{ card.word.user.login }}</p>
-          <p>{{ $t('cardsCreated', {quantity: card.word.user.cardsCreated}) }}</p>
+          <p class="text-danger">{{ card.term.user.login }}</p>
+          <p>{{ $t('cardsCreated', {quantity: card.term.user.cardsCreated}) }}</p>
         </el-col>
       </el-row>
       <span class="no-margin danger pull-right small" slot="reference">
-        {{ $t('added', {login:  card.word.user.login}) }}
+        {{ $t('added', {login:  card.term.user.login}) }}
         </span>
     </el-popover>
-    <template v-if="user.id === card.word.user.id">
+    <template v-if="_user.id === card.term.user.id">
       <el-tooltip
         class="text-muted"
-        v-if="card.word.is_public"
+        v-if="card.term.is_public"
         effect="light"
         placement="top-start"
       >

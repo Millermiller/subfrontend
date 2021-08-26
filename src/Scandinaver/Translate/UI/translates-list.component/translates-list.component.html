@@ -1,0 +1,6 @@
+<el-row :gutter="20">
+  <TranslateItemComponent v-for="translate in _translates"
+                          :translate="translate"
+                          :key="translate.getId()">
+  </TranslateItemComponent>
+</el-row>

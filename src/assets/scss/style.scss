@@ -457,39 +457,6 @@ textarea {
   padding: 0 10px;
 }
 
-span[tooltip] {
-  &:hover {
-    &:after {
-      content: attr(tooltip);
-      position: absolute;
-      top: -38px;
-      left: 5px;
-      background: #fff;
-      color: #303133;
-      border: 1px solid #303133;
-      margin-bottom: 12px;
-      border-radius: 4px;
-      padding: 6px 10px;
-      z-index: 9000;
-      font-size: 12px;
-      line-height: 1.2;
-      min-width: 10px;
-      word-wrap: break-word;
-    }
-    &:before {
-      content: "1";
-      position: absolute;
-      top: -10px;
-      left: 12px;
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid #000;
-      overflow: hidden;
-    }
-  }
-}
 .router-link-active {
   > i {
     color: $blue-color;

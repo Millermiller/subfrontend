@@ -17,11 +17,11 @@
           placement='top-start'
           width='200'
           trigger='click'
-          :disabled='isActive'
+          :disabled='_isActive'
           popper-class='text-left'
           :content="$t('createCardNotAvailable')"
         >
-          <el-button slot='reference' @click='openform'>
+          <el-button slot='reference' @click='openForm()'>
             {{ $t('add') }}
           </el-button>
         </el-popover>
@@ -74,7 +74,7 @@
         <el-button type='warning' @click='dialogFormVisible = false'>
           {{ $t('cancel') }}
         </el-button>
-        <el-button type='success' @click='submit'>
+        <el-button type='success' @click='submit()'>
           {{ $t('save') }}
         </el-button>
       </span>

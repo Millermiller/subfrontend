@@ -10,11 +10,11 @@ export default class AssetGetters extends Getters<State> {
     return this.state.activeAssetType.toString()
   }
 
-  get [getters.COMPLETED_WORDS_ASSETS_COUNT]() {
+  get [getters.COMPLETED_WORDS_ASSETS_COUNT](): number {
     return this.state.words.filter((asset: Asset) => asset.completed === true).length
   }
 
-  get [getters.COMPLETED_SENTENCES_ASSETS_COUNT]() {
+  get [getters.COMPLETED_SENTENCES_ASSETS_COUNT](): number {
     return this.state.sentences.filter((asset: Asset) => asset.completed === true).length
   }
 
@@ -55,5 +55,9 @@ export default class AssetGetters extends Getters<State> {
 
   get [getters.ACTIVE_ASSET_ID](): number {
     return this.state.activeAssetId;
+  }
+
+  get [getters.NEED_RESET_ASSET_TYPE](): boolean {
+    return this.state.resetAssetType;
   }
 }

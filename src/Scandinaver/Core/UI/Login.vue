@@ -41,14 +41,14 @@ import { Inject } from 'vue-typedi'
 @Component
 export default class Login extends Vue {
   @Inject()
-  private loginService: LoginService
+  private readonly loginService: LoginService
 
-  form: ILoginForm = {
+  public form: ILoginForm = {
     login: '',
     password: '',
   }
 
-  rules: {} = {
+  public rules: {} = {
     login: [
       { required: true, message: 'Введите логин или email', trigger: 'submit' },
     ],
@@ -57,10 +57,10 @@ export default class Login extends Vue {
     ],
   }
 
-  error: string = ''
-  loading: boolean = false
+  public error: string = ''
+  public loading: boolean = false
 
-  submit() {
+  public submit(): void {
     const v = this
     // @ts-ignore
     this.$refs.loginform.validate((valid) => {

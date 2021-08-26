@@ -36,11 +36,11 @@ class CommonGetters extends Getters<State> {
     return this.state.languages
   }
 
-  get currentLanguage() {
+  get currentLanguage(): Language {
     return this.state.currentLanguage
   }
 
-  get backdrop() {
+  get backdrop(): number {
     return this.state.backdrop
   }
 
@@ -143,7 +143,7 @@ class CommonActions extends Actions<
     this.puzzleStore = puzzleModule.context(store)
   }
 
-  toggleBackdrop() {
+  toggleBackdrop(): void {
     if (this.state.backdrop === 0 && this.state.rightMenuOpen) {
       this.commit('setBackdrop', 1)
     } else {
@@ -151,7 +151,7 @@ class CommonActions extends Actions<
     }
   }
 
-  toggleMenuOpen() {
+  toggleMenuOpen(): void {
     this.commit('setMenuOpen', false)
   }
 }

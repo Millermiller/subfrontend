@@ -16,9 +16,11 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "mocha", "chai", "webpack", "webpack-env"],
+    "types": ["webpack-env", "mocha", "chai", "webpack"],
     "paths": {
-      "@/*": ["src/*"]
+      "@Puzzle/*": ["src/Scandinaver/Puzzle/*"],
+      "@Asset/*": ["src/Scandinaver/Asset/*"],
+      "@/*": ["src/*"],
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

@@ -10,6 +10,15 @@ export default class Role extends Entity {
   private _description: string
   private _permissions: Permission[]
 
+  getId(): number | string {
+    return this._id
+  }
+
+  @Type(() => Permission)
+  set permissions(value: Permission[]) {
+    this._permissions = value
+  }
+
   set id(value: number) {
     this._id = value
   }
@@ -38,17 +47,8 @@ export default class Role extends Entity {
     this._name = value
   }
 
-  getId(): number | string {
-    return this._id
-  }
-
   get permissions(): Permission[] {
     return this._permissions
-  }
-
-  @Type(() => Permission)
-  set permissions(value: Permission[]) {
-    this._permissions = value
   }
 
   toDTO(): RoleForm {

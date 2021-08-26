@@ -5,16 +5,19 @@ import { Container } from 'typedi'
 
 const loginService = Container.get(LoginService)
 
+export const LOGIN_PAGE = 'LOGIN_PAGE'
+export const MAIN_PAGE = 'MAIN_PAGE'
+
 const routes = [
   {
     path: '/login',
-    name: 'login',
+    name: LOGIN_PAGE,
     component: Login,
     beforeEnter(to: any, from: any, next: any) {
       loginService
         .checkAuth()
         .then(
-          () => next({ name: 'MainPage', params: { language: 'is' } }),
+          () => next({ name: MAIN_PAGE, params: { language: 'is' } }),
           () => next(),
         )
         .catch(() => next())
@@ -22,7 +25,7 @@ const routes = [
   },
   {
     path: '/:language',
-    name: 'MainPage',
+    name: MAIN_PAGE,
     meta: {
       title: 'page401',
       noCache: true,

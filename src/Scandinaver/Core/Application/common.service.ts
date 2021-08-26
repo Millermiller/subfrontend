@@ -22,14 +22,14 @@ import CommonAPI = API.CommonAPI
 @Service()
 export class CommonService {
   @Inject()
-  private introService: IntroService
+  private readonly introService: IntroService
 
   @Inject()
-  private commonApi: CommonAPI
+  private readonly commonApi: CommonAPI
 
   public languageSubject: BehaviorSubject<Language> = new BehaviorSubject<Language>(null)
 
-  async reloadStore() {
+  async reloadStore(): Promise<void> {
     const stateResponse = await this.commonApi.getState()
     store.commit(SET_WORDS, plainToClass(Asset, stateResponse.data.words))
     store.commit(SET_SENTENCES, plainToClass(Asset, stateResponse.data.sentences))

@@ -10,7 +10,7 @@
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
             <TabItemComponent
-              v-for="(word, index) in words"
+              v-for="(word, index) in _words"
               :asset="word"
               :index="index"
               :key="word.id"
@@ -27,7 +27,7 @@
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
             <TabItemComponent
-              v-for="(sentence, index) in sentences"
+              v-for="(sentence, index) in _sentences"
               :asset="sentence"
               :index="index"
               :key="sentence.id"
@@ -44,7 +44,7 @@
         <section data-scrollbar="data-scrollbar">
           <ul class="nav nav-list">
             <TabItemComponent
-              v-for="(personal, index) in personals"
+              v-for="(personal, index) in _personals"
               :asset="personal"
               :index="index"
               :key="personal.id"

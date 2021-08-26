@@ -9,24 +9,24 @@ import {
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import IDictionaryForm from '@/Scandinaver/Core/Domain/Contract/IDictionaryForm'
 import { BaseService } from '@/Scandinaver/Core/Application/base.service'
-import { Word } from '@/Scandinaver/Asset/Domain/Word'
+import { Term } from '@/Scandinaver/Asset/Domain/Term'
 import Translate from '@/Scandinaver/Asset/Domain/Translate'
 
 @Service()
 export default class CardService extends BaseService<Card> {
   @Inject()
-  private cardRepository: CardRepository
+  private readonly cardRepository: CardRepository
+
+  @Inject()
+  private readonly favouriteRepository: FavouriteRepository
 
   create(input: any): Card {
     throw new Error('Method not implemented.')
   }
 
-  @Inject()
-  private favouriteRepository: FavouriteRepository
-
   public async createCard(form: IDictionaryForm): Promise<Card> {
     const card = new Card()
-    card.word = new Word(form.orig)
+    card.term = new Term(form.orig)
     card.translate = new Translate(form.translate)
     await this.cardRepository.save(card)
     return card
@@ -48,9 +48,5 @@ export default class CardService extends BaseService<Card> {
 
   public async translate(word: string, sentence: boolean): Promise<Card[]> {
     return this.cardRepository.translate(word, sentence)
-  }
-
-  async addWord(form: IDictionaryForm) {
-    return this.cardRepository.addWord(form)
   }
 }

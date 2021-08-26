@@ -8,15 +8,7 @@ export default class TextGetters extends Getters<State> {
     return this.state.texts
   }
 
-  get [getters.ACTIVE_TEXTS]() {
-    let count = 0
-
-    this.state.texts.forEach(
-      (element: Translate, index: number, array: Translate[]) => {
-        if (element.active) count++
-      },
-    )
-
-    return count
+  get [getters.ACTIVE_TEXTS](): number {
+    return this.state.texts.filter((item: Translate) => item.active).length
   }
 }

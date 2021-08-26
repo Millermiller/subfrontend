@@ -1,16 +1,18 @@
 import Component from 'vue-class-component'
-import BaseWidgetComponent from '../base-widget.component/base-widget.component'
 import { Getter } from '@/utils/getter.decorator'
 import { ACTIVE_TEXTS, TEXTS } from '@/Scandinaver/Translate/Infrastructure/store/getters.type'
 import { Translate } from '@/Scandinaver/Translate/Domain/Translate'
+import { BaseWidgetComponent } from '@/Scandinaver/Dashboard/components/base-widget.component/base-widget.component'
+import { TRANSLATES_LIST_PAGE } from '@/Scandinaver/Translate/routes'
 
 @Component
 export default class TextWidgetComponent extends BaseWidgetComponent {
   @Getter(TEXTS)
-  public readonly texts: Translate[]
+  public readonly _texts: Translate[]
 
   @Getter(ACTIVE_TEXTS)
-  public readonly active: Translate[]
+  public readonly _active: Translate[]
 
-  title = this.$root.$tc('translates')
+  protected title: string = this.$root.$tc('translates')
+  protected link: string = TRANSLATES_LIST_PAGE
 }

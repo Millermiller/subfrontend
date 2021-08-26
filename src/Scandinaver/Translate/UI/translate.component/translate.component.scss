@@ -1,0 +1,64 @@
+@import '../../../../assets/scss/variables';
+.extra {
+  position: relative;
+  cursor: pointer;
+  border-radius: 3px;
+  color: #fff;
+}
+.active-sentence {
+  border-bottom: 1px solid red;
+}
+#origtext {
+  overflow: visible;
+
+  .el-card__body {
+    overflow: visible;
+  }
+
+  .origtext {
+    word-spacing: 1px;
+  }
+}
+#transarea {
+  height: 100px;
+  padding: 15px;
+  font-family: 'Open Sans', sans-serif;
+}
+.text-success {
+  cursor: pointer;
+  margin: 0 2px 4px 0;
+  padding: 2px 4px;
+  border-radius: 3px;
+  display: inline-block;
+}
+span[tooltip] {
+  &:hover {
+    &:after {
+      z-index: 100;
+      content: attr(tooltip);
+      padding: 4px 8px;
+      color: #333;
+      position: absolute;
+      left: 20px;
+      top: -38px;
+      white-space: nowrap;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      border: 1px solid var(--tooltip-color);
+      background-color: #fff;
+    }
+    &:before {
+      content: "1";
+      position: absolute;
+      top: -5px;
+      left: 30px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--tooltip-color);
+      overflow: hidden;
+    }
+  }
+}

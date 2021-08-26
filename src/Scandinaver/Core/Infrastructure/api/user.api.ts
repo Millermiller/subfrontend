@@ -11,7 +11,7 @@ export interface ILoginData {
 export namespace API {
   @Service()
   export class UserAPI {
-    public static login(data: ILoginForm): Promise<AxiosResponse<ILoginData>> {
+    public static async login(data: ILoginForm): Promise<AxiosResponse<ILoginData>> {
       const request = axios.create({
         baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,
@@ -19,7 +19,7 @@ export namespace API {
       return request.post('/login', data)
     }
 
-    static logout(token: string): Promise<AxiosResponse> {
+    public static async logout(token: string): Promise<AxiosResponse> {
       const request = axios.create({
         baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,
@@ -32,7 +32,7 @@ export namespace API {
       return request.post('/logout')
     }
 
-    fetch(token: string): Promise<AxiosResponse> {
+    public async fetch(token: string): Promise<AxiosResponse> {
       const request = axios.create({
         baseURL: process.env.VUE_APP_BASE_API || 'https://api.scandinaver.org',
         timeout: 5000,

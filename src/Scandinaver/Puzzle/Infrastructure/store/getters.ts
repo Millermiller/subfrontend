@@ -4,11 +4,11 @@ import { Puzzle } from '@/Scandinaver/Puzzle/Domain/Puzzle'
 import * as getters from '@/Scandinaver/Puzzle/Infrastructure/store/getters.type'
 
 export default class PuzzleGetters extends Getters<State> {
-  get [getters.PUZZLES]() {
+  get [getters.PUZZLES](): Puzzle[] {
     return this.state.puzzles
   }
 
-  get [getters.ACTIVE]() {
+  get [getters.ACTIVE](): number {
     return this.state.puzzles.filter((puzzle: Puzzle) => puzzle.success).length
   }
 }

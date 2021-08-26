@@ -1,0 +1,39 @@
+<el-col class="hidden-sm-and-down" :span="8">
+  <el-card class="box-card result-card" v-loading.body='loading'>
+    <div class="clearfix" id="infoblock" slot="header">
+      <el-row :gutter="20">
+        <el-col class="diagram" :span="8">
+          <el-progress
+            type="circle"
+            :percentage="_percent"
+            :width="100"
+          ></el-progress>
+        </el-col>
+        <el-col class="asset-info" :span="16">
+          <template v-if="_title">
+            <p v-if="_level > 0">{{ $t('level', { level: _level }) }}</p>
+            <p>{{ $t('questionsCount', { quantity: _quantity }) }}</p>
+            <p>{{ $t('bestResult', { result: _result }) }}</p>
+            <p>{{ $t('time', { time: formattedTime }) }}</p>
+          </template>
+        </el-col>
+      </el-row>
+    </div>
+    <section
+      id="errorsblock"
+      data-scrollbar="data-scrollbar"
+      style="height: 55vh; overflow: hidden"
+    >
+      <transition-group name="splash" tag="div">
+        <ErrorItem
+          class="splash-item"
+          v-for="(error, index) in errors.all()"
+          :item="error"
+          :index="index"
+          :key="error.getId()"
+        >
+        </ErrorItem>
+      </transition-group>
+    </section>
+  </el-card>
+</el-col>

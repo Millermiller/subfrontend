@@ -23,10 +23,6 @@ export default class TestGetters extends Getters<State> {
     return this.state.result
   }
 
-  get [getters.ERRORS]() {
-    return this.state.errors
-  }
-
   get [getters.TIME](): number {
     return this.state.time
   }

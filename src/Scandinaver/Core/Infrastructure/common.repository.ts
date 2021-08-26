@@ -3,7 +3,7 @@ import { plainToClass } from 'class-transformer'
 import { BaseAPI } from '@/Scandinaver/Core/Infrastructure/base.api'
 
 export class CommonRepository<D extends Entity> {
-  protected api: BaseAPI<D>
+  protected readonly api: BaseAPI<D>
 
   constructor(api: BaseAPI<D>) {
     this.api = api

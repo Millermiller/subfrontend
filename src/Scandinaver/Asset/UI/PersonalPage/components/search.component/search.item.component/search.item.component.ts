@@ -12,13 +12,13 @@ import { User } from '@/Scandinaver/Core/Domain/User'
 })
 export default class SearchItemComponent extends Vue {
   @Prop({ required: true })
-  private card: Card
+  public card: Card
 
   @Prop({ required: true })
   private index!: number
 
   @Getter(USER)
-  private readonly user: User
+  private readonly _user: User
 
   add() {
     this.$eventHub.$emit(events.ADD_CART_TO_ASSET, this.card)

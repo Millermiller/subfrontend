@@ -8,15 +8,15 @@ import PuzzleAPI = API.PuzzleAPI
 @Service()
 export default class PuzzleRepository extends CommonRepository<Puzzle> {
   @Inject()
-  protected api: PuzzleAPI
+  protected readonly api: PuzzleAPI
 
-  async all(): Promise<Puzzle[]> {
+  public async all(): Promise<Puzzle[]> {
     return this.api
       .getPuzzles()
       .then(response => plainToClass(Puzzle, response.data))
   }
 
-  update(puzzle: Puzzle, data: any): Promise<Puzzle> {
+  public async update(puzzle: Puzzle, data: any): Promise<Puzzle> {
     return this.api
       .processPuzzle(puzzle)
       .then(response => plainToClass(Puzzle, response.data))

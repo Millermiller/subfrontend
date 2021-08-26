@@ -8,34 +8,34 @@ import { ClassType } from 'class-transformer/ClassTransformer'
 export namespace API {
   @Service()
   export class TextAPI extends BaseAPI<Translate> {
-    protected type: ClassType<Translate> = Translate
-    protected baseUrl = 'text'
+    protected readonly type: ClassType<Translate> = Translate
+    protected readonly baseUrl = 'text'
 
-    all(): Promise<AxiosResponse<Translate[]>> {
+    public async all(): Promise<AxiosResponse<Translate[]>> {
       throw new Error('method not implemented')
     }
 
-    create(data: any): Promise<AxiosResponse<Translate>> {
+    public async create(data: any): Promise<AxiosResponse<Translate>> {
       throw new Error('method not implemented')
     }
 
-    delete(id: number | string): Promise<any> {
+    public async delete(id: number | string): Promise<any> {
       throw new Error('method not implemented')
     }
 
-    one(id: number): Promise<AxiosResponse<Translate>> {
+    public async one(id: number): Promise<AxiosResponse<Translate>> {
       throw new Error('method not implemented')
     }
 
-    update(id: number | string, data: any): Promise<AxiosResponse<Translate>> {
+    public async update(id: number | string, data: any): Promise<AxiosResponse<Translate>> {
       throw new Error('method not implemented')
     }
 
-    getText(id: number): Promise<AxiosResponse> {
+    public async getText(id: number): Promise<AxiosResponse> {
       return request.get(`/${this.baseUrl}/${id}`)
     }
 
-    nextLevel(text: Translate): Promise<AxiosResponse<Translate>> {
+    public async nextLevel(text: Translate): Promise<AxiosResponse<Translate>> {
       return request.post('/nextTLevel', { id: text.id })
     }
   }

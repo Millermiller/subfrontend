@@ -1,0 +1,15 @@
+.puzzle-item {
+  border: 1px solid #cecece;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  &.success {
+    color: #13ce66;
+  }
+  &.active {
+    color: #ff4949;
+  }
+}

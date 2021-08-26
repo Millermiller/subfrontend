@@ -11,7 +11,6 @@ export class Asset extends Entity {
   private _title: string
   private _type: AssetType
   private _level: number
-  private _selected?: boolean
   private _count: number
   private _basic: boolean
   private _language: string
@@ -20,9 +19,19 @@ export class Asset extends Entity {
   private _available: boolean
   private _bestResult: number
 
+  @Type(() => Card)
+  @Transform(value => new Collection(value), { toClassOnly: true })
+  set cards(value: Collection<Card>) {
+    this._cards = value
+  }
+
   constructor() {
     super();
     this._cards = new Collection<Card>([])
+  }
+
+  getId(): number {
+    return this._id;
   }
 
   get id(): number {
@@ -33,10 +42,6 @@ export class Asset extends Entity {
     this._id = value
   }
 
-  getId(): number {
-    return this._id;
-  }
-
   get level(): number {
     return this._level
   }
@@ -44,6 +49,7 @@ export class Asset extends Entity {
   set level(value: number) {
     this._level = value
   }
+
   get type(): AssetType {
     return this._type
   }
@@ -51,6 +57,7 @@ export class Asset extends Entity {
   set type(value: AssetType) {
     this._type = value
   }
+
   get title(): string {
     return this._title
   }
@@ -61,12 +68,6 @@ export class Asset extends Entity {
 
   get cards(): Collection<Card> {
     return this._cards
-  }
-
-  @Type(() => Card)
-  @Transform(value => new Collection(value), { toClassOnly: true })
-  set cards(value: Collection<Card>) {
-    this._cards = value
   }
 
   get basic(): boolean {
@@ -96,16 +97,13 @@ export class Asset extends Entity {
   set completed(value: boolean) {
     this._completed = value
   }
+
   get active(): boolean {
     return this._active
   }
 
   set active(value: boolean) {
     this._active = value
-  }
-
-  get available(): boolean {
-    return this._available
   }
 
   get isAvailable(): boolean {

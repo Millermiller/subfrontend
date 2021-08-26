@@ -1,0 +1,47 @@
+export class ColorGenerator {
+  static palette: string[] = [
+    '#D32F2F',
+    '#F44336',
+    '#FF5252',
+    '#7B1FA2',
+    '#9C27B0',
+    '#E040FB',
+    '#E91E63',
+    '#FF4081',
+    '#FF4081',
+    '#512DA8',
+    '#673AB7',
+    '#7C4DFF',
+    '#303F9F',
+    '#3F51B5',
+    '#536DFE',
+    '#1976D2',
+    '#2196F3',
+    '#448AFF',
+    '#0097A7',
+    '#00BCD4',
+    '#00BCD4',
+    '#00796B',
+    '#009688',
+    '#009688',
+    '#388E3C',
+    '#4CAF50',
+    '#4CAF50',
+    '#689F38',
+    '#8BC34A',
+    '#8BC34A',
+    '#FFA000',
+    '#FFC107',
+    '#F57C00',
+    '#FF9800',
+    '#E64A19',
+    '#FF5722',
+    '#5D4037',
+    '#795548',
+    '#607D8B',
+  ]
+
+  public static generate(): string {
+    return ColorGenerator.palette[Math.floor(Math.random() * ColorGenerator.palette.length)];
+  }
+}

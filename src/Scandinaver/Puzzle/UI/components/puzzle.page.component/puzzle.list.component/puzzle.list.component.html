@@ -1,0 +1,13 @@
+<el-col class="right-panel" :span="8" :xs="{ span: 24, offset: 0 }">
+    <el-card class="box-card puzzle-wrapper" v-loading.body="loading">
+      <template>
+        <PuzzleItemComponent
+          v-for="(puzzle, index) in puzzles"
+          :key="index"
+          :index="index"
+          :puzzle="puzzle"
+        >
+        </PuzzleItemComponent>
+      </template>
+    </el-card>
+  </el-col>

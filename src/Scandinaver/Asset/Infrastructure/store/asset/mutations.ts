@@ -4,34 +4,34 @@ import * as mutations from '@/Scandinaver/Asset/Infrastructure/store/asset/mutat
 import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 
 export default class AssetMutations extends Mutations<State> {
-  [mutations.SET_PERSONAL](data: Asset[]) {
+  [mutations.SET_PERSONAL](data: Asset[]): void {
     this.state.personal = data
   }
 
-  [mutations.ADD_PERSONAL](asset: Asset) {
+  [mutations.ADD_PERSONAL](asset: Asset): void {
     this.state.personal.push(asset)
   }
 
-  [mutations.REMOVE_PERSONAL](asset: Asset) {
+  [mutations.REMOVE_PERSONAL](asset: Asset): void {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
     this.state.personal.splice(index, 1)
   }
 
-  [mutations.SET_WORDS](data: Asset[]) {
+  [mutations.SET_WORDS](data: Asset[]): void {
     this.state.words = data
   }
 
-  [mutations.SET_SENTENCES](data: Asset[]) {
+  [mutations.SET_SENTENCES](data: Asset[]): void {
     this.state.sentences = data
   }
 
-  [mutations.SET_FAVOURITES](data: Asset) {
+  [mutations.SET_FAVOURITES](data: Asset): void {
     this.state.personal.unshift(data)
   }
 
-  [mutations.PATCH_PERSONAL](asset: Asset) {
+  [mutations.PATCH_PERSONAL](asset: Asset): void {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
@@ -43,14 +43,14 @@ export default class AssetMutations extends Mutations<State> {
     updatedAsset.count = asset.count
   }
 
-  [mutations.INCREMENT_PERSONAL_COUNTER](asset: Asset) {
+  [mutations.INCREMENT_PERSONAL_COUNTER](asset: Asset): void {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.id,
     )
     this.state.personal[index].count++
   }
 
-  [mutations.DECREMENT_PERSONAL_COUNTER](asset: Asset) {
+  [mutations.DECREMENT_PERSONAL_COUNTER](asset: Asset): void {
     const index = this.state.personal.findIndex(
       (item: any) => item.id === asset.getId(),
     )
@@ -75,5 +75,9 @@ export default class AssetMutations extends Mutations<State> {
 
   [mutations.SET_ACTIVE_PERSONAL_ASSET_EDIT](data: boolean): void {
     this.state.activePersonalAssetEdit = data
+  }
+
+  [mutations.SET_RESET_ASSET_TYPE](data: boolean): void {
+    this.state.resetAssetType = data
   }
 }

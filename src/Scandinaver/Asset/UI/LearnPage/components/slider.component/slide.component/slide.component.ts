@@ -14,10 +14,10 @@ export default class SlideComponent extends Vue {
   private item!: Card
 
   @Inject()
-  private service: CardService
+  private readonly service: CardService
 
   @Inject()
-  private readerService: ReaderService
+  private readonly readerService: ReaderService
 
   public activeClass: string = 'el-icon-star-on'
   public defaultClass: string = 'el-icon-star-off'
@@ -30,15 +30,15 @@ export default class SlideComponent extends Vue {
   }
 
   @Watch('$route', { immediate: true, deep: true })
-  onUrlChange(newVal: any) {
+  onUrlChange(newVal: any): void {
     this.show = false
   }
 
-  showTranslate() {
+  public showTranslate(): void {
     this.show = !this.show
   }
 
-  async play(text: string) {
+  public async play(text: string): Promise<void> {
     if (this.waitReading === false) {
       this.waitReading = true
       await this.readerService.read(text)
@@ -46,7 +46,7 @@ export default class SlideComponent extends Vue {
     }
   }
 
-  async favourite() {
+  public async favourite(): Promise<void> {
     if (!this.loading) {
       this.loading = true
       if (!this.item.favourite) {

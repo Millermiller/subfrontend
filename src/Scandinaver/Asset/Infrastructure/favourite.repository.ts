@@ -8,7 +8,7 @@ import CardApi = API.CardApi
 @Service()
 export default class FavouriteRepository extends CommonRepository<Card> {
   @Inject()
-  protected api: CardApi
+  protected readonly api: CardApi
 
   async save(card: Card): Promise<Card> {
     return this.api

@@ -7,13 +7,14 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { SET_ASSET_AS_SELECTED } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import { SET_ACTIVE_PERSONAL_ASSET_EDIT } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import { LEARN_ASSET_PAGE, PERSONAL_PAGE, TEST_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({
   name: 'TabItemComponent',
 })
 export default class TabItemComponent extends Vue {
   @Prop({ required: true })
-  private asset: Asset
+  public asset: Asset
 
   @Prop({ required: true })
   private type: any
@@ -22,13 +23,13 @@ export default class TabItemComponent extends Vue {
   private index: number
 
   @Prop({ required: true })
-  private showLearnButton: boolean
+  public showLearnButton: boolean
 
   @Prop({ required: true })
-  private showTestButton: boolean
+  public showTestButton: boolean
 
   @Prop({ required: true })
-  private showEditButton: boolean
+  public showEditButton: boolean
 
   @Prop({ required: true })
   private loadAction: string
@@ -45,54 +46,56 @@ export default class TabItemComponent extends Vue {
     return this.asset.type === AssetType.PERSONAL || this.asset.type === AssetType.FAVORITES
   }
 
-  load(): void {
+  public load(): void {
     const actionName: string = this.loadAction;
     if (!this.selected) {
       (this as any)[actionName]()
     }
   }
 
-  test(): void {
+  public test(): void {
     if (window.innerWidth <= 910) {
       this.$eventHub.$emit(events.CLOSE_MENU)
     }
-    this.$router.push({
-      name: 'Test',
-      params: { language: this.currentLanguage, id: this.asset.getId().toString() },
-    }).then(() => {
-      this.$store.commit('setRightMenuOpen', false)
-    })
-  }
-
-  learn() {
     if (this.asset.active || this.isPersonal) {
       this.$router.push({
-        name: 'learnAsset',
+        name: TEST_PAGE,
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
       }).then(() => {
         this.$store.commit('setRightMenuOpen', false)
-      })
+      }).catch(() => {});
     }
   }
 
-  update() {
+  public learn() {
+    if (this.asset.active || this.isPersonal) {
+      this.$router.push({
+        name: LEARN_ASSET_PAGE,
+        params: { language: this.currentLanguage, id: this.asset.getId().toString() },
+      }).then(() => {
+        this.$store.commit('setRightMenuOpen', false)
+      }).catch(() => {});
+    }
+  }
+
+  public update() {
     if (this.asset.active || this.isPersonal) {
       this.$store.dispatch(SET_ASSET_AS_SELECTED, this.asset.getId())
       this.$store.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, true)
       this.$router.push({
-        name: 'PersonalPage',
+        name: PERSONAL_PAGE,
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
       }).then(() => {
         this.$store.commit('setRightMenuOpen', false)
-      })
+      }).catch(() => {});
     }
   }
 
-  showTestModal(): void {
+  public showTestModal(): void {
     this.$eventHub.$emit(events.OPEN_TEST_MODAL, this.asset)
   }
 
-  showPaidModal(): void {
+  public showPaidModal(): void {
     this.$eventHub.$emit(events.OPEN_PAID_MODAL)
   }
 }

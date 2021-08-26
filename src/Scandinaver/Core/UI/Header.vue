@@ -8,7 +8,7 @@
       <router-link
         class="el-menu-item home"
         tag="li"
-        :to="{ name: 'MainPage', params: { language: currentLanguage.letter } }"
+        :to="{ name: mainPage, params: { language: currentLanguage.letter } }"
         exact="exact"
       >
         <i class="el-icon-s-home"></i>
@@ -16,7 +16,7 @@
       <router-link
         class="el-menu-item learn"
         tag="li"
-        :to="{ name: 'defaultAsset', params: { language: currentLanguage.letter } }"
+        :to="{ name: defaultAssetPage, params: { language: currentLanguage.letter } }"
       >
         {{ $t('assets') }}
       </router-link>
@@ -24,7 +24,7 @@
         class="el-menu-item test"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TESTS)"
-        :to="{ name: 'defaultTest', params: { language: currentLanguage.letter } }"
+        :to="{ name: defaultTestPage, params: { language: currentLanguage.letter } }"
       >
         {{ $t('tests') }}
       </router-link>
@@ -33,7 +33,7 @@
         tag="li"
         exact="exact"
         v-if="$can(permissions.VIEW_PAGE_PERSONAL)"
-        :to="{ name: 'PersonalPage', params: { id: favouriteId, language: currentLanguage.letter } }"
+        :to="{ name: personalPage, params: { id: favouriteId, language: currentLanguage.letter } }"
       >
         {{ $t('personals') }}
       </router-link>
@@ -41,26 +41,26 @@
         class="el-menu-item translates"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TEXTS)"
-        :to="{ name: 'TextPage', params: { language: currentLanguage.letter } }"
+        :to="{ name: translatesListPage, params: { language: currentLanguage.letter } }"
         >{{ $t('texts') }}
       </router-link>
       <router-link
         class="el-menu-item puzzle"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_PUZZLE, 'any')"
-        :to="{ name: 'PuzzlePage', params: { language: currentLanguage.letter } }"
+        :to="{ name: puzzlePage, params: { language: currentLanguage.letter } }"
         >{{ $t('puzzles') }}
       </router-link>
       <el-menu-item class="logout" index="3">
-        <a @click="logout">{{ $t('logout') }}</a>
+        <a @click="logout()">{{ $t('logout') }}</a>
       </el-menu-item>
       <li class="el-menu-item pull-right userblock">
         <div class="avatar-wrapper-small pull-left">
           <div class="avatar">
-            <img class="avatar-small" :src="user.avatar" alt="" />
+            <img class="avatar-small" :src="_user.avatar" alt="" />
           </div>
         </div>
-        <span>{{ user.login }}</span>
+        <span>{{ _user.login }}</span>
       </li>
       <li class="el-menu-item pull-right">
         <el-select
@@ -105,6 +105,10 @@ import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 import { User } from '@/Scandinaver/Core/Domain/User'
 import { Language } from '@/Scandinaver/Core/Domain/Language'
 import { CommonService } from '@/Scandinaver/Core/Application/common.service'
+import { DEFAULT_ASSET_PAGE, DEFAULT_TEST_PAGE, PERSONAL_PAGE } from '@/Scandinaver/Asset/routes'
+import { MAIN_PAGE, LOGIN_PAGE } from '../routes'
+import { PUZZLE_PAGE } from '@/Scandinaver/Puzzle/routes'
+import { TRANSLATES_LIST_PAGE } from '@/Scandinaver/Translate/routes'
 
 @Component({
   name: 'Header',
@@ -112,21 +116,27 @@ import { CommonService } from '@/Scandinaver/Core/Application/common.service'
 })
 export default class Header extends Vue {
   @Inject()
-  private loginService: LoginService
+  private readonly loginService: LoginService
 
   @Inject()
-  private commonService: CommonService
+  private readonly commonService: CommonService
 
   @Getter(FAVOURITE_ASSET)
-  private readonly favouriteAsset: Asset
+  private readonly _favouriteAsset: Asset
 
   @Getter(USER)
-  private readonly user: User
+  private readonly _user: User
 
-  private offset: number = 0
-  private width: number = 60
+  public readonly mainPage: string = MAIN_PAGE
+  public readonly defaultAssetPage: string = DEFAULT_ASSET_PAGE
+  public readonly defaultTestPage: string = DEFAULT_TEST_PAGE
+  public readonly personalPage: string = PERSONAL_PAGE
+  public readonly puzzlePage: string = PUZZLE_PAGE
+  public readonly translatesListPage: string = TRANSLATES_LIST_PAGE
+  public offset: number = 0
+  public width: number = 60
   private observer?: MutationObserver
-  private permissions: {}
+  public permissions: {}
 
   public model: any = {
     letter: '',
@@ -144,18 +154,18 @@ export default class Header extends Vue {
     })
   }
 
-  get favouriteId() {
-    if (this.favouriteAsset !== undefined) {
-      return this.favouriteAsset.id
+  get favouriteId(): number|string {
+    if (this._favouriteAsset !== undefined) {
+      return this._favouriteAsset.id
     }
     return ''
   }
 
-  get showLeftMenuButton():boolean {
+  get showLeftMenuButton(): boolean {
     return store.getters.showLeftMenuButton
   }
 
-  get showRightMenuButton():boolean {
+  get showRightMenuButton(): boolean {
     return store.getters.showRightMenuButton
   }
 
@@ -167,32 +177,32 @@ export default class Header extends Vue {
     return this.$store.getters.languages
   }
 
-  logout(): void {
+  public logout(): void {
     store.commit('setFullscreenLoading', true)
     this.loginService.logout().then((response) => {
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: LOGIN_PAGE })
       store.commit('setFullscreenLoading', false)
     })
   }
 
-  async changeLanguage(language: Language) {
+  public async changeLanguage(language: Language): Promise<void> {
     if (language.letter !== store.getters.currentLanguage.letter) {
       store.commit('setFullscreenLoading', true)
       store.commit('setCurrentLanguage', language)
       store.commit('setLanguage', language.letter)
       this.commonService.languageSubject.next(language)
       await this.commonService.reloadStore()
-      await this.$router.push({ name: 'MainPage', params: { language: language.letter } })
+      await this.$router.push({ name: MAIN_PAGE, params: { language: language.letter } })
     }
   }
 
-  setUnderline(target: any) {
+  private setUnderline(target: any): void {
     const clickedElement = target
     this.offset = clickedElement.getBoundingClientRect().left - 20
     this.width = clickedElement.getBoundingClientRect().width
   }
 
-  onClassChange(classAttrValue: any, target: Node) {
+  private onClassChange(classAttrValue: any, target: Node): void {
     const classList = classAttrValue.split(' ')
 
     if (classList.includes('router-link-active')) {
@@ -200,7 +210,7 @@ export default class Header extends Vue {
     }
   }
 
-  mounted() {
+  mounted(): void {
     this.observer = new MutationObserver((mutations) => {
       mutations.forEach((m) => {
         // @ts-ignore

@@ -8,34 +8,34 @@ import { ClassType } from 'class-transformer/ClassTransformer'
 export namespace API {
   @Service()
   export class TestAPI extends BaseAPI<Test> {
-    protected type: ClassType<Test> = Test
-    protected baseUrl = 'result'
+    protected readonly type: ClassType<Test> = Test
+    protected readonly baseUrl = 'result'
 
-    saveResult(test: Test, percent: number): Promise<AxiosResponse> {
+    public async saveResult(test: Test, percent: number): Promise<AxiosResponse> {
       return request.post(`/result/${test.id}`, { result: percent })
     }
 
-    complete(id: number, payload: {}): Promise<AxiosResponse<Test>> {
+    public async complete(id: number, payload: {}): Promise<AxiosResponse<Test>> {
       return request.post(`/complete/${id}`, payload)
     }
 
-    all(): Promise<AxiosResponse<Test[]>> {
+    public async all(): Promise<AxiosResponse<Test[]>> {
       throw new Error('method not implemented')
     }
 
-    create(data: any): Promise<AxiosResponse<Test>> {
+    public async create(data: any): Promise<AxiosResponse<Test>> {
       throw new Error('method not implemented')
     }
 
-    delete(id: number | string): Promise<any> {
+    public async delete(id: number | string): Promise<any> {
       throw new Error('method not implemented')
     }
 
-    one(id: number): Promise<AxiosResponse<Test>> {
+    public async one(id: number): Promise<AxiosResponse<Test>> {
       throw new Error('method not implemented')
     }
 
-    update(id: number | string, data: any): Promise<AxiosResponse<Test>> {
+    public async update(id: number | string, data: any): Promise<AxiosResponse<Test>> {
       throw new Error('method not implemented')
     }
   }

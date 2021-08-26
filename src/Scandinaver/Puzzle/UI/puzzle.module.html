@@ -1,0 +1,6 @@
+<el-container>
+  <el-main>
+    <router-view v-if="access"></router-view>
+    <template v-if="!access">Forbidden</template>
+  </el-main>
+</el-container>

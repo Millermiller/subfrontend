@@ -9,12 +9,12 @@ import * as events from '@/events/events.type'
 })
 export default class CardComponent extends Vue {
   @Prop({ required: true })
-  private card!: Card
+  private card: Card
 
   @Prop({ required: true })
-  private index!: number
+  private index: number
 
-  removeCard() {
+  public removeCard(): void {
     this.$eventHub.$emit(events.DELETE_CART_FROM_ASSET, {
       card: this.card,
       index: this.index,
