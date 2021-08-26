@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { LoginService } from '@/Scandinaver/Core/Application/login.service'
 import assetRoutes from '@/Scandinaver/Asset/routes'
-import coreRoutes from '@/Scandinaver/Core/routes'
+import coreRoutes, { LOGIN_PAGE } from '@/Scandinaver/Core/routes'
 import translateRoutes from '@/Scandinaver/Translate/routes'
 import puzzleRoutes from '@/Scandinaver/Puzzle/routes'
 import { Container } from 'typedi'
@@ -14,9 +14,9 @@ export function requireAuth(to: any, _from: any, next: any): any {
   loginService.checkAuth()
     .then(
       () => next(),
-      () => next({ name: 'login' }),
+      () => next({ name: LOGIN_PAGE }),
     )
-    .catch(() => next({ name: 'login' }))
+    .catch(() => next({ name: LOGIN_PAGE }))
 }
 // {
 //  path: '/about',

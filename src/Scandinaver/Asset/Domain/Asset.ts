@@ -110,6 +110,10 @@ export class Asset extends Entity {
     return this._available === true
   }
 
+  set available(value: boolean) {
+    this._available = value
+  }
+
   get bestResult(): number {
     return this._bestResult
   }

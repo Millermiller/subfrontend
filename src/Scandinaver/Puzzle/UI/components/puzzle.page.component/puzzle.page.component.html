@@ -1,0 +1,86 @@
+<el-row v-if='access' :gutter='20' type='flex' justify='center'>
+    <el-col :lg='{ span: 12 }' :xs='{ span: 24, offset: 0 }'>
+      <el-card class='box-card' :style="{ position: 'relative' }">
+        <vue-progress-bar></vue-progress-bar>
+        <h3 class='text-center' v-if='puzzle.text'>
+          {{ puzzle.text }}
+          <i
+            @click='refresh(puzzle)'
+            v-if='puzzle'
+            :class="[
+                  'el-icon-refresh-right',
+                  'pointer',
+                  { rotating: isRotate },
+                ]"
+          ></i>
+        </h3>
+        <div class='drop-wrapper'>
+          <drop
+            class='drop list zone class'
+            v-for='(zone, index) in dropZones'
+            :key='index'
+            @drop='handleDrop(zone, ...arguments)'
+            @dragenter='handleDragEnter(zone, ...arguments)'
+            @dragleave='handleDragLeave(zone, ...arguments)'
+          >
+            <transition name='bounce'>
+              <drag
+                class='drag'
+                :key='index'
+                v-for='(item, index) in zone.content'
+                :transfer-data='{
+                      zone: zone,
+                      item: item,
+                      list: zone.content,
+                    }'
+              >{{ item.word }}
+              </drag>
+            </transition>
+          </drop>
+        </div>
+        <el-row :gutter='20' type='flex' justify='center'>
+          <el-col :span='14' v-if='puzzle'>
+            <p :style="{ margin: '20px 0' }" class='text-center'>
+              {{ $t('placeInCorrectOrder') }}
+              <i class='el-icon-d-caret'></i>
+            </p>
+          </el-col>
+          <el-col :span='14' v-else>
+            <p class='text-center' :style="{ margin: '20px 0' }">
+              {{ $t('selectSentence') }}
+            </p>
+            <i class='ion ion-arrow-right-c' style='font-size: 16px'></i>
+          </el-col>
+        </el-row>
+        <el-row :gutter='20' type='flex' justify='center'>
+          <el-col :span='20'>
+            <drop
+              v-if='puzzle.pieces'
+              :class="[
+                    'drop-wrapper',
+                    { 'gray-bordered': puzzle.pieces.count() > 0 },
+                  ]"
+              @drop='handleBackDrop(puzzle.pieces, ...arguments)'
+            >
+              <drag
+                class='drag elem'
+                v-for='item in puzzle.pieces.all()'
+                :key='item.word'
+                :transfer-data="{
+                      item: item,
+                      list: puzzle.pieces.all(),
+                      example: 'lists',
+                    }"
+              >{{ item.word }}
+              </drag>
+            </drop>
+          </el-col>
+        </el-row>
+      </el-card>
+    </el-col>
+    <PuzzleListComponent></PuzzleListComponent>
+  </el-row>
+
+
+
+

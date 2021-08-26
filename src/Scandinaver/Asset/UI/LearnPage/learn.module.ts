@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import RightMenuButtonComponent from '@/Scandinaver/Core/UI/RightMenuButton.vue'
 import TabsComponent from '../../../Core/UI/tabs.component/index.vue'
 import SliderComponent from './components/slider.component/index.vue'
 import { store } from '@/Scandinaver/Core/Infrastructure/store'
@@ -9,8 +8,7 @@ import { store } from '@/Scandinaver/Core/Infrastructure/store'
   name: 'LearnModule',
   components: {
     SliderComponent,
-    TabsComponent,
-    RightMenuButtonComponent,
+    TabsComponent
   },
 })
 export default class LearnModule extends Vue {

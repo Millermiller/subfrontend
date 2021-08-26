@@ -24,13 +24,13 @@
             </el-menu-item>
             <el-menu-item index="2">
               <i class="ion-university ion"></i>
-              <router-link :to="{ name: 'defaultAsset', params: { language: currentLanguage } }">
+              <router-link :to="{ name: defaultAssetPage, params: { language: currentLanguage } }">
                 {{ $t('assets') }}
               </router-link>
             </el-menu-item>
             <el-menu-item index="3">
               <i class="ion-android-checkbox-outline ion"></i>
-              <router-link :to="{ name: 'defaultTest', params: { language: currentLanguage } }">
+              <router-link :to="{ name: defaultTestPage, params: { language: currentLanguage } }">
                 {{ $t('tests') }}
               </router-link>
             </el-menu-item>
@@ -38,7 +38,7 @@
               <i class="ion-android-checkbox-outline ion"></i>
               <router-link
                 :to="{
-                      name: 'PersonalPage',
+                      name: personalPage,
                       params: { id: favouriteId, language: currentLanguage },
                     }">
                 {{ $t('personals') }}</router-link>
@@ -61,6 +61,7 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { Getter } from '@/utils/getter.decorator'
 import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 import { User } from '@/Scandinaver/Core/Domain/User'
+import { DEFAULT_ASSET_PAGE, DEFAULT_TEST_PAGE, PERSONAL_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({})
 export default class SideMenu extends Vue {
@@ -69,6 +70,10 @@ export default class SideMenu extends Vue {
 
   @Getter(USER)
   private readonly _user: User
+
+  public readonly defaultAssetPage: string = DEFAULT_ASSET_PAGE
+  public readonly defaultTestPage: string = DEFAULT_TEST_PAGE
+  public readonly personalPage: string = PERSONAL_PAGE
 
   get visible(): boolean {
     return this.$store.getters.isLeftMenuOpen

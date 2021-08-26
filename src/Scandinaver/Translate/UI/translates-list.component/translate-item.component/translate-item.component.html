@@ -1,0 +1,36 @@
+<el-col id="textblock" :lg="6" :sm="12" :xs="24">
+    <el-card
+      :class="[
+        'text',
+        {
+          open: translate.active,
+          'not-available': !translate.available,
+        },
+      ]"
+      :body-style="{ padding: '0px' }"
+    >
+      <div
+        class="image"
+        :style="{ 'background-image': 'url(' + translate.image + ')' }"
+      ></div>
+      <el-container>
+        <el-main>
+          <el-row>
+            <el-col :span="24">
+              <p class="text-title">{{ translate.title }}</p>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="end">
+            <el-button
+              :type="buttonType"
+              plain="plain"
+              @click="goToText()"
+              :disabled="!translate.available"
+            >
+              {{ buttonText }}
+            </el-button>
+          </el-row>
+        </el-main>
+      </el-container>
+    </el-card>
+  </el-col>

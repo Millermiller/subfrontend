@@ -11,6 +11,7 @@ import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
 import { Getter } from '@/utils/getter.decorator'
 import { ACTIVE_ASSET_ID } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
 import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
+import { LEARN_ASSET_PAGE, PERSONAL_PAGE, TEST_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({
   name: 'AssetComponent',
@@ -77,7 +78,7 @@ export default class AssetComponent extends Vue {
   public load(): void {
     if (this._isActive && !this.selected) {
       this.$router.push({
-        name: 'PersonalPage',
+        name: PERSONAL_PAGE,
         params: {
           language: this.currentLanguage,
           id: this.asset.id.toString(),
@@ -91,7 +92,7 @@ export default class AssetComponent extends Vue {
       this.$eventHub.$emit(events.CLOSE_MENU)
     }
     this.$router.push({
-      name: 'Test',
+      name: TEST_PAGE,
       params: { language: this.currentLanguage, id: this.asset.getId().toString() },
     })
   }
@@ -102,7 +103,7 @@ export default class AssetComponent extends Vue {
         this.$eventHub.$emit(events.CLOSE_MENU)
       }
       this.$router.push({
-        name: 'learnAsset',
+        name: LEARN_ASSET_PAGE,
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
       })
     }

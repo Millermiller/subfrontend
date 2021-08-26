@@ -1,0 +1,27 @@
+<el-container>
+  <el-main>
+    <el-row :gutter="20">
+      <ResultComponent :loading='loading'></ResultComponent>
+      <TestComponent :asset='asset' :loading='loading'></TestComponent>
+      <transition
+        name="custom-classes-transition"
+        enter-active-class="animated slideInRight"
+        leave-active-class="animated slideOutRight"
+      >
+        <TabsComponent v-if="true"
+                       :showLearnButton="true"
+                       :showTestButton="false"
+                       :loadAction="'test'"
+        ></TabsComponent>
+      </transition>
+    </el-row>
+  </el-main>
+  <el-dialog :title="$t('closed')" :visible.sync="dialogVisible">
+      <span>
+        <a>{{ $t('subscription') }}</a>
+      </span>
+    <span class="dialog-footer" slot="footer">
+        <el-button @click="dialogVisible = false">{{ $t('close') }}</el-button>
+      </span>
+  </el-dialog>
+</el-container>

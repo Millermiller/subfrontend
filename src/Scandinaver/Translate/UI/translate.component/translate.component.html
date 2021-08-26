@@ -1,0 +1,51 @@
+<el-row :gutter="20">
+  <el-col :span="12">
+    <el-card id="origtext" style="position: relative">
+      <vue-progress-bar></vue-progress-bar>
+      <p class="origtext" v-html="output"></p>
+    </el-card>
+    <el-collapse id="helpblock">
+      <el-collapse-item title="Помощь">
+        <template v-for="(tooltip, index) in textEntity.tooltips">
+          <el-col :span="12" :key="index">
+            <p
+              class="pointer"
+              @mouseover="showTooltip(tooltip)"
+              @mouseout="clearTooltip()"
+            >
+              <span> {{ tooltip.object }} - {{ tooltip.value }} </span>
+            </p>
+          </el-col>
+        </template>
+      </el-collapse-item>
+    </el-collapse>
+  </el-col>
+  <el-col id="textarea" :span="12">
+    <label for="transarea"></label>
+    <textarea
+      class="panel"
+      id="transarea"
+      style="height: 280px"
+      placeholder="Поле для перевода"
+      v-loading.body="loading"
+      v-model="inputStream"
+      @input="findPosition($event)"
+      @click="findPosition($event)"
+    ></textarea>
+    <el-row>
+      <el-col :span="24">
+        <el-button class="pull-right" :plain="true" @click="clear()">
+          {{ $t('clear') }}
+        </el-button>
+        <el-button
+          class="pull-right"
+          v-if="true"
+          type="success"
+          @click="goToNext()"
+        >
+          {{ $t('nextText') }}
+        </el-button>
+      </el-col>
+    </el-row>
+  </el-col>
+</el-row>

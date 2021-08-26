@@ -7,6 +7,7 @@ import { Asset } from '@/Scandinaver/Asset/Domain/Asset'
 import { SET_ASSET_AS_SELECTED } from '@/Scandinaver/Asset/Infrastructure/store/asset/actions.type'
 import { SET_ACTIVE_PERSONAL_ASSET_EDIT } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
+import { LEARN_ASSET_PAGE, PERSONAL_PAGE, TEST_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({
   name: 'TabItemComponent',
@@ -56,22 +57,24 @@ export default class TabItemComponent extends Vue {
     if (window.innerWidth <= 910) {
       this.$eventHub.$emit(events.CLOSE_MENU)
     }
-    this.$router.push({
-      name: 'Test',
-      params: { language: this.currentLanguage, id: this.asset.getId().toString() },
-    }).then(() => {
-      this.$store.commit('setRightMenuOpen', false)
-    })
+    if (this.asset.active || this.isPersonal) {
+      this.$router.push({
+        name: TEST_PAGE,
+        params: { language: this.currentLanguage, id: this.asset.getId().toString() },
+      }).then(() => {
+        this.$store.commit('setRightMenuOpen', false)
+      }).catch(() => {});
+    }
   }
 
   public learn() {
     if (this.asset.active || this.isPersonal) {
       this.$router.push({
-        name: 'learnAsset',
+        name: LEARN_ASSET_PAGE,
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
       }).then(() => {
         this.$store.commit('setRightMenuOpen', false)
-      })
+      }).catch(() => {});
     }
   }
 
@@ -80,11 +83,11 @@ export default class TabItemComponent extends Vue {
       this.$store.dispatch(SET_ASSET_AS_SELECTED, this.asset.getId())
       this.$store.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, true)
       this.$router.push({
-        name: 'PersonalPage',
+        name: PERSONAL_PAGE,
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
       }).then(() => {
         this.$store.commit('setRightMenuOpen', false)
-      })
+      }).catch(() => {});
     }
   }
 

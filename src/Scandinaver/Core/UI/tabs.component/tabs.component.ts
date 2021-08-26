@@ -13,6 +13,7 @@ import {
   GET_ASSETS_BY_LEVEL_AND_TYPE, PERSONAL_ASSETS, SENTENCE_ASSETS, WORD_ASSETS,
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
 import { Getter } from '@/utils/getter.decorator'
+import { TEST_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({
   name: 'TabsComponent',
@@ -94,7 +95,7 @@ export default class TabsComponent extends Vue {
 
   public async goToTest(): Promise<void> {
     this.$router.push({
-      name: 'Test',
+      name: TEST_PAGE,
       params: { language: store.getters.language, id: this.previousAsset.getId().toString() },
     })
   }

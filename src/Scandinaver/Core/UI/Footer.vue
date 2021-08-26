@@ -141,7 +141,7 @@ export default class Footer extends Vue {
   }
 
   public showHelp(): void {
-    this.page = this.$route.matched[0].name
+    this.page = this.$route.matched[this.$route.matched.length - 1].name
     this.steps = this.introService.getForPage(this.page)
     if (this.steps.length > 0) {
       setTimeout(() => this.$tours.myTour.start(), 100)

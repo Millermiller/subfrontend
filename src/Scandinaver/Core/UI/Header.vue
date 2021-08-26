@@ -8,7 +8,7 @@
       <router-link
         class="el-menu-item home"
         tag="li"
-        :to="{ name: 'MainPage', params: { language: currentLanguage.letter } }"
+        :to="{ name: mainPage, params: { language: currentLanguage.letter } }"
         exact="exact"
       >
         <i class="el-icon-s-home"></i>
@@ -16,7 +16,7 @@
       <router-link
         class="el-menu-item learn"
         tag="li"
-        :to="{ name: 'defaultAsset', params: { language: currentLanguage.letter } }"
+        :to="{ name: defaultAssetPage, params: { language: currentLanguage.letter } }"
       >
         {{ $t('assets') }}
       </router-link>
@@ -24,7 +24,7 @@
         class="el-menu-item test"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TESTS)"
-        :to="{ name: 'defaultTest', params: { language: currentLanguage.letter } }"
+        :to="{ name: defaultTestPage, params: { language: currentLanguage.letter } }"
       >
         {{ $t('tests') }}
       </router-link>
@@ -33,7 +33,7 @@
         tag="li"
         exact="exact"
         v-if="$can(permissions.VIEW_PAGE_PERSONAL)"
-        :to="{ name: 'PersonalPage', params: { id: favouriteId, language: currentLanguage.letter } }"
+        :to="{ name: personalPage, params: { id: favouriteId, language: currentLanguage.letter } }"
       >
         {{ $t('personals') }}
       </router-link>
@@ -41,14 +41,14 @@
         class="el-menu-item translates"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_TEXTS)"
-        :to="{ name: 'TextPage', params: { language: currentLanguage.letter } }"
+        :to="{ name: translatesListPage, params: { language: currentLanguage.letter } }"
         >{{ $t('texts') }}
       </router-link>
       <router-link
         class="el-menu-item puzzle"
         tag="li"
         v-if="$can(permissions.VIEW_PAGE_PUZZLE, 'any')"
-        :to="{ name: 'PuzzlePage', params: { language: currentLanguage.letter } }"
+        :to="{ name: puzzlePage, params: { language: currentLanguage.letter } }"
         >{{ $t('puzzles') }}
       </router-link>
       <el-menu-item class="logout" index="3">
@@ -105,6 +105,10 @@ import { USER } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
 import { User } from '@/Scandinaver/Core/Domain/User'
 import { Language } from '@/Scandinaver/Core/Domain/Language'
 import { CommonService } from '@/Scandinaver/Core/Application/common.service'
+import { DEFAULT_ASSET_PAGE, DEFAULT_TEST_PAGE, PERSONAL_PAGE } from '@/Scandinaver/Asset/routes'
+import { MAIN_PAGE, LOGIN_PAGE } from '../routes'
+import { PUZZLE_PAGE } from '@/Scandinaver/Puzzle/routes'
+import { TRANSLATES_LIST_PAGE } from '@/Scandinaver/Translate/routes'
 
 @Component({
   name: 'Header',
@@ -123,6 +127,12 @@ export default class Header extends Vue {
   @Getter(USER)
   private readonly _user: User
 
+  public readonly mainPage: string = MAIN_PAGE
+  public readonly defaultAssetPage: string = DEFAULT_ASSET_PAGE
+  public readonly defaultTestPage: string = DEFAULT_TEST_PAGE
+  public readonly personalPage: string = PERSONAL_PAGE
+  public readonly puzzlePage: string = PUZZLE_PAGE
+  public readonly translatesListPage: string = TRANSLATES_LIST_PAGE
   public offset: number = 0
   public width: number = 60
   private observer?: MutationObserver
@@ -170,7 +180,7 @@ export default class Header extends Vue {
   public logout(): void {
     store.commit('setFullscreenLoading', true)
     this.loginService.logout().then((response) => {
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: LOGIN_PAGE })
       store.commit('setFullscreenLoading', false)
     })
   }
@@ -182,7 +192,7 @@ export default class Header extends Vue {
       store.commit('setLanguage', language.letter)
       this.commonService.languageSubject.next(language)
       await this.commonService.reloadStore()
-      await this.$router.push({ name: 'MainPage', params: { language: language.letter } })
+      await this.$router.push({ name: MAIN_PAGE, params: { language: language.letter } })
     }
   }
 

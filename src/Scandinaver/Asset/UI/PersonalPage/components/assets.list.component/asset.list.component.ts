@@ -15,6 +15,7 @@ import {
 } from '@/Scandinaver/Asset/Infrastructure/store/asset/getters.type'
 import { Getter } from '@/utils/getter.decorator'
 import { IS_ACTIVE } from '@/Scandinaver/Core/Infrastructure/store/user/getters.type'
+import { PERSONAL_PAGE } from '@/Scandinaver/Asset/routes'
 
 @Component({
   name: 'AssetsComponent',
@@ -98,7 +99,7 @@ export default class AssetsComponent extends Vue {
       duration: 4000,
     })
     await this.$router.push({
-      name: 'PersonalPage',
+      name: PERSONAL_PAGE,
       params: {
         language: store.getters.language,
         id: this._favouriteAsset.id.toString(),
