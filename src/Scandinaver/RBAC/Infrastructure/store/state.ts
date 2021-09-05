@@ -4,6 +4,6 @@ import Role from '@/Scandinaver/RBAC/Domain/Role'
 
 export default class RBACState {
   public roles: Role[] = []
-  public permissions: Permission[] = []
+  public permissions: string[] = []
   public ability: Ability = new Ability()
 }

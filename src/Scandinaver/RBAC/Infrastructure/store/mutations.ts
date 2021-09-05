@@ -8,7 +8,7 @@ export default class RBACMutations extends Mutations<RBACState> {
     this.state.roles = data
   }
 
-  public setPermissions(data: Permission[]): void {
+  public setPermissions(data: string[]): void {
     this.state.permissions = data
   }
 
