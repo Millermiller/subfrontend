@@ -11,10 +11,10 @@ export default class RBACActions extends Actions<
   RBACActions
 > {
   public initialiseRBAC(data: User): void {
-    this.commit('setPermissions', data.permissions)
+    this.commit('setPermissions', data.permissionsSimple)
 
-    const payload = data.permissions.map(item => ({
-      action: item.slug,
+    const payload = data.permissionsSimple.map(item => ({
+      action: item,
       subject: 'all',
     }))
 

@@ -9,7 +9,7 @@ export default class RBACGetters extends Getters<RBACState> {
     return this.state.roles
   }
 
-  get permissions(): Permission[] {
+  get permissions(): string[] {
     return this.state.permissions
   }
 
