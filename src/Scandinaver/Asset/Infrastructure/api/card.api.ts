@@ -36,6 +36,7 @@ export namespace API {
       return request.post(`/${this.baseUrl}/create`, {
         word: card.term.getValue(),
         translate: card.translate.getValue(),
+        language: store.getters.language
       })
     }
 

@@ -1,6 +1,7 @@
 import { Service } from 'typedi'
 import { AxiosResponse } from 'axios'
 import requestBuffer from '@/utils/requestBuffer'
+import { store } from '@/Scandinaver/Core/Infrastructure/store'
 
 export namespace API {
   @Service()
@@ -10,7 +11,12 @@ export namespace API {
         config.responseType = 'arraybuffer'
         return config
       })
-      return requestBuffer.get(`/read?text=${text}`)
+      return requestBuffer.get('/read', {
+        params: {
+          text,
+          language: store.getters.language
+        },
+      })
     }
   }
 }
