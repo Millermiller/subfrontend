@@ -13,7 +13,7 @@ export class CommonRepository<D extends Entity> {
     return this.api.all().then(response => plainToClass(this.api.class, response.data))
   }
 
-  public async one(id: number): Promise<D> {
+  public async one(id: number|string): Promise<D> {
     return this.api.one(id).then(response => plainToClass(this.api.class, response.data))
   }
 

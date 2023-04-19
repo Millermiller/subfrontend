@@ -25,7 +25,7 @@ export class Test extends Entity {
     this._questions.shuffle()
   }
 
-  public getId(): number {
+  public getId(): string {
     return this._asset.getId()
   }
 

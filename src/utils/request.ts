@@ -2,12 +2,13 @@ import axios from 'axios'
 import Vue from 'vue'
 import { Notification } from 'element-ui';
 import i18n from '@/utils/i18n'
+import { deserialize } from 'json-api-deserialize'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development'
     ? process.env.VUE_APP_BASE_API
     : 'https://api.scandinaver.org',
-  timeout: 5000,
+  timeout: 15000,
   // withCredentials: true // send cookies when cross-domain requests
 })
 
@@ -23,7 +24,10 @@ request.interceptors.request.use(
   },
 )
 
-request.interceptors.response.use(undefined, (error) => {
+request.interceptors.response.use(response => ({
+  ...response,
+  ...deserialize(response.data),
+}), (error) => {
   if (error.response) {
     Notification.error({
       title: i18n.tc('error'),

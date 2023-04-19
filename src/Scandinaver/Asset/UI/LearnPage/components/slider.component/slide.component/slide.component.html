@@ -5,7 +5,7 @@
       <template v-if="show && item.translate">
         <p class="slide-value">{{ item.term.getValue() }}</p>
         <div class="example-area">
-          <template v-for="(example, index) in item.examples.all()">
+          <template v-for="(example, index) in item.example.all()">
             <p>
             <span class="example-text" v-html="example.text"></span>
               <i

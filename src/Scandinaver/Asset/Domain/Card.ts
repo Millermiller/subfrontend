@@ -16,7 +16,7 @@ export class Card extends Entity {
   private _term: Term
   private _translate: Translate
   private _user: User
-  private _examples: Collection<Example>
+  private _example: Collection<Example>
 
   @Type(() => Translate)
   set translate(value: Translate) {
@@ -35,8 +35,8 @@ export class Card extends Entity {
 
   @Type(() => Example)
   @Transform(value => new Collection(value), { toClassOnly: true })
-  set examples(value: Collection<Example>) {
-    this._examples = value
+  set example(value: Collection<Example>) {
+    this._example = value
   }
 
   getId(): number {
@@ -95,8 +95,8 @@ export class Card extends Entity {
     return this._user
   }
 
-  get examples(): Collection<Example> {
-    return this._examples
+  get example(): Collection<Example> {
+    return this._example
   }
 
   get subject(): string {

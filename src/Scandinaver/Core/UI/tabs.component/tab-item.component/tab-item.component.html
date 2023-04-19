@@ -27,12 +27,12 @@
       <span class="text-muted small">
         <i class="el-icon-odometer tab-icon"></i>
       </span>
-      <span v-if="asset.bestResult !== null"
+      <span
         :class="['small', {
-            'text-success': asset.bestResult >= 80,
-            'text-warning': (asset.bestResult >= 50 && asset.bestResult < 80),
-            'text-danger': asset.bestResult < 50}]"
-        >{{ asset.bestResult }}%
+            'text-success': asset.result >= 80,
+            'text-warning': (asset.result >= 50 && asset.result < 80),
+            'text-danger': asset.result < 50}]"
+        >{{ asset.result || 0 }}%
       </span>
       <span class="text-muted small" style="padding-left: 15px">
         <i class="el-icon-document-copy tab-icon"></i>

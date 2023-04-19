@@ -1,6 +1,7 @@
 <el-row :gutter="20">
   <el-col :span="12">
     <el-card id="origtext" style="position: relative">
+      <el-skeleton animated :loading="loading" />
       <vue-progress-bar></vue-progress-bar>
       <p class="origtext" v-html="output"></p>
     </el-card>

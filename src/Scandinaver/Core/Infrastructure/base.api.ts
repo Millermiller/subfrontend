@@ -13,7 +13,7 @@ export abstract class BaseAPI<D extends Entity> {
 
   public async abstract all(): Promise<AxiosResponse<D[]>>
 
-  public async one(id: number): Promise<AxiosResponse<D>> {
+  public async one(id: number|string): Promise<AxiosResponse<D>> {
     return request.get(`/${this.baseUrl}/${id}`)
   }
 

@@ -85,7 +85,7 @@ export default class TabsComponent extends Vue {
 
   private testModal(asset: Asset): void {
     this.showTestLink = true
-    this.previousAsset = this._getAssetByLevelAndType(asset.level, asset.type)
+    this.previousAsset = this._getAssetByLevelAndType(asset.level, asset.category)
     this.dialogTitle = this.$tc('assetClosed')
     this.dialogContent = this.$t('testNotify', {
       title: this.previousAsset.title

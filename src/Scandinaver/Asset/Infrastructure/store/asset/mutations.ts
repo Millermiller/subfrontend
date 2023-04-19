@@ -37,7 +37,7 @@ export default class AssetMutations extends Mutations<State> {
     )
     const updatedAsset = this.state.personal[index]
     updatedAsset.title = asset.title
-    updatedAsset.type = asset.type
+    updatedAsset.category = asset.category
     updatedAsset.level = asset.level
     updatedAsset.basic = asset.basic
     updatedAsset.count = asset.count

@@ -78,7 +78,7 @@ export default class TestComponent extends Vue {
 
     this.$store.commit(SET_TIME, 0)
     await this.$store.dispatch(RESET_TEST, this.test)
-    await this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.type)
+    await this.$store.dispatch(RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.category)
 
     this.question = this.test.questions.current()
     this.isTestLoaded = true

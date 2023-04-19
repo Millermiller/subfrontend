@@ -8,6 +8,10 @@ import { SET_ASSET_AS_SELECTED } from '@/Scandinaver/Asset/Infrastructure/store/
 import { SET_ACTIVE_PERSONAL_ASSET_EDIT } from '@/Scandinaver/Asset/Infrastructure/store/asset/mutations.type'
 import { AssetType } from '@/Scandinaver/Asset/Domain/Enum/AssetType'
 import { LEARN_ASSET_PAGE, PERSONAL_PAGE, TEST_PAGE } from '@/Scandinaver/Asset/routes'
+import { Getter } from '@/utils/getter.decorator'
+import {
+  ACTIVE_ASSET_ID,
+} from '@Asset/Infrastructure/store/asset/getters.type'
 
 @Component({
   name: 'TabItemComponent',
@@ -34,16 +38,19 @@ export default class TabItemComponent extends Vue {
   @Prop({ required: true })
   private loadAction: string
 
+  @Getter(ACTIVE_ASSET_ID)
+  public readonly _active_asset_id: string
+
   get currentLanguage(): string {
     return store.getters.language
   }
 
   get selected(): boolean {
-    return this.asset.getId() === this.$store.getters.activeAssetId
+    return this.asset.getId() === this._active_asset_id
   }
 
   get isPersonal(): boolean {
-    return this.asset.type === AssetType.PERSONAL || this.asset.type === AssetType.FAVORITES
+    return this.asset.category === AssetType.PERSONAL || this.asset.category === AssetType.FAVORITES
   }
 
   public load(): void {
@@ -71,23 +78,24 @@ export default class TabItemComponent extends Vue {
     if (this.asset.active || this.isPersonal) {
       this.$router.push({
         name: LEARN_ASSET_PAGE,
-        params: { language: this.currentLanguage, id: this.asset.getId().toString() },
+        params: { language: this.currentLanguage, id: this.asset.getId() },
       }).then(() => {
         this.$store.commit('setRightMenuOpen', false)
       }).catch(() => {});
     }
   }
 
-  public update() {
+  public async update() {
     if (this.asset.active || this.isPersonal) {
-      this.$store.dispatch(SET_ASSET_AS_SELECTED, this.asset.getId())
+      await this.$store.dispatch(SET_ASSET_AS_SELECTED, this.asset.getId())
       this.$store.commit(SET_ACTIVE_PERSONAL_ASSET_EDIT, true)
       this.$router.push({
         name: PERSONAL_PAGE,
         params: { language: this.currentLanguage, id: this.asset.getId().toString() },
       }).then(() => {
         this.$store.commit('setRightMenuOpen', false)
-      }).catch(() => {});
+      }).catch(() => {
+      });
     }
   }
 

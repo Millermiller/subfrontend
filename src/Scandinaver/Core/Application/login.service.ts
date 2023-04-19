@@ -90,7 +90,7 @@ export class LoginService {
   private async fetchUser(token: string): Promise<void> {
     store.commit('setFullscreenLoading', true)
 
-    const response = await this.userApi.fetch(token)
+    const response = await this.userApi.fetch()
 
     store.commit(SET_USER, response.data)
     store.commit(SET_AUTH, true)

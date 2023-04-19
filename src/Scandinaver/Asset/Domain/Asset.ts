@@ -9,7 +9,7 @@ export class Asset extends Entity {
   private _id: number | null
   private _cards: Collection<Card>
   private _title: string
-  private _type: AssetType
+  private _category: AssetType
   private _level: number
   private _count: number
   private _basic: boolean
@@ -17,7 +17,7 @@ export class Asset extends Entity {
   private _active: boolean
   private _completed: boolean
   private _available: boolean
-  private _bestResult: number
+  private _result: number|null
 
   @Type(() => Card)
   @Transform(value => new Collection(value), { toClassOnly: true })
@@ -30,8 +30,8 @@ export class Asset extends Entity {
     this._cards = new Collection<Card>([])
   }
 
-  getId(): number {
-    return this._id;
+  getId(): string {
+    return this._id.toString()
   }
 
   get id(): number {
@@ -50,12 +50,12 @@ export class Asset extends Entity {
     this._level = value
   }
 
-  get type(): AssetType {
-    return this._type
+  get category(): AssetType {
+    return this._category
   }
 
-  set type(value: AssetType) {
-    this._type = value
+  set category(value: AssetType) {
+    this._category = value
   }
 
   get title(): string {
@@ -114,12 +114,12 @@ export class Asset extends Entity {
     this._available = value
   }
 
-  get bestResult(): number {
-    return this._bestResult
+  get result(): number {
+    return this._result
   }
 
-  set bestResult(value: number) {
-    this._bestResult = value
+  set result(value: number) {
+    this._result = value
   }
 
   toDTO(): AssetDTO {
@@ -129,7 +129,7 @@ export class Asset extends Entity {
       title: this._title,
       level: this._level,
       basic: this._basic,
-      type: this._type,
+      type: this._category
     }
   }
 }
