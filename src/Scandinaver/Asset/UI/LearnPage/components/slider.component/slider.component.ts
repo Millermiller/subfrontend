@@ -28,7 +28,7 @@ export default class SliderComponent extends Vue {
   @Watch('$route')
   private async onRouteChange(route: any) {
     if (route.params.id) {
-      await this.loadAsset(parseInt(route.params.id, 10))
+      await this.loadAsset(route.params.id)
     }
   }
 
@@ -50,7 +50,7 @@ export default class SliderComponent extends Vue {
     slidesPerView: 1.5,
   }
 
-  private async loadAsset(id: number): Promise<void> {
+  private async loadAsset(id: string): Promise<void> {
     this.loading = true
     const asset = await this.assetService.getAsset(id)
     this.cards = asset.cards.all()
@@ -66,7 +66,7 @@ export default class SliderComponent extends Vue {
 
   async created(): Promise<void> {
     if (parseInt(this.$route.params.id, 10) > 0) {
-      await this.loadAsset(parseInt(this.$route.params.id, 10))
+      await this.loadAsset(this.$route.params.id)
     } else {
       if (this._needReset === true) {
         await this.$store.dispatch(RESET_ACTIVE_ASSET)

@@ -22,7 +22,7 @@
       "@Asset/*": ["src/Scandinaver/Asset/*"],
       "@/*": ["src/*"],
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2016.array.include"]
   },
   "include": [
     "src/**/*.ts",

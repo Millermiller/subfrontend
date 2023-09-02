@@ -9,6 +9,7 @@ export interface IUser {
   active: boolean
   plan: IPlan
   permissionsSimple: string[]
+  permissionList: string[]
 }
 
 export class User implements IUser {
@@ -21,6 +22,7 @@ export class User implements IUser {
   plan!: IPlan
   cardsCreated: number
   permissionsSimple: string[]
+  permissionList: string[]
 
   constructor(id: number, email: string, login: string, avatar: string) {
     this.id = id

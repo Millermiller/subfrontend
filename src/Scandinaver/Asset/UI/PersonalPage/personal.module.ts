@@ -33,7 +33,7 @@ export default class PersonalComponent extends Vue {
   @Watch('$route')
   private async onRouteChange(route: any): Promise<void> {
     if (parseInt(this.$route.params.id, 10) > 0) {
-      await this.load(parseInt(this.$route.params.id, 10))
+      await this.load(this.$route.params.id)
     }
   }
 
@@ -45,13 +45,13 @@ export default class PersonalComponent extends Vue {
     this.$eventHub.$on(events.DELETE_CART_FROM_ASSET, this.removeCard)
 
     if (parseInt(this.$route.params.id, 10) > 0) {
-      await this.load(parseInt(this.$route.params.id, 10))
+      await this.load(this.$route.params.id)
     } else {
       await this.$store.dispatch(RESET_ACTIVE_ASSET)
     }
   }
 
-  private async load(id: number): Promise<void> {
+  private async load(id: string): Promise<void> {
     this.loading = true
     this.asset = await this.assetService.getAsset(id)
     this.loading = false

@@ -43,7 +43,7 @@
       <transition-group name='cards' tag='div'>
         <SearchItemComponent
           v-for='(card, index) in cards'
-          :key='index'
+          :key='card.id'
           :card='card'
           :index='index'
         ></SearchItemComponent>

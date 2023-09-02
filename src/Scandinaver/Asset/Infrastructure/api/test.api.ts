@@ -15,7 +15,7 @@ export namespace API {
       return request.post(`/result/${test.id}`, { result: percent })
     }
 
-    public async complete(id: number, payload: {}): Promise<AxiosResponse<Test>> {
+    public async complete(id: string, payload: {}): Promise<AxiosResponse<Test>> {
       return request.post(`/complete/${id}`, payload)
     }
 

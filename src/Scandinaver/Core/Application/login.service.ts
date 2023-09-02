@@ -12,6 +12,8 @@ import {
 } from '@/Scandinaver/Core/Infrastructure/store/user/mutations.type'
 import { CommonService } from '@/Scandinaver/Core/Application/common.service'
 import UserAPI = API.UserAPI
+import TokenService from '@/App/Core/Application/token.service';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 @Service()
 export class LoginService {
@@ -29,18 +31,12 @@ export class LoginService {
       UserAPI.login(payload).then(
         (response) => {
           if (response.status === 200) {
-            const token = `Bearer ${response.data.access_token}`
-            const cookieName = (process.env.VUE_APP_COOKIE_NAME as string)
-              || 'authfrontend._token'
-            Vue.$cookies.set(
-              cookieName,
-              token,
-              8600,
-              '/',
-              process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org',
-            )
-            window.localStorage.setItem(cookieName, token)
-            this.fetchUser(token).then(() => resolve())
+            const decoded = jwtDecode<JwtPayload>(response.data.token)
+            const { token } = response.data
+            const { refreshToken } = response.data
+            TokenService.setToken(token)
+            TokenService.setRefreshToken(refreshToken)
+            this.fetchUser(`Bearer ${token}`).then(() => resolve())
           } else {
             reject(response.data.message)
           }
@@ -54,15 +50,14 @@ export class LoginService {
 
   public checkAuth(): Promise<any> {
     return new Promise((resolve, reject) => {
-      const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token'
-      const token = Vue.$cookies.get(cookieName)
+      const token = TokenService.getToken()
       const { auth } = store.getters
       if (auth !== false) {
         resolve()
       }
       if (auth === false) {
         if (token !== null) {
-          this.fetchUser(token).then(
+          this.fetchUser(`Bearer ${token}`).then(
             () => resolve(),
             () => reject(),
           )
@@ -73,18 +68,11 @@ export class LoginService {
     })
   }
 
-  public logout(): Promise<any> {
-    const cookieName = (process.env.VUE_APP_COOKIE_NAME as string) || 'authfrontend._token'
-    const token = Vue.$cookies.get(cookieName)
-    return UserAPI.logout(token).then((response) => {
-      store.commit(SET_AUTH, false)
-      store.commit(RESET_USER)
-      Vue.$cookies.remove(
-        cookieName,
-        '/',
-        process.env.VUE_APP_COOKIE_DOMAIN || '.scandinaver.org',
-      )
-    })
+  public logout(): void {
+    TokenService.deleteToken()
+    TokenService.deleteRefreshToken()
+    store.commit('setAuth', false)
+    store.commit('resetUser')
   }
 
   private async fetchUser(token: string): Promise<void> {

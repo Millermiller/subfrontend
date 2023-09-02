@@ -179,10 +179,9 @@ export default class Header extends Vue {
 
   public logout(): void {
     store.commit('setFullscreenLoading', true)
-    this.loginService.logout().then((response) => {
-      this.$router.push({ name: LOGIN_PAGE })
-      store.commit('setFullscreenLoading', false)
-    })
+    this.loginService.logout()
+    this.$router.push({ name: LOGIN_PAGE })
+    store.commit('setFullscreenLoading', false)
   }
 
   public async changeLanguage(language: Language): Promise<void> {

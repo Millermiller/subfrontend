@@ -21,7 +21,7 @@ export default class AssetService extends BaseService<Asset> {
     return this.repository.create(data)
   }
 
-  public async getAsset(assetId: number): Promise<Asset> {
+  public async getAsset(assetId: string): Promise<Asset> {
     const asset = await this.repository.one(assetId)
     store.commit(mutations.SET_ACTIVE_ASSET_ID, asset.getId())
     await store.dispatch(types.RESOLVE_AND_SET_ACTIVE_ASSET_TYPE, asset.type)

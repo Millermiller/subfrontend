@@ -29,18 +29,18 @@ export default class TestPageComponent extends Vue {
   @Watch('$route')
   private async onRouteChange(route: Route): Promise<void> {
     if (route.params.id) {
-      await this.load(parseInt(route.params.id, 10))
+      await this.load(route.params.id)
     }
   }
 
   async created() {
     this.$eventHub.$on(RELOAD_TEST, this.reload)
     if (parseInt(this.$route.params.id, 10) > 0) {
-      await this.load(parseInt(this.$route.params.id, 10))
+      await this.load(this.$route.params.id)
     }
   }
 
-  private async load(id: number): Promise<void> {
+  private async load(id: string): Promise<void> {
     this.loading = true
     const asset = await this.assetService.getAsset(id)
     this.asset.next(asset)
@@ -48,7 +48,7 @@ export default class TestPageComponent extends Vue {
   }
 
   public async reload(): Promise<void> {
-    await this.load(parseInt(this.$route.params.id, 10))
+    await this.load(this.$route.params.id)
   }
 
   beforeDestroy() {

@@ -24,11 +24,11 @@ export namespace API {
       })
     }
 
-    public async addCard(asset: number, card: number): Promise<any> {
+    public async addCard(asset: string, card: number): Promise<any> {
       return request.post(`/${this.baseUrl}/${asset}/${card}`)
     }
 
-    public async removeCard(asset: number, card: number): Promise<void> {
+    public async removeCard(asset: string, card: number): Promise<void> {
       return request.delete(`/${this.baseUrl}/${asset}/${card}`)
     }
   }

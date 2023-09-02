@@ -1,12 +1,12 @@
 import { Card } from '@/Scandinaver/Asset/Domain/Card'
 
 export class TestPayload {
-  private _id: number
+  private _id: string
   private _percent: number
   private _errors: Card[] = []
   private _time: number
 
-  set id(value: number) {
+  set id(value: string) {
     this._id = value
   }
 

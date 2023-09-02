@@ -12,7 +12,7 @@
             {{ error }}
           </small>
           <el-form-item prop="login">
-            <el-input v-model="form.login" placeholder="Login"></el-input>
+            <el-input v-model="form.username" placeholder="Login"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input
@@ -44,12 +44,12 @@ export default class Login extends Vue {
   private readonly loginService: LoginService
 
   public form: ILoginForm = {
-    login: '',
+    username: '',
     password: '',
   }
 
   public rules: {} = {
-    login: [
+    username: [
       { required: true, message: 'Введите логин или email', trigger: 'submit' },
     ],
     password: [

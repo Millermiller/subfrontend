@@ -33,7 +33,7 @@ export default class AssetComponent extends Vue {
   private readonly assetService: AssetService
 
   @Getter(ACTIVE_ASSET_ID)
-  private readonly _activeAssetId: number
+  private readonly _activeAssetId: string
 
   @Getter(IS_ACTIVE)
   private readonly _isActive: boolean

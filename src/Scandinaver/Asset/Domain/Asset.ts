@@ -6,7 +6,7 @@ import AssetDTO from '@/Scandinaver/Asset/Domain/AssetDTO'
 import { Collection } from '@/Scandinaver/Core/Domain/Collection'
 
 export class Asset extends Entity {
-  private _id: number | null
+  private _id: string | null
   private _cards: Collection<Card>
   private _title: string
   private _type: AssetType
@@ -30,15 +30,15 @@ export class Asset extends Entity {
     this._cards = new Collection<Card>([])
   }
 
-  getId(): number {
+  getId(): string {
     return this._id;
   }
 
-  get id(): number {
+  get id(): string {
     return this._id
   }
 
-  set id(value: number) {
+  set id(value: string) {
     this._id = value
   }
 
@@ -125,7 +125,7 @@ export class Asset extends Entity {
   toDTO(): AssetDTO {
     return {
       language: this._language,
-      id: this._id,
+      id: this._id.toString(),
       title: this._title,
       level: this._level,
       basic: this._basic,
